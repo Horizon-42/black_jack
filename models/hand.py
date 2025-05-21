@@ -1,4 +1,4 @@
-from card import Card, Rank
+from .card import Card, Rank
 
 
 class Hand(object):
@@ -41,8 +41,8 @@ class Hand(object):
         return self.final_points > 21
     
     # TODO its better to split as player
-    # def split(self, cards:list[Card]):
-    #     if self.cards[0].rank!=self.cards[1].rank:
-    #         raise ValueError("Have No pair!")
-    #     return Hand(self.cards[0],cards[0]), Hand(self.cards[1],cards[1])
+    def split(self, cards: list[Card]):
+        if self.cards[0].rank != self.cards[1].rank:
+            raise ValueError("Have No pair!")
+        return Hand(self.cards[0], cards[0]), Hand(self.cards[1], cards[1])
 
