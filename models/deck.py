@@ -1,4 +1,5 @@
 from card import Card, Suit, Rank
+import numpy as np
 
 class Deck(object):
     cards:list[Card]
