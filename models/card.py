@@ -28,7 +28,7 @@ class Card(object):
     suit = None
     rank = None
     point = None
-    
+
     def __init__(self, suit:Suit, rank:Rank):
         self.suit:Suit = suit
         self.rank:Rank = rank
@@ -41,7 +41,10 @@ class Card(object):
         elif rank in [Rank.JACK, Rank.QUEEN, Rank.KING]:
             return 10
         else:
-            return int(rank)
+            return int(rank.value)
+
+    def __str__(self):
+        return f"{self.suit.value}{self.rank.value}, count as {self.point}"
 
 
 
