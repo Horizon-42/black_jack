@@ -7,7 +7,7 @@ class TestHand(unittest.TestCase):
     def test_blackjack(self):
         hand = Hand([Card(Suit.Clubs,Rank.ACE), Card(Suit.Clubs,Rank.KING)])
         hand.get_points()
-        self.assertEqual(hand.final_points, 21)
+        self.assertEqual(hand.points_value, 21)
         self.assertTrue(hand.is_blackjack())
         self.assertFalse(hand.is_bust())
 
@@ -22,14 +22,14 @@ class TestHand(unittest.TestCase):
         hand = Hand([Card(Suit.Clubs,Rank.ACE), Card(Suit.Clubs,Rank.FIVE)])
         hand.add_card(Card(Suit.Clubs,Rank.FIVE))
         hand.get_points()
-        self.assertEqual(hand.final_points, 21)
+        self.assertEqual(hand.points_value, 21)
         self.assertTrue(hand.is_blackjack() or not hand.is_bust())
 
     def test_multi_aces(self):
         hand = Hand([Card(Suit.Clubs,Rank.ACE), Card(Suit.Clubs,Rank.ACE)])
         hand.add_card(Card(Suit.Clubs,Rank.NINE))
         hand.get_points()
-        self.assertEqual(hand.final_points, 21)
+        self.assertEqual(hand.points_value, 21)
 
     def test_invalid_init(self):
         with self.assertRaises(ValueError):

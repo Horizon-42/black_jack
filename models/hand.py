@@ -3,7 +3,7 @@ from .card import Card, Rank
 
 class Hand(object):
     cards:list[Card]=[]
-    final_points = 0
+    points_value = 0
 
     def __init__(self, cards:list[Card]):
         if len(cards)!=2:
@@ -32,13 +32,14 @@ class Hand(object):
         return total + ace_count
     
     def get_points(self):
-        self.final_points = self.__evalue()
+        self.points_value = self.__evalue()
+        return self.points_value
     
     def is_blackjack(self):
-        return self.final_points == 21
+        return self.points_value == 21
     
     def is_bust(self):
-        return self.final_points > 21
+        return self.points_value > 21
     
     # TODO its better to split as player
     def split(self, cards: list[Card]):
