@@ -1,4 +1,4 @@
-from .card import Card, Rank
+from .card import Card, Rank, Suit
 
 
 class Hand(object):
@@ -57,3 +57,8 @@ class Hand(object):
             res += f"{card}, "
         res += f"get points: {self.get_points()}"
         return res
+
+
+if __name__ == "__main__":
+    hand = Hand([Card(Suit.Clubs, Rank.ACE), Card(Suit.Hearts, Rank.FIVE)])
+    print(hand)
