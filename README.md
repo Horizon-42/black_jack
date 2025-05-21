@@ -16,15 +16,15 @@ lose -1
 win 1
 
 # actions
-draw; stand; 
+draw, target to get a card;
+stand, target to stay still;
 # double;
-doble the bet and draw
+doble the bet and draw, target to put more bet and get a card;
 # split
-split
-
+split, tagert to split cards and get two card one for each split
 
 # State
-
+Cards showing
 # State change probality
 4
 3
