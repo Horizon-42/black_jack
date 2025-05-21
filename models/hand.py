@@ -13,6 +13,10 @@ class Hand(object):
     def add_card(self, card:Card):
         self.cards.append(card)
 
+    def hide_card(self):
+        # only for dealer
+        return self.cards.pop(0)
+
     def __evalue(self):
         total = 0
         ace_count = 0
