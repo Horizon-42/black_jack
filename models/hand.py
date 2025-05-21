@@ -51,3 +51,9 @@ class Hand(object):
             raise ValueError("Have No pair!")
         return Hand(self.cards[0], cards[0]), Hand(self.cards[1], cards[1])
 
+    def __str__(self):
+        res = "With "
+        for card in self.cards:
+            res += f"{card}, "
+        res += f"get points: {self.get_points()}"
+        return res

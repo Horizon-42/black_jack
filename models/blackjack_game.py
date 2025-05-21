@@ -22,3 +22,6 @@ class BlackJackGame(object):
                 Player(self.deck.deal_card(), self.deck.deal_card()))
         # init hand for dealer
         self.dealer = Dealer(self.deck.deal_card(), self.deck.deal_card())
+
+    def get_state(self) -> str:
+        pass
