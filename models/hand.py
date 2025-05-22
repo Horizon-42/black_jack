@@ -3,11 +3,11 @@ import itertools
 
 class Hand(object):
     cards:list[Card]=[]
-    points_value = 0
+    __points_value = 0
 
     def __init__(self, cards:list[Card]):
-        if len(cards)!=2:
-            raise ValueError("Too many cards!")
+        if not (1 <= len(cards) <= 2):
+            raise ValueError("Wrong cards number!")
         self.cards = cards
 
     def add_card(self, card:Card):
@@ -34,42 +34,23 @@ class Hand(object):
                 return total + ace_total
         # count zero 11
         return total + ace_count
-    
-    def __potential_evalue(self):
-        total = 0
-        ace_count = 0
-        # consider multi ace scenario
-        for card in self.cards:
-            if card.rank is Rank.ACE:
-                ace_count += 1
-            else:
-                total += card.point
-        if ace_count == 0:
-            return [total]
 
-        ace_values = [sum(p)
-                      for p in itertools.product([11, 1], repeat=ace_count)]
-        res = [total+ace for ace in ace_values if total + ace <= 21]
-        return res
-
-    def get_points(self) -> list[int]:
-        return self.__potential_evalue()
-
-    def get_final_points(self):
-        self.points_value = self.__evalue()
-        return self.points_value
+    @property
+    def points(self):
+        self.__points_value = self.__evalue()
+        return self.__points_value
     
     def is_blackjack(self):
-        return self.points_value == 21
+        return len(self.cards) == 2 and self.points == 21
     
     def is_bust(self):
-        return self.points_value > 21
+        return self.points > 21
     
     # TODO its better to split as player
-    def split(self, cards: list[Card]):
+    def split(self):
         if self.cards[0].rank != self.cards[1].rank:
             raise ValueError("Have No pair!")
-        return Hand(self.cards[0], cards[0]), Hand(self.cards[1], cards[1])
+        return Hand(self.cards.pop(1))
 
     def __str__(self):
         res = "With "

@@ -1,5 +1,6 @@
 from .hand import Hand
 from .card import Card
+from .deck import Deck
 from copy import deepcopy
 
 class Dealer(object):
@@ -9,12 +10,12 @@ class Dealer(object):
     def __init__(self, intial_cards:list[Card]):
         self.hand = Hand(intial_cards)
         self.hiden_card = self.hand.hide_card()
-    
-    def get_face_point(self):
-        return self.hand.get_final_points()
-    
-    def get_final_point(self):
-        self.hand.cards.append(self.hiden_card)
+
+    def hits(self, deck: Deck):
+        self.hand.add_card(self.hiden_card)
+        # hit on soft 17
+
+    def reveal_hand(self):
         return self.hand.get_final_points()
 
     # def get_top_card(self)->Card:
