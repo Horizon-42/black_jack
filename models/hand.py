@@ -43,9 +43,12 @@ class Hand(object):
     def is_bust(self):
         return self.points > 21
     
+    def has_pair(self):
+        return len(self.cards) == 2 and self.cards[0].point == self.cards[1].point
+
     # TODO its better to split as player
     def split(self):
-        if self.cards[0].rank != self.cards[1].rank:
+        if not self.has_pair():
             raise ValueError("Have No pair!")
         return Hand(self.cards.pop(1))
 
