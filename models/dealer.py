@@ -11,11 +11,11 @@ class Dealer(object):
         self.hiden_card = self.hand.hide_card()
     
     def get_face_point(self):
-        return self.hand.get_points()
+        return self.hand.get_final_points()
     
     def get_final_point(self):
         self.hand.cards.append(self.hiden_card)
-        return self.hand.get_points()
+        return self.hand.get_final_points()
 
     # def get_top_card(self)->Card:
     #     # the first one is hiden

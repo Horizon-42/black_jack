@@ -1,5 +1,5 @@
 from .card import Card, Rank, Suit
-
+import itertools
 
 class Hand(object):
     cards:list[Card]=[]
@@ -35,7 +35,27 @@ class Hand(object):
         # count zero 11
         return total + ace_count
     
-    def get_points(self):
+    def __potential_evalue(self):
+        total = 0
+        ace_count = 0
+        # consider multi ace scenario
+        for card in self.cards:
+            if card.rank is Rank.ACE:
+                ace_count += 1
+            else:
+                total += card.point
+        if ace_count == 0:
+            return [total]
+
+        ace_values = [sum(p)
+                      for p in itertools.product([11, 1], repeat=ace_count)]
+        res = [total+ace for ace in ace_values if total + ace <= 21]
+        return res
+
+    def get_points(self) -> list[int]:
+        return self.__potential_evalue()
+
+    def get_final_points(self):
         self.points_value = self.__evalue()
         return self.points_value
     
@@ -55,7 +75,7 @@ class Hand(object):
         res = "With "
         for card in self.cards:
             res += f"{card}, "
-        res += f"get points: {self.get_points()}"
+        res += f"get points: {self.get_final_points()}"
         return res
 
 
