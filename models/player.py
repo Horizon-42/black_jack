@@ -12,6 +12,8 @@ class Player(object):
         self.hand = Hand(initial_cards)
         self.bank = bank_money
 
+    # TODO BET
+
     # TODO ACT ???
     def stand(self, deck: Deck):
         pass
