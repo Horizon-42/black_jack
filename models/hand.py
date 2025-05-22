@@ -3,7 +3,7 @@ import itertools
 
 class Hand(object):
     cards:list[Card]=[]
-    __points_value = 0
+    is_soft = False
 
     def __init__(self, cards:list[Card]):
         if not (1 <= len(cards) <= 2):
@@ -22,24 +22,21 @@ class Hand(object):
         ace_count = 0
         # consider multi ace scenario
         for card in self.cards:
-            if card.rank is Rank.ACE:
-                ace_count += 1
-            else:
-                total += card.point
+            total += card.point
+            ace_count += int(card.rank is Rank.ACE)
         
-        # count on 11 as more as possible
-        for i in range(ace_count):
-            ace_total = (ace_count-i)*11 + i
-            if ace_total + total <=21:
-                return total + ace_total
-        # count zero 11
-        return total + ace_count
+        # count on 11 as many as possible
+        while total > 21 and ace_count > 0:
+            total -= 10
+            ace_count -= 1
+        self.is_soft = ace_count > 0
+        return total
 
     @property
     def points(self):
-        self.__points_value = self.__evalue()
-        return self.__points_value
-    
+        return self.__evalue()
+
+
     def is_blackjack(self):
         return len(self.cards) == 2 and self.points == 21
     

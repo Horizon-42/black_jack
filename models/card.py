@@ -37,7 +37,7 @@ class Card(object):
     @staticmethod
     def get_point(rank:Rank):
         if rank == Rank.ACE:
-            return [1,11]
+            return 11
         elif rank in [Rank.JACK, Rank.QUEEN, Rank.KING]:
             return 10
         else:

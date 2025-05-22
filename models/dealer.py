@@ -11,12 +11,20 @@ class Dealer(object):
         self.hand = Hand(intial_cards)
         self.hiden_card = self.hand.hide_card()
 
-    def hits(self, deck: Deck):
+    def hits(self, deck: Deck, hit_soft17=False):
         self.hand.add_card(self.hiden_card)
-        # hit on soft 17
+        # stand on soft 17
+        while True:
+            points = self.hand.points
+            if points < 17:
+                self.hand.add_card(deck.deal_card())
+            elif points == 17 and self.hand.is_soft and hit_soft17:
+                self.hand.add_card(deck.deal_card())
+            else:
+                break
 
     def reveal_hand(self):
-        return self.hand.get_final_points()
+        return self.hand.points
 
     # def get_top_card(self)->Card:
     #     # the first one is hiden
