@@ -13,6 +13,7 @@ class Dealer(object):
 
     def hits(self, deck: Deck, hit_soft17=False):
         self.hand.add_card(self.hiden_card)
+        self.hiden_card = None
         # stand on soft 17
         while True:
             points = self.hand.points
@@ -22,6 +23,10 @@ class Dealer(object):
                 self.hand.add_card(deck.deal_card())
             else:
                 break
+
+    def is_black_jack(self):
+        return self.hiden_card is None and self.hand.is_blackjack()
+
 
     def reveal_hand(self):
         return self.hand.points

@@ -60,6 +60,15 @@ class Hand(object):
         return res
 
 
+class PlayerHand(Hand):
+    bet = 0
+
+    def __init__(self, cards):
+        super().__init__(cards)
+
+    def add_bet(self, bet_amount):
+        self.bet += bet_amount
+
 if __name__ == "__main__":
     hand = Hand([Card(Suit.Clubs, Rank.ACE), Card(Suit.Hearts, Rank.FIVE)])
     print(hand)
