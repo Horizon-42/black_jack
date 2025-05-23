@@ -38,7 +38,39 @@ class Hand(object):
     
     def is_bust(self):
         return self.points > 21
-    
+
+    def __str__(self):
+        res = "With "
+        for card in self.cards:
+            res += f"{card}, "
+        res += f"get points: {self.points}"
+        return res
+
+
+class PlayerHand(Hand):
+    __bet = 0
+    __doubled = False
+
+    def __init__(self, cards, chips_bet_on):
+        super().__init__(cards)
+        self.__bet = chips_bet_on
+        self.__doubled = False
+
+    @property
+    def bet(self):
+        return self.__bet
+
+    @property
+    def doubled(self):
+        return self.__doubled
+
+    def add_bet(self, bet_amount):
+        # for double or insurance
+        self.__bet += bet_amount
+
+    def mark_as_doubled(self):
+        self.__doubled = True
+
     def has_pair(self):
         return len(self.cards) == 2 and self.cards[0].point == self.cards[1].point
 
@@ -46,24 +78,8 @@ class Hand(object):
     def split(self):
         if not self.has_pair():
             raise ValueError("Have No pair!")
-        return Hand(self.cards.pop(1))
+        return PlayerHand(self.cards.pop(1), self.__bet)
 
-    def __str__(self):
-        res = "With "
-        for card in self.cards:
-            res += f"{card}, "
-        res += f"get points: {self.get_final_points()}"
-        return res
-
-
-class PlayerHand(Hand):
-    bet = 0
-
-    def __init__(self, cards):
-        super().__init__(cards)
-
-    def add_bet(self, bet_amount):
-        self.bet += bet_amount
 
 if __name__ == "__main__":
     hand = Hand([Card(Suit.Clubs, Rank.ACE), Card(Suit.Hearts, Rank.FIVE)])
