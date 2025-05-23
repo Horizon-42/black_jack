@@ -8,14 +8,19 @@ class Player(object):
     bank: int = 0
     bet: int = 0
 
-    def __init__(self, initial_cards: list[Card], bank_money: int):
-        self.hand = Hand(initial_cards)
+    def __init__(self, bank_money: int):
         self.bank = bank_money
+
+    def init_hand(self, cards: list[Card]):
+        if len(cards) != 2:
+            raise ValueError("Wrong initial cards for player")
+        self.hand = Hand(cards)
 
     # TODO BET
 
     # TODO ACT ???
-    def stand(self, deck: Deck):
+
+    def stand(self, card: Deck):
         pass
 
     def hit(self, deck: Deck):

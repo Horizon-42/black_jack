@@ -4,13 +4,16 @@ import numpy as np
 class Deck(object):
     cards:list[Card]
 
-    def __init__(self):
-        self.cards = [Card(suit, rank) for suit in Suit for rank in Rank]
+    def __init__(self, deck_num=6):
+        self.cards = [Card(suit, rank)
+                      for suit in Suit for rank in Rank]*deck_num
+        self.__shuffle()
+        self.__burn_out()
 
-    def shuffle(self):
+    def __shuffle(self):
         np.random.shuffle(self.cards)
 
-    def burn_out(self):
+    def __burn_out(self):
         # delete the top card
         del self.cards[0]
 

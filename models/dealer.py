@@ -7,9 +7,9 @@ class Dealer(object):
     hand:Hand = None
     hiden_card:Card = None
 
-    def __init__(self, intial_cards:list[Card]):
-        self.hand = Hand(intial_cards)
-        self.hiden_card = self.hand.hide_card()
+    def init_hand(self, cards: list[Card]):
+        self.hand = Hand(cards)
+        self.hiden_card = self.hand.cards.pop(0)
 
     def hits(self, deck: Deck, hit_soft17=False):
         self.hand.add_card(self.hiden_card)
@@ -30,6 +30,9 @@ class Dealer(object):
 
     def reveal_hand(self):
         return self.hand.points
+
+    def get_face_point(self):
+        return self.hand.cards[0].point
 
     # def get_top_card(self)->Card:
     #     # the first one is hiden
