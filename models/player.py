@@ -14,7 +14,9 @@ class Player(object):
 
         self.__insuranced = 0
 
-
+    @property
+    def id(self):
+        return self.__id
 
     def init_hand(self, cards: list[Card], bet_money: int):
         if len(cards) != 2:
@@ -62,7 +64,7 @@ class Player(object):
         self.__insuranced = insuranced
         self.__bank -= insuranced
 
-    def all_done(self):
+    def is_all_done(self):
         return not self.__all_hands and self.__hand is None
 
     # def compare_hands(self, dealer_points: int, is_dealer_blackjack: bool):
