@@ -32,17 +32,14 @@ class Action(Enum):
 
 class State(object):
     def __init__(self):
-        self.__deal_point: int
-        self.__player_point: int
+        self.__deal_point: int = 0
+        self.__player_point: int = 0
 
     def __str__(self):
         return f"Dealer point:{self.__deal_point},\n Player point{self.__player_point}"
 
-class BlackJackGame(object):
-    player: Player
-    dealer: Dealer
-    deck: Deck
 
+class BlackJackGame(object):
     # TODO Rewards
 
     def __init__(self):
@@ -50,6 +47,7 @@ class BlackJackGame(object):
         self.__init_player()
         self.dealer = Dealer()
         self.__init_hands()
+        self.__is_intial: bool = True
 
     def __init_player(self):
         bank = cash_in_chips()
@@ -65,7 +63,10 @@ class BlackJackGame(object):
         return State(self.player)
 
     def _get_possible_actions(self):
-        pass
+        if self.__is_intial:
+            self.__is_intial = False
+        else:
+            pass
 
     # setp
     def step(self, action: Action):
