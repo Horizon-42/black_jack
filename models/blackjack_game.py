@@ -26,6 +26,8 @@ class BlackJackGame(object):
     dealer: Dealer
     deck: Deck
 
+    # TODO Rewards
+
     def __init__(self, player_num=1):
         self.deck = Deck(6)
         self.__init_players(player_num)
@@ -55,6 +57,8 @@ class BlackJackGame(object):
         for i in range(n):
             self.players[i].init_hand([cards[i], cards[i+n]])
         self.dealer.init_hand([cards[n-1], cards[2*n-1]])
+
+    # TODO reset
 
     def get_state(self) -> str:
         pass
