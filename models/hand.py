@@ -28,6 +28,15 @@ class Hand(object):
         self.is_soft = ace_count > 0
         return total
 
+    def __potential_evalue(self):
+        total = 0
+        ace_count = 0
+        for card in self.cards:
+            if card.rank is not Rank.ACE:
+                total += card.point
+            else:
+                ace_count += 1
+
     @property
     def points(self):
         return self.__evalue()
