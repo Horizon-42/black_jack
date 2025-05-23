@@ -32,6 +32,9 @@ class Hand(object):
     def points(self):
         return self.__evalue()
 
+    @property
+    def potiential_points(self):
+        pass
 
     def is_blackjack(self):
         return len(self.cards) == 2 and self.points == 21

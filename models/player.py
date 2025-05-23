@@ -47,7 +47,7 @@ class Player(object):
         self.__hand.add_card(card)
         self.__hand.mark_as_doubled()
 
-    def split(self, card: Card):
+    def split(self):
         if not self.__hand.has_pair():
             raise ValueError("Could not split!!!")
         if self.__bank < self.__hand.bet:
@@ -55,7 +55,6 @@ class Player(object):
 
         self.__splited_hands.append(self.__hand.split())
         self.__bank -= self.__hand.bet
-        self.hit(card)
 
     def insurance(self):
         insuranced = self.__hand.bet//2
