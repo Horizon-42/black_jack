@@ -5,12 +5,21 @@ from deck import Deck
 from dealer import Dealer
 
 
-def get_bank_money(player_id: int) -> int:
+def cash_in_chips(player_id: int) -> int:
     # read money from terminal
     try:
-        return int(input("Please input your bank money amout, only number: "))
+        return int(input("How many chips do you want to cash in? "))
     except ValueError:
         return 0
+
+
+def get_init_bet(player_id: int, max_bet: int):
+    bet = 0
+    try:
+        bet = int("How many chips do you want to bet on this hand?")
+    except ValueError:
+        pass
+    return bet if bet <= max_bet else 0
 
 class BlackJackGame(object):
     players: list[Player]
@@ -26,11 +35,19 @@ class BlackJackGame(object):
     def __init_players(self, player_num: int = 1):
         for i in range(player_num):
             # input from terminal
-            bank = get_bank_money(i)
+            bank = cash_in_chips(i)
             if bank > 0:
-                self.players.append(Player(bank))
+                self.players.append(Player(i, bank))
 
     def __init_hands(self):
+        players_bet = []
+        for i, player in enumerate(self.players):
+            bet = get_init_bet(i, player.get_bank_amount())
+            if bet > 0:
+                players_bet.append(bet)
+            else:
+                self.players.remove(player)
+
         n = len(self.players)+1
         if n == 1:
             raise ValueError("No player!")
