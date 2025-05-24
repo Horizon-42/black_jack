@@ -37,6 +37,11 @@ class Player(object):
     def get_insurance_amount(self):
         return self.__insuranced
 
+    def has_pair(self):
+        if self.__hand is None:
+            return False
+        return self.__hand.has_pair()
+
     def __move_to_nex_hand(self):
         try:
             self.__hand = self.__splited_hands.pop(-1)

@@ -1,8 +1,6 @@
-from player import Player
-from card import Card
-from hand import Hand
-from deck import Deck
-from dealer import Dealer
+from models.player import Player
+from models.deck import Deck
+from models.dealer import Dealer
 from enum import Enum
 
 
@@ -13,7 +11,8 @@ class Action(Enum):
     Double = 3  # -> done with this hand
     Insurance = 4  # Insurance -> hit or stand
 
-def cash_in_chips(player_id: int) -> int:
+
+def cash_in_chips() -> int:
     # read money from terminal
     try:
         return int(input("How many chips do you want to cash in? "))
@@ -21,7 +20,7 @@ def cash_in_chips(player_id: int) -> int:
         return 0
 
 
-def get_init_bet(player_id: int, max_bet: int):
+def get_init_bet(max_bet: int):
     bet = 0
     try:
         bet = int("How many chips do you want to bet on this hand?")
@@ -30,7 +29,7 @@ def get_init_bet(player_id: int, max_bet: int):
     return bet if bet <= max_bet else 0
 
 
-def get_action(player_id: int, possible_actions: list[Action]) -> Action:
+def get_action(possible_actions: list[Action]) -> Action:
     action = None
     while action not in possible_actions:
         try:
@@ -64,7 +63,7 @@ class BlackJackGame(object):
         self.player = Player(0, bank)
 
     def __init_hands(self):
-        bet = get_init_bet(self.player.__id, self.player.get_bank_amount())
+        bet = get_init_bet(self.player.get_bank_amount())
         cards = [self.deck.deal_card() for _ in range(4)]
         self.player.init_hand([cards[0], cards[2]], bet)
         self.dealer.init_hand([cards[1], cards[3]])
@@ -76,7 +75,7 @@ class BlackJackGame(object):
         res = [Action.Stand, Action.Hit]
         if self.__is_intial:
             res.append(Action.Double)
-            if self.player.__hand.has_pair():
+            if self.player.has_pair():
                 res.append(Action.Split)
         if self.dealer.get_face_point() == 11:
             res.append(Action.Insurance)
@@ -139,7 +138,7 @@ class BlackJackGame(object):
     def play(self):
         while not self.player.is_all_done():
             posible_actions = self._get_possible_actions()
-            action = get_action(self.player.__id, posible_actions)
+            action = get_action(posible_actions)
             self.step(action)
         self.dealer.hits(self.deck)
         reward = self._get_reward()

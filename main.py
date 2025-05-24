@@ -1,5 +1,7 @@
 from models.card import Card,Suit,Rank
+from models.blackjack_game import BlackJackGame
 
 
-card = Card(Suit.Clubs, Rank.ACE)
-print(card)
+if __name__ == "__main__":
+    game = BlackJackGame()
+    game.play()

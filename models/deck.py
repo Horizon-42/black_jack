@@ -1,4 +1,4 @@
-from card import Card, Suit, Rank
+from .card import Card, Suit, Rank
 import numpy as np
 
 class Deck(object):
