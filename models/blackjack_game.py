@@ -1,6 +1,7 @@
 from models.player import Player
 from models.deck import Deck
 from models.dealer import Dealer
+from models.hand import PlayerHand, Hand
 from enum import Enum
 
 
@@ -22,11 +23,12 @@ def cash_in_chips() -> int:
 
 def get_init_bet(max_bet: int):
     bet = 0
-    try:
-        bet = int("How many chips do you want to bet on this hand?")
-    except ValueError:
-        pass
-    return bet if bet <= max_bet else 0
+    while bet <= 0 or bet > max_bet:
+        try:
+            bet = int(input("How many chips do you want to bet on this hand?"))
+        except ValueError:
+            print("Please enter a valid bet amount.")
+    return bet
 
 
 def get_action(possible_actions: list[Action]) -> Action:
@@ -35,18 +37,22 @@ def get_action(possible_actions: list[Action]) -> Action:
           f"{a.value}, {a.name}" for a in possible_actions])
     while action not in possible_actions:
         try:
-            action = int(input(f"What do you want to do?"))
+            action = Action(int(input(f"What do you want to do?")))
         except ValueError:
             pass
     return action
 
 class State(object):
-    def __init__(self):
-        self.__deal_point: int = 0
-        self.__player_point: int = 0
+    def __init__(self, dealer_hand: Hand, player_hand: PlayerHand):
+        self.__dealer_hand: Hand = dealer_hand
+        self.__player_point: PlayerHand = player_hand
+
 
     def __str__(self):
-        return f"Dealer point:{self.__deal_point},\n Player point{self.__player_point}"
+        res = "State:\n"
+        res += f"Dealer's hand: {self.__dealer_hand}\n"
+        res += f"Player's hand: {self.__player_point}\n"
+        return res
 
 
 class BlackJackGame(object):
@@ -70,7 +76,8 @@ class BlackJackGame(object):
         self.dealer.init_hand([cards[1], cards[3]])
 
     def _get_state(self) -> State:
-        return State(self.player)
+        return State(dealer_hand=self.dealer.get_hand(),
+                     player_hand=self.player.get_hand())
 
     def _get_possible_actions(self):
         res = [Action.Stand, Action.Hit]
@@ -84,8 +91,7 @@ class BlackJackGame(object):
 
         return res
 
-    def _get_reward(self):
-        # blackjack
+    def _get_insurance_reward(self) -> float:
         # insurance
         insurance_reward = 0
         insurance_rate = self.player.get_insurance_rate()
@@ -94,10 +100,12 @@ class BlackJackGame(object):
                 insurance_reward = insurance_rate*2
             else:
                 insurance_reward = -insurance_rate
+        return insurance_reward
 
+    def _get_hand_reward(self, player_hand: PlayerHand) -> float:
         main_bet_reward = 0
         # blackjack
-        if self.player.is_blackjack():
+        if player_hand.is_blackjack():
             if self.dealer.is_blackjack():
                 main_bet_reward = 0
             else:
@@ -105,20 +113,20 @@ class BlackJackGame(object):
         elif self.dealer.is_blackjack():
             main_bet_reward = -1
         # bust
-        elif self.player.is_bust():
+        elif player_hand.is_bust():
             main_bet_reward = -1
         # win
         elif self.dealer.is_bust():
             main_bet_reward = 1
-        elif self.player.points > self.dealer.reveal_hand():
+        elif player_hand.points > self.dealer.reveal_hand():
             main_bet_reward = 1
         # lose
-        elif self.player.points < self.dealer.reveal_hand():
+        elif player_hand.points < self.dealer.reveal_hand():
             main_bet_reward = -1
         # push
-        elif self.player.points == self.dealer.reveal_hand():
+        elif player_hand.points == self.dealer.reveal_hand():
             main_bet_reward = 0
-        return main_bet_reward + insurance_reward
+        return main_bet_reward
 
 
     # setp
@@ -143,12 +151,19 @@ class BlackJackGame(object):
             posible_actions = self._get_possible_actions()
             action = get_action(posible_actions)
             self.step(action)
+        #
+        print("Player done, dealer hits:")
         self.dealer.hits(self.deck)
-        reward = self._get_reward()
-        state = self._get_state()
-        self.player.pay_out(reward)
+        # calculate rewards
+        print("Calculating rewards:")
+        insurance_reward = self._get_insurance_reward()
+        player_hands = self.player.get_all_hands()
+        rewards = [self._get_hand_reward(hand) for hand in player_hands]
+        if insurance_reward != 0:
+            rewards.append(insurance_reward)
+        self.player.pay_out(rewards)
         self.reset()
-        return state, reward
+        return state, rewards
 
     # TODO reset
     def reset(self):

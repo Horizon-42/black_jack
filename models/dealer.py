@@ -40,6 +40,9 @@ class Dealer(object):
     def get_face_card(self):
         return deepcopy(self.__hand.cards[0]) if self.__hand else None
 
+    def get_hand(self):
+        return deepcopy(self.__hand) if self.__hand else None
+
     def is_bust(self):
         return self.__hand.is_bust()
 

@@ -19,12 +19,6 @@ class Player(object):
     def id(self):
         return self.__id
 
-    @property
-    def points(self):
-        if self.__hand is None:
-            return 0
-        return self.__hand.points
-
     def init_hand(self, cards: list[Card], bet_money: int):
         if len(cards) != 2:
             raise ValueError("Wrong initial cards for player")
@@ -51,6 +45,7 @@ class Player(object):
     def stand(self):
         self.__all_hands.append(self.__hand)
         self.__move_to_nex_hand()
+        print("Is all hands done?", self.is_all_done())
 
     def hit(self, card: Card):
         self.__hand.add_card(card)
@@ -77,19 +72,30 @@ class Player(object):
         self.__bank -= insuranced
 
     def is_all_done(self):
-        return not self.__all_hands and self.__hand is None
+        return self.__all_hands and self.__hand is None
 
-    def is_blackjack(self):
-        return self.__hand.is_blackjack()
+    # def is_blackjack(self):
+    #     return self.__hand.is_blackjack() if self.__hand else False
 
-    def is_bust(self):
-        return self.__hand.is_bust()
+    # def is_bust(self):
+    #     return self.__hand.is_bust()
+
+    def get_hand(self):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
+        return self.__hand
+
+    def get_all_hands(self):
+        if not self.is_all_done():
+            raise ValueError("Player is not done with all hands yet!")
+        return self.__all_hands
 
     def get_insurance_rate(self):
         return self.__insuranced/self.__main_bet
 
-    def pay_out(self, reward: float):
-        money = self.__main_bet * reward
+    def pay_out(self, rewards: list[float]):
+        for reward in rewards:
+            money += self.__main_bet * reward
         self.__bank += money
 
     def reset(self):
