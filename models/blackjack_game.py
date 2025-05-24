@@ -31,10 +31,11 @@ def get_init_bet(max_bet: int):
 
 def get_action(possible_actions: list[Action]) -> Action:
     action = None
+    print("Possible actions are: ", [
+          f"{a.value}, {a.name}" for a in possible_actions])
     while action not in possible_actions:
         try:
-            action = int(input(f"What do you want to do? possible \
-                               actions are: {[a.name for a in possible_actions]}"))
+            action = int(input(f"What do you want to do?"))
         except ValueError:
             pass
     return action
@@ -137,6 +138,8 @@ class BlackJackGame(object):
 
     def play(self):
         while not self.player.is_all_done():
+            state = self._get_state()
+            print(state)
             posible_actions = self._get_possible_actions()
             action = get_action(posible_actions)
             self.step(action)
