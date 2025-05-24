@@ -80,7 +80,7 @@ class BlackJackGame(object):
                      player_hand=self.player.get_hand())
 
     def _print_final_state(self):
-        print("Final state:")
+        print("\nFinal state:")
         print("Dealer's hand:", self.dealer.get_hand())
         print("Player's hands:")
         for hand in self.player.get_all_hands():
@@ -88,17 +88,17 @@ class BlackJackGame(object):
         print("Player's bank:", self.player.get_bank_amount())
 
     def _get_possible_actions(self):
+        # no possible actions if player's hand is bust or has 21 points
+        if self.player.get_hand().points >= 21:
+            return []
         res = [Action.Stand, Action.Hit]
         if self.__is_intial:
             res.append(Action.Double)
-            if self.player.has_pair():
-                res.append(Action.Split)
             if self.dealer.get_face_point() == 11:
                 res.append(Action.Insurance)
             self.__is_intial = False
-        if self.player.get_hand().is_bust() or self.player.get_hand().is_blackjack():
-            res = []
-
+        if self.player.has_pair():
+            res.append(Action.Split)
         return res
 
     def _get_insurance_reward(self) -> float:

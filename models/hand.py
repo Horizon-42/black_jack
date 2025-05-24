@@ -59,7 +59,7 @@ class Hand(object):
         res = ""
         for card in self.cards:
             res += f"{card}, "
-        res += f"\nPoints: {self.potiential_points}"
+        res += f"Points: {self.potiential_points}"
         return res
 
 
