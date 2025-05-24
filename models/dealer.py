@@ -4,36 +4,39 @@ from .deck import Deck
 from copy import deepcopy
 
 class Dealer(object):
-    hand:Hand = None
-    hiden_card:Card = None
+    __hand: Hand = None
+    __hiden_card: Card = None
+
 
     def init_hand(self, cards: list[Card]):
-        self.hand = Hand(cards)
-        self.hiden_card = self.hand.cards.pop(0)
+        self.__hand = Hand(cards)
+        self.__hiden_card = self.__hand.cards.pop(0)
 
     def hits(self, deck: Deck, hit_soft17=False):
-        self.hand.add_card(self.hiden_card)
-        self.hiden_card = None
+        self.__hand.add_card(self.__hiden_card)
+        self.__hiden_card = None
         # stand on soft 17
         while True:
-            points = self.hand.points
+            points = self.__hand.points
             if points < 17:
-                self.hand.add_card(deck.deal_card())
-            elif points == 17 and self.hand.is_soft and hit_soft17:
-                self.hand.add_card(deck.deal_card())
+                self.__hand.add_card(deck.deal_card())
+            elif points == 17 and self.__hand.is_soft and hit_soft17:
+                self.__hand.add_card(deck.deal_card())
             else:
                 break
 
     def is_black_jack(self):
-        return self.hiden_card is None and self.hand.is_blackjack()
+        return self.__hiden_card is None and self.__hand.is_blackjack()
 
 
     def reveal_hand(self):
-        return self.hand.points
+        return self.__hand.points
 
     def get_face_point(self):
-        return self.hand.cards[0].point
+        return self.__hand.cards[0].point
 
-    # def get_top_card(self)->Card:
-    #     # the first one is hiden
-    #     return deepcopy(self.hand.cards[1])
+    def is_bust(self):
+        return self.__hand.is_bust()
+
+    def is_blackjack(self):
+        return self.__hand.is_blackjack()

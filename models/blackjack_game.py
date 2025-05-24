@@ -63,10 +63,53 @@ class BlackJackGame(object):
         return State(self.player)
 
     def _get_possible_actions(self):
+        res = [Action.Stand, Action.Hit]
         if self.__is_intial:
+            res.append(Action.Double)
+            if self.player.__hand.has_pair():
+                res.append(Action.Split)
+        if self.dealer.get_face_point() == 11:
+            res.append(Action.Insurance)
             self.__is_intial = False
-        else:
-            pass
+
+        return res
+
+    def _get_reward(self):
+        # blackjack
+        # insurance
+        insurance_reward = 0
+        insurance_rate = self.player.get_insurance_rate()
+        if insurance_rate > 0:
+            if self.dealer.is_black_jack():
+                insurance_reward = insurance_rate*2
+            else:
+                insurance_reward = -insurance_rate
+
+        main_bet_reward = 0
+        # blackjack
+        if self.player.is_blackjack():
+            if self.dealer.is_blackjack():
+                main_bet_reward = 0
+            else:
+                main_bet_reward = 1.5
+        elif self.dealer.is_blackjack():
+            main_bet_reward = -1
+        # bust
+        elif self.player.is_bust():
+            main_bet_reward = -1
+        # win
+        elif self.dealer.is_bust():
+            main_bet_reward = 1
+        elif self.player.points > self.dealer.reveal_hand():
+            main_bet_reward = 1
+        # lose
+        elif self.player.points < self.dealer.reveal_hand():
+            main_bet_reward = -1
+        # push
+        elif self.player.points == self.dealer.reveal_hand():
+            main_bet_reward = 0
+        return main_bet_reward + insurance_reward
+
 
     # setp
     def step(self, action: Action):

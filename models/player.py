@@ -13,14 +13,22 @@ class Player(object):
         self.__all_hands = []
 
         self.__insuranced = 0
+        self.__main_bet = 0
 
     @property
     def id(self):
         return self.__id
 
+    @property
+    def points(self):
+        if self.__hand is None:
+            return 0
+        return self.__hand.points
+
     def init_hand(self, cards: list[Card], bet_money: int):
         if len(cards) != 2:
             raise ValueError("Wrong initial cards for player")
+        self.__main_bet = bet_money
         self.__hand = PlayerHand(cards, bet_money)
 
     def get_bank_amount(self):
@@ -65,6 +73,15 @@ class Player(object):
 
     def is_all_done(self):
         return not self.__all_hands and self.__hand is None
+
+    def is_blackjack(self):
+        return self.__hand.is_blackjack()
+
+    def is_bust(self):
+        return self.__hand.is_bust()
+
+    def get_insurance_rate(self):
+        return self.__insuranced/self.__main_bet
 
     # def compare_hands(self, dealer_points: int, is_dealer_blackjack: bool):
     #     # deal with all hands
