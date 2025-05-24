@@ -48,8 +48,8 @@ class Player(object):
     def stand(self):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
-        self.done_with_hand()
         self.__hand.is_initial = False
+        self.done_with_hand()
 
     def hit(self, card: Card):
         if self.__hand is None:
@@ -77,14 +77,13 @@ class Player(object):
             raise ValueError("Don't have enough chips!!!")
 
         self.__splited_hands.append(self.__hand.split())
-        self.__bank -= self.__hand.bet
+
 
     def insurance(self):
         insuranced = self.__hand.bet//2
         if self.__bank < insuranced:
             raise ValueError("Don't have enough chips!!!")
         self.__insuranced = insuranced
-        self.__bank -= insuranced
 
     def done_with_hand(self):
         if self.__hand is None:
