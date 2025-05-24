@@ -1,11 +1,12 @@
 from .card import Card, Rank, Suit
 import itertools
 
-class Hand(object):
-    cards:list[Card]=[]
-    is_soft = False
 
+class Hand(object):
     def __init__(self, cards:list[Card]):
+        self.cards = []
+        self.is_soft = False
+
         if not (1 <= len(cards) <= 2):
             raise ValueError("Wrong cards number!")
         self.cards = cards
@@ -66,8 +67,12 @@ class PlayerHand(Hand):
     __bet = 0
     __doubled = False
 
-    def __init__(self, cards, chips_bet_on):
+    def __init__(self, cards: list[Card], chips_bet_on: int):
         super().__init__(cards)
+        if not isinstance(chips_bet_on, int):
+            raise ValueError("Bet amount must be an integer!")
+        if chips_bet_on < 0:
+            raise ValueError("Bet amount must be positive!")
         self.__bet = chips_bet_on
         self.__doubled = False
 
@@ -80,6 +85,11 @@ class PlayerHand(Hand):
         return self.__doubled
 
     def add_bet(self, bet_amount):
+        if not isinstance(bet_amount, int):
+            raise ValueError("Bet amount must be an integer!")
+        if bet_amount < 0:
+            raise ValueError("Bet amount must be positive!")
+
         # for double or insurance
         self.__bet += bet_amount
 
@@ -93,7 +103,7 @@ class PlayerHand(Hand):
     def split(self):
         if not self.has_pair():
             raise ValueError("Have No pair!")
-        return PlayerHand(self.cards.pop(1), self.__bet)
+        return PlayerHand([self.cards.pop(1)], self.__bet)
 
 
 if __name__ == "__main__":
