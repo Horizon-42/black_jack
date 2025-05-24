@@ -33,7 +33,12 @@ class Dealer(object):
         return self.__hand.points
 
     def get_face_point(self):
+        if self.__hand is None or self.get_hand_length() == 0:
+            raise ValueError("Dealer's hand is not initialized or empty.")
         return self.__hand.cards[0].point
+
+    def get_face_card(self):
+        return deepcopy(self.__hand.cards[0]) if self.__hand else None
 
     def is_bust(self):
         return self.__hand.is_bust()
@@ -44,6 +49,12 @@ class Dealer(object):
     def reset(self):
         self.__hand = None
         self.__hiden_card = None
+
+    def get_hiden_card(self):
+        return deepcopy(self.__hiden_card) if self.__hiden_card else None
+
+    def get_hand_length(self):
+        return len(self.__hand.cards) if self.__hand else 0
 
     def __str__(self):
         res = "Dealer's hand: "
