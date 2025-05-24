@@ -44,7 +44,7 @@ class Dealer(object):
         return self.__hand.is_bust()
 
     def is_blackjack(self):
-        return self.__hand.is_blackjack()
+        return self.__hand.is_blackjack() if self.__hand else False
 
     def reset(self):
         self.__hand = None

@@ -2,6 +2,18 @@ import unittest
 from models.card import Card, Suit, Rank
 from models.dealer import Dealer
 from models.deck import Deck
+
+
+class MockDeck(Deck):
+    def __init__(self, cards_to_deal=None):
+        if cards_to_deal is None:
+            cards_to_deal = []
+        self.cards = cards_to_deal
+
+    def deal_card(self):
+        if self.cards:
+            return self.cards.pop(0)
+        raise ValueError("No more cards to deal")
 class TestDealer(unittest.TestCase):
 
     def setUp(self):
@@ -42,7 +54,8 @@ class TestDealer(unittest.TestCase):
         # Dealer has 17 (hard) - should stand
         dealer = Dealer()
         dealer.init_hand([self.ten_clubs, self.seven_diamonds]) # Hidden 10, Face-up 7
-        mock_deck = Deck(cards_to_deal=[self.two_spades]) # Card to deal if hits
+        # Card to deal if hits
+        mock_deck = MockDeck(cards_to_deal=[self.two_spades])
         
         dealer.hits(mock_deck)
         self.assertEqual(dealer.reveal_hand(), 17) # 10 + 7 = 17
@@ -52,7 +65,7 @@ class TestDealer(unittest.TestCase):
         # Dealer has 18 - should stand
         dealer.reset()
         dealer.init_hand([self.ten_clubs, self.ace_hearts]) # Hidden 10, Face-up A. After hits, 10+A=21.
-        mock_deck = Deck(cards_to_deal=[self.two_spades])
+        mock_deck = MockDeck(cards_to_deal=[self.two_spades])
         dealer.hits(mock_deck)
         self.assertEqual(dealer.reveal_hand(), 21)
         self.assertEqual(dealer.get_hand_length(), 2)
@@ -62,7 +75,8 @@ class TestDealer(unittest.TestCase):
         # Dealer has soft 17 - should stand by default (hit_soft17=False)
         dealer = Dealer()
         dealer.init_hand([self.ace_clubs, self.six_hearts]) # Hidden A, Face-up 6. After hits, A+6=17 (soft).
-        mock_deck = Deck(cards_to_deal=[self.two_spades]) # Card to deal if hits
+        # Card to deal if hits
+        mock_deck = MockDeck(cards_to_deal=[self.two_spades])
         
         dealer.hits(mock_deck)
         self.assertEqual(dealer.reveal_hand(), 17)
@@ -73,7 +87,8 @@ class TestDealer(unittest.TestCase):
         # Dealer has soft 17 - should hit when hit_soft17=True
         dealer = Dealer()
         dealer.init_hand([self.ace_clubs, self.six_hearts]) # Hidden A, Face-up 6. After hits, A+6=17 (soft).
-        mock_deck = Deck(cards_to_deal=[self.two_spades, self.three_clubs]) # Deals 2, then 3 if needed
+        # Deals 2, then 3 if needed
+        mock_deck = MockDeck(cards_to_deal=[self.two_spades, self.three_clubs])
         
         dealer.hits(mock_deck, hit_soft17=True)
         # Initial: A(11), 6 = 17 (soft)
@@ -85,24 +100,41 @@ class TestDealer(unittest.TestCase):
         # Test hitting multiple times until stand
         dealer.reset()
         dealer.init_hand([self.ace_clubs, self.two_spades]) # Hidden A, Face-up 2. After hits, A+2=13.
-        mock_deck = Deck(cards_to_deal=[self.four_diamonds, self.three_clubs, self.five_hearts]) # Deals 4, then 3, then 5
+        mock_deck = MockDeck(cards_to_deal=[
+                             self.four_diamonds, self.three_clubs, self.five_hearts])  # Deals 4, then 3, then 5
         # A,2 (13) -> hits 4 (17 soft) -> hits 3 (20 hard) -> stands
         dealer.hits(mock_deck, hit_soft17=True)
         self.assertEqual(dealer.reveal_hand(), 20)
         self.assertEqual(dealer.get_hand_length(), 4) # A,2,4,3
         self.assertIsNone(dealer._Dealer__hiden_card)
 
-    def test_hits_bust_scenario(self):
+    def test_hits_bigger17_bust_scenario(self):
         dealer = Dealer()
         dealer.init_hand([self.king_spades, self.ten_clubs]) # Hidden K, Face-up 10. After hits, K+10=20.
-        mock_deck = Deck(cards_to_deal=[self.five_hearts]) # Deals 5
+        self.assertEqual(dealer.get_face_point(), 10)  # Before hitting
+        mock_deck = MockDeck(cards_to_deal=[self.five_hearts])  # Deals 5
         
         dealer.hits(mock_deck)
-        # Initial: K, 10 (20)
-        # Hits: K, 10, 5 = 25 (bust)
-        self.assertEqual(dealer.reveal_hand(), 25)
+        # because K(10) + 10(10) >17, should not hit again
+        self.assertEqual(dealer.reveal_hand(), 20)
+        self.assertFalse(dealer.is_bust())
+        self.assertEqual(dealer.get_hand_length(), 2)
+        self.assertIsNone(dealer._Dealer__hiden_card)
+
+    def test_hits_bust_scenario(self):
+        dealer = Dealer()
+        # Hidden K, Face-up 2. After hits, K+2=12.
+        dealer.init_hand([self.king_spades, self.two_spades])
+        self.assertEqual(dealer.get_face_point(), 2)  # Before hitting
+        mock_deck = MockDeck(
+            # Deals 5, then 6
+            cards_to_deal=[self.four_diamonds, self.six_hearts])
+        dealer.hits(mock_deck)  # K(10) + 2(2) + 4(4) + 6(6) = 22
         self.assertTrue(dealer.is_bust())
-        self.assertEqual(dealer.get_hand_length(), 3)
+        # K(10) + 2(2) + 4(4) + 6(6) = 22
+        self.assertEqual(dealer.reveal_hand(), 22)
+        self.assertEqual(dealer.get_hand_length(), 4)  # K, 2, 4, 6
+        # Hidden card should be revealed
         self.assertIsNone(dealer._Dealer__hiden_card)
 
     def test_is_black_jack_initial_reveal(self):
@@ -154,7 +186,7 @@ class TestDealer(unittest.TestCase):
     def test_is_bust(self):
         dealer = Dealer()
         dealer.init_hand([self.king_spades, self.queen_diamonds]) # Hidden K, Face-up Q
-        mock_deck = Deck(cards_to_deal=[self.five_hearts]) # Deals 5
+        mock_deck = MockDeck(cards_to_deal=[self.five_hearts])  # Deals 5
         
         dealer.hits(mock_deck) # K(10) + Q(10) + 5 = 25
         self.assertTrue(dealer.is_bust())
@@ -185,7 +217,7 @@ class TestDealer(unittest.TestCase):
         # False case (more than 2 cards, even if 21)
         dealer.reset()
         dealer.init_hand([self.five_hearts, self.seven_diamonds]) # Hidden 5, Face-up 7
-        mock_deck = Deck(cards_to_deal=[self.nine_clubs]) # Deals 9
+        mock_deck = MockDeck(cards_to_deal=[self.nine_clubs])  # Deals 9
         dealer.hits(mock_deck) # 5 + 7 + 9 = 21 (but 3 cards)
         self.assertFalse(dealer.is_blackjack())
 
