@@ -5,6 +5,14 @@ from deck import Deck
 from dealer import Dealer
 from enum import Enum
 
+
+class Action(Enum):
+    Stand = 0  # -> done with this hand
+    Hit = 1  # -> hit or stand
+    Split = 2  # -> hit, stand or possible split again
+    Double = 3  # -> done with this hand
+    Insurance = 4  # Insurance -> hit or stand
+
 def cash_in_chips(player_id: int) -> int:
     # read money from terminal
     try:
@@ -22,13 +30,15 @@ def get_init_bet(player_id: int, max_bet: int):
     return bet if bet <= max_bet else 0
 
 
-class Action(Enum):
-    Stand = 0  # -> done with this hand
-    Hit = 1  # -> hit or stand
-    Split = 2  # -> hit, stand or possible split again
-    Double = 3  # -> done with this hand
-    Insurance = 4  # Insurance -> hit or stand
-
+def get_action(player_id: int, possible_actions: list[Action]) -> Action:
+    action = None
+    while action not in possible_actions:
+        try:
+            action = int(input(f"What do you want to do? possible \
+                               actions are: {[a.name for a in possible_actions]}"))
+        except ValueError:
+            pass
+    return action
 
 class State(object):
     def __init__(self):
@@ -125,14 +135,28 @@ class BlackJackGame(object):
             self.player.insurance()
         else:
             raise ValueError("Invalid action")
-        if self.player.is_all_done():
-            self.dealer.hits(self.deck)
+
+    def play(self):
+        while not self.player.is_all_done():
+            posible_actions = self._get_possible_actions()
+            action = get_action(self.player.__id, posible_actions)
+            self.step(action)
+        self.dealer.hits(self.deck)
+        reward = self._get_reward()
+        state = self._get_state()
+        self.player.pay_out(reward)
+        self.reset()
+        return state, reward
 
     # TODO reset
     def reset(self):
-        self.deck = Deck(6)
-        self.__init_player()
-        self.dealer = Dealer()
+        if len(self.deck.cards) < 20:
+            self.deck = Deck(6)
+        if self.player.get_bank_amount() == 0:
+            self.__init_player()
+        else:
+            self.player.reset()
+        self.dealer.reset()
         self.__init_hands()
         self.__is_intial: bool = True
         return self._get_state()

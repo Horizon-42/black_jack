@@ -7,13 +7,13 @@ class Deck(object):
     def __init__(self, deck_num=6):
         self.cards = [Card(suit, rank)
                       for suit in Suit for rank in Rank]*deck_num
-        self.__shuffle()
-        self.__burn_out()
+        self.shuffle()
+        self.burn_out()
 
-    def __shuffle(self):
+    def shuffle(self):
         np.random.shuffle(self.cards)
 
-    def __burn_out(self):
+    def burn_out(self):
         # delete the top card
         del self.cards[0]
 
@@ -26,6 +26,9 @@ class Deck(object):
             res+=card.__str__()
             res+='\n'
         return res
+
+    def __len__(self):
+        return len(self.cards)
 
 if __name__ == "__main__":
     deck = Deck()
