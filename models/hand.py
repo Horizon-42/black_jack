@@ -71,9 +71,6 @@ class Hand(object):
 
 
 class PlayerHand(Hand):
-    __bet = 0
-    __doubled = False
-
     def __init__(self, cards: list[Card], chips_bet_on: int):
         super().__init__(cards)
         if not isinstance(chips_bet_on, int):
@@ -82,10 +79,21 @@ class PlayerHand(Hand):
             raise ValueError("Bet amount must be positive!")
         self.__bet = chips_bet_on
         self.__doubled = False
+        self.__is_initial = True
 
     @property
     def bet(self):
         return self.__bet
+
+    @property
+    def is_initial(self):
+        return self.__is_initial
+
+    @is_initial.setter
+    def is_initial(self, value: bool):
+        if not isinstance(value, bool):
+            raise ValueError("is_initial must be a boolean value!")
+        self.__is_initial = value
 
     @property
     def doubled(self):

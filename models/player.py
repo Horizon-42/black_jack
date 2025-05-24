@@ -44,10 +44,14 @@ class Player(object):
 
     # action methods
     def stand(self):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
         self.__all_hands.append(self.__hand)
         self.__move_to_nex_hand()
 
     def hit(self, card: Card):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
         self.__hand.add_card(card)
 
     def double(self, card: Card):
@@ -85,13 +89,18 @@ class Player(object):
             raise ValueError("Player's hand is not initialized!")
         return self.__hand
 
+    def get_bet(self):
+        if self.__hand is None:
+            return 0
+        return self.__hand.bet
+
     def get_all_hands(self):
         if not self.is_all_done():
             raise ValueError("Player is not done with all hands yet!")
         return self.__all_hands
 
     def get_insurance_rate(self):
-        return self.__insuranced/self.__main_bet
+        return self.__insuranced/self.__main_bet if self.__main_bet > 0 else 0
 
     def pay_out(self, rewards: list[float]):
         money = 0
@@ -108,4 +117,4 @@ class Player(object):
         self.__main_bet = 0
 
     def __str__(self):
-        return f"Player {self.__id}, has {self.__bank} chips lefted,\n play hand {self.__hand},\n main bet {self.__hand.bet}, {self.__insuranced} insurance"
+        return f"Player {self.__id}, has {self.__bank} chips lefted,\n play hand {self.__hand},\n main bet {self.get_bet()}, {self.__insuranced} insurance"
