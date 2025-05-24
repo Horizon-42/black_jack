@@ -154,6 +154,7 @@ class BlackJackGame(object):
         else:
             raise ValueError("Invalid action")
 
+
     def round(self):
         while not self.player.is_all_done():
             state = self._get_state()
