@@ -93,9 +93,11 @@ class BlackJackGame(object):
             res.append(Action.Double)
             if self.player.has_pair():
                 res.append(Action.Split)
-        if self.dealer.get_face_point() == 11:
-            res.append(Action.Insurance)
+            if self.dealer.get_face_point() == 11:
+                res.append(Action.Insurance)
             self.__is_intial = False
+        if self.player.get_hand().is_bust() or self.player.get_hand().is_blackjack():
+            res = [Action.Stand]
 
         return res
 
@@ -152,7 +154,7 @@ class BlackJackGame(object):
         else:
             raise ValueError("Invalid action")
 
-    def play(self):
+    def round(self):
         while not self.player.is_all_done():
             state = self._get_state()
             print(state)
@@ -172,10 +174,19 @@ class BlackJackGame(object):
             rewards.append(insurance_reward)
         print("Rewards:", rewards)
         print("Total reward:", sum(rewards))
-        self.player.pay_out(rewards)
+        print(f"Gain: {self.player.pay_out(rewards)}")
         print("Player's bank:", self.player.get_bank_amount())
         self.reset()
         return state, rewards
+
+    def play(self):
+        while self.player.get_bank_amount() > 0:
+            print("Starting a new round...")
+            self.round()
+            if self.player.get_bank_amount() == 0:
+                print("Player has no more chips, game over!")
+                break
+        print("Game ended.")
 
     # TODO reset
     def reset(self):

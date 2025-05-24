@@ -94,9 +94,11 @@ class Player(object):
         return self.__insuranced/self.__main_bet
 
     def pay_out(self, rewards: list[float]):
+        money = 0
         for reward in rewards:
             money += self.__main_bet * reward
         self.__bank += money
+        return money
 
     def reset(self):
         self.__hand = None
