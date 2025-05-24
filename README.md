@@ -31,3 +31,17 @@ Cards showing
 2
 
 hole card
+
+
+plan
+show system
+
+show corner case 
+
+uml
+state rewards chart
+
+
+# split
+learn whent to split
+
