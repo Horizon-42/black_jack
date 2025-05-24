@@ -16,7 +16,7 @@ class Action(Enum):
 def cash_in_chips() -> int:
     # read money from terminal
     try:
-        return int(input("How many chips do you want to cash in? "))
+        return int(input("How many chips do you want to cash in?\n"))
     except ValueError:
         return 0
 
@@ -25,7 +25,7 @@ def get_init_bet(max_bet: int):
     bet = 0
     while bet <= 0 or bet > max_bet:
         try:
-            bet = int(input("How many chips do you want to bet on this hand?"))
+            bet = int(input("How many chips do you want to bet on this hand?\n"))
         except ValueError:
             print("Please enter a valid bet amount.")
     return bet
@@ -37,7 +37,7 @@ def get_action(possible_actions: list[Action]) -> Action:
           f"{a.value}, {a.name}" for a in possible_actions])
     while action not in possible_actions:
         try:
-            action = Action(int(input(f"What do you want to do?")))
+            action = Action(int(input(f"What do you want to do?\n")))
         except ValueError:
             pass
     return action
@@ -49,7 +49,7 @@ class State(object):
 
 
     def __str__(self):
-        res = "State:\n"
+        res = ""
         res += f"Dealer's hand: {self.__dealer_hand}\n"
         res += f"Player's hand: {self.__player_point}\n"
         return res
@@ -86,6 +86,7 @@ class BlackJackGame(object):
         for hand in self.player.get_all_hands():
             print(hand)
         print("Player's bank:", self.player.get_bank_amount())
+
 
     def _get_possible_actions(self):
         # no possible actions if player's hand is bust or has 21 points
@@ -158,6 +159,7 @@ class BlackJackGame(object):
     def round(self):
         while not self.player.is_all_done():
             state = self._get_state()
+            print("\nCurrent state:")
             print(state)
             posible_actions = self._get_possible_actions()
             if not posible_actions:
@@ -171,7 +173,6 @@ class BlackJackGame(object):
         self.dealer.hits(self.deck)
         # calculate rewards
         self._print_final_state()
-        print("Calculating rewards:")
         insurance_reward = self._get_insurance_reward()
         player_hands = self.player.get_all_hands()
         rewards = [self._get_hand_reward(hand) for hand in player_hands]
@@ -181,6 +182,7 @@ class BlackJackGame(object):
         print("Total reward:", sum(rewards))
         print(f"Gain: {self.player.pay_out(rewards)}")
         print("Player's bank:", self.player.get_bank_amount())
+        print("Round ended.\n\n")
         self.reset()
         return state, rewards
 

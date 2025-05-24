@@ -39,6 +39,7 @@ class Hand(object):
                 ace_count += 1
         ace_points = itertools.product([11, 1], repeat=ace_count)
         potential_points = [total + sum(ace) for ace in ace_points]
+        potential_points = [point for point in potential_points if point <= 21]
         return potential_points
 
     @property
