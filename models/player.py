@@ -83,10 +83,16 @@ class Player(object):
     def get_insurance_rate(self):
         return self.__insuranced/self.__main_bet
 
-    # def compare_hands(self, dealer_points: int, is_dealer_blackjack: bool):
-    #     # deal with all hands
-    #     all_hands = [self.__hand]
-    #     all_hands.extend
+    def pay_out(self, reward: float):
+        money = self.__main_bet * reward
+        self.__bank += money
+
+    def reset(self):
+        self.__hand = None
+        self.__splited_hands = []
+        self.__all_hands = []
+        self.__insuranced = 0
+        self.__main_bet = 0
 
     def __str__(self):
         return f"Player {self.__id}, has {self.__bank} chips lefted,\n play hand {self.__hand},\n main bet {self.__hand.bet}, {self.__insuranced} insurance"

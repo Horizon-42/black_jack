@@ -113,8 +113,26 @@ class BlackJackGame(object):
 
     # setp
     def step(self, action: Action):
-        pass
+        if action == Action.Stand:
+            self.player.stand()
+        elif action == Action.Hit:
+            self.player.hit(self.deck.deal_card())
+        elif action == Action.Double:
+            self.player.double(self.deck.deal_card())
+        elif action == Action.Split:
+            self.player.split()
+        elif action == Action.Insurance:
+            self.player.insurance()
+        else:
+            raise ValueError("Invalid action")
+        if self.player.is_all_done():
+            self.dealer.hits(self.deck)
 
     # TODO reset
     def reset(self):
-        pass
+        self.deck = Deck(6)
+        self.__init_player()
+        self.dealer = Dealer()
+        self.__init_hands()
+        self.__is_intial: bool = True
+        return self._get_state()

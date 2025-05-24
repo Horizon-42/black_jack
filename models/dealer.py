@@ -40,3 +40,18 @@ class Dealer(object):
 
     def is_blackjack(self):
         return self.__hand.is_blackjack()
+
+    def reset(self):
+        self.__hand = None
+        self.__hiden_card = None
+
+    def __str__(self):
+        res = "Dealer's hand: "
+        if self.__hiden_card is not None:
+            res += f"[{self.__hiden_card}, ?], "
+        else:
+            res += "["
+        for card in self.__hand.cards:
+            res += f"{card}, "
+        res += f"get points: {self.__hand.points}"
+        return res
