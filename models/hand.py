@@ -88,11 +88,10 @@ class PlayerHand(Hand):
     @property
     def is_initial(self):
         return self.__is_initial
-
     @is_initial.setter
-    def is_initial(self, value: bool):
+    def is_initial(self, value):
         if not isinstance(value, bool):
-            raise ValueError("is_initial must be a boolean value!")
+            raise ValueError("is_initial must be a boolean!")
         self.__is_initial = value
 
     @property

@@ -22,6 +22,8 @@ class Player(object):
     def init_hand(self, cards: list[Card], bet_money: int):
         if len(cards) != 2:
             raise ValueError("Wrong initial cards for player")
+        if bet_money > self.__bank:
+            raise ValueError("Don't have enough chips to bet!!!")
         self.__main_bet = bet_money
         self.__hand = PlayerHand(cards, bet_money)
 
@@ -46,18 +48,27 @@ class Player(object):
     def stand(self):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
-        self.__all_hands.append(self.__hand)
-        self.__move_to_nex_hand()
+        self.done_with_hand()
+        self.__hand.is_initial = False
 
     def hit(self, card: Card):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
         self.__hand.add_card(card)
+        self.__hand.is_initial = False
 
     def double(self, card: Card):
+        if self.__bank < 2*self.__hand.bet:
+            raise ValueError("Don't have enough chips to double!!!")
         self.__hand.add_bet(self.__hand.bet)
         self.__hand.add_card(card)
         self.__hand.mark_as_doubled()
+        self.done_with_hand()
+
+    def can_double(self):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
+        return self.__hand.is_initial and self.__bank >= 2 * self.__hand.bet
 
     def split(self):
         if not self.__hand.has_pair():
@@ -85,9 +96,9 @@ class Player(object):
         return self.__all_hands and self.__hand is None
 
     def get_hand(self):
-        if self.__hand is None:
+        if self.__hand is None and not self.__all_hands:
             raise ValueError("Player's hand is not initialized!")
-        return self.__hand
+        return self.__hand if self.__hand else self.__all_hands[0]
 
     def get_bet(self):
         if self.__hand is None:

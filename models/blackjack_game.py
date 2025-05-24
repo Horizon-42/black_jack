@@ -62,7 +62,7 @@ class BlackJackGame(object):
         self.__init_player()
         self.dealer = Dealer()
         self.__init_hands()
-        self.__is_intial: bool = True
+        self.__can_insure: bool = True
 
     def __init_player(self):
         bank = cash_in_chips()
@@ -90,10 +90,10 @@ class BlackJackGame(object):
         if self.player.get_hand().points >= 21:
             return []
         res = [Action.Stand, Action.Hit]
-        if self.__is_intial and self.dealer.get_face_point() == 11:
+        if self.__can_insure and self.dealer.get_face_point() == 11:
             res.append(Action.Insurance)
-            self.__is_intial = False
-        if self.player.get_hand().is_initial:
+            self.__can_insure = False
+        if self.player.can_double():
             res.append(Action.Double)
             if self.player.has_pair():
                 res.append(Action.Split)
@@ -206,5 +206,5 @@ class BlackJackGame(object):
             self.player.reset()
         self.dealer.reset()
         self.__init_hands()
-        self.__is_intial: bool = True
+        self.__can_insure: bool = True
         return self._get_state()
