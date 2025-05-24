@@ -7,6 +7,10 @@ class Dealer(object):
     __hand: Hand = None
     __hiden_card: Card = None
 
+    def __add_hiden_back(self):
+        if self.__hiden_card is not None:
+            self.__hand.cards.insert(0, self.__hiden_card)
+            self.__hiden_card = None
 
     def init_hand(self, cards: list[Card]):
         if len(cards) != 2:
@@ -17,8 +21,7 @@ class Dealer(object):
         self.__hiden_card = self.__hand.cards.pop(0)
 
     def hits(self, deck: Deck, hit_soft17=False):
-        self.__hand.add_card(self.__hiden_card)
-        self.__hiden_card = None
+        self.__add_hiden_back()
         # stand on soft 17
         while True:
             points = self.__hand.points
@@ -34,9 +37,7 @@ class Dealer(object):
 
 
     def reveal_hand(self):
-        if self.__hiden_card is not None:
-            self.__hand.add_card(self.__hiden_card)
-            self.__hiden_card = None
+        self.__add_hiden_back()
         return self.__hand.points
 
     def get_face_point(self):
@@ -69,11 +70,11 @@ class Dealer(object):
         return len(self.__hand.cards) if self.__hand else 0
 
     def __str__(self):
+        if self.__hand is None:
+            return "Dealer's hand is not initialized."
         res = "Dealer's hand: "
         if self.__hiden_card is not None:
-            res += f"[{self.__hiden_card}, ?], "
-        else:
-            res += "["
+            res += f"{self.__hiden_card}?, "
         for card in self.__hand.cards:
             res += f"{card}, "
         res += f"get points: {self.__hand.points}"

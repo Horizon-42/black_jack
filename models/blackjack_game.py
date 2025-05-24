@@ -45,13 +45,12 @@ def get_action(possible_actions: list[Action]) -> Action:
 class State(object):
     def __init__(self, dealer_hand: Hand, player_hand: PlayerHand):
         self.__dealer_hand: Hand = dealer_hand
-        self.__player_point: PlayerHand = player_hand
-
+        self.__player_hand: PlayerHand = player_hand
 
     def __str__(self):
         res = ""
-        res += f"Dealer's hand: {self.__dealer_hand}\n"
-        res += f"Player's hand: {self.__player_point}\n"
+        res += f"Dealer's hand: {self.__dealer_hand},\n"
+        res += f"Player's hand: {self.__player_hand}\n"
         return res
 
 
@@ -85,7 +84,7 @@ class BlackJackGame(object):
         print("Player's hands:")
         for hand in self.player.get_all_hands():
             print(hand)
-        print("Player's bank:", self.player.get_bank_amount())
+
 
 
     def _get_possible_actions(self):
@@ -169,7 +168,7 @@ class BlackJackGame(object):
             action = get_action(posible_actions)
             self.step(action)
         #
-        print("Player done, dealer hits...")
+        print("\nPlayer done, dealer hits...")
         self.dealer.hits(self.deck)
         # calculate rewards
         self._print_final_state()
@@ -178,6 +177,7 @@ class BlackJackGame(object):
         rewards = [self._get_hand_reward(hand) for hand in player_hands]
         if insurance_reward != 0:
             rewards.append(insurance_reward)
+        print("\nPlayer's bank:", self.player.get_bank_amount())
         print("Rewards:", rewards)
         print("Total reward:", sum(rewards))
         print(f"Gain: {self.player.pay_out(rewards)}")

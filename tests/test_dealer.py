@@ -19,6 +19,7 @@ class TestDealer(unittest.TestCase):
     def setUp(self):
         self.ace_clubs = Card(Suit.Clubs, Rank.ACE)
         self.ace_hearts = Card(Suit.Hearts, Rank.ACE)
+        self.ace_spades = Card(Suit.Spades, Rank.ACE)
         self.king_spades = Card(Suit.Spades, Rank.KING)
         self.queen_diamonds = Card(Suit.Diamonds, Rank.QUEEN)
         self.ten_clubs = Card(Suit.Clubs, Rank.TEN)
@@ -240,17 +241,38 @@ class TestDealer(unittest.TestCase):
         self.assertIsNone(dealer._Dealer__hand)
         self.assertIsNone(dealer._Dealer__hiden_card)
 
+    def test_coner_case(self):
+        delear = Dealer()
+        delear.init_hand([self.ace_spades, self.three_clubs])
+        mock_deck = MockDeck(
+            cards_to_deal=[self.queen_diamonds, self.queen_diamonds])
+        delear.hits(mock_deck, hit_soft17=True)
+        # A(1) + 3 + Q(10) + Q(10) = 24
+        self.assertEqual(delear.reveal_hand(), 24)
+
+        delear.reset()
+        delear.init_hand([self.ace_spades, self.three_clubs])
+        mock_deck = MockDeck(
+            cards_to_deal=[self.nine_clubs, self.queen_diamonds])
+        delear.hits(mock_deck, hit_soft17=False)
+        # A(11) + 3 + 9 = 23
+        self.assertEqual(delear.reveal_hand(), 23)
+
     def test_str(self):
         dealer = Dealer()
         dealer.init_hand([self.king_spades, self.five_hearts]) # Hidden K, Face-up 5
-        self.assertEqual(str(dealer), "Dealer's hand: [K of Spades, 5 of Hearts] (Hidden)")
+        self.assertEqual(str(dealer), "Dealer's hand: ♠K?, ♥5, get points: 5")
 
-        dealer.hits(Deck()) # Reveals hidden card
-        self.assertEqual(str(dealer), "Dealer's hand: [K of Spades, 5 of Hearts] get points: 15")
+        dealer.hits(MockDeck(cards_to_deal=[
+                    # Reveals hidden card
+                    self.five_hearts, self.king_spades, self.ace_clubs, self.five_hearts]))
+        self.assertEqual(
+            str(dealer), "Dealer's hand: ♠K, ♥5, ♥5, get points: 20")
 
         dealer.reset()
         # Test string representation when hand is not initialized
-        self.assertEqual(str(dealer), "Dealer's hand: [Unknown]") # Updated based on string logic
+        # Updated based on string logic
+        self.assertEqual(str(dealer), "Dealer's hand is not initialized.")
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
