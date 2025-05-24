@@ -26,6 +26,7 @@ class Player(object):
             raise ValueError("Don't have enough chips to bet!!!")
         self.__main_bet = bet_money
         self.__hand = PlayerHand(cards, bet_money)
+        self.__bank -= bet_money
 
     def get_bank_amount(self):
         return self.__bank
@@ -58,8 +59,9 @@ class Player(object):
         self.__hand.is_initial = False
 
     def double(self, card: Card):
-        if self.__bank < 2*self.__hand.bet:
+        if self.__bank < self.__hand.bet:
             raise ValueError("Don't have enough chips to double!!!")
+        self.__bank -= self.__hand.bet
         self.__hand.add_bet(self.__hand.bet)
         self.__hand.add_card(card)
         self.__hand.mark_as_doubled()
@@ -68,7 +70,7 @@ class Player(object):
     def can_double(self):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
-        return self.__hand.is_initial and self.__bank >= 2 * self.__hand.bet
+        return self.__hand.is_initial and self.__bank >= self.__hand.bet
 
     def split(self):
         if not self.__hand.has_pair():
@@ -77,13 +79,15 @@ class Player(object):
             raise ValueError("Don't have enough chips!!!")
 
         self.__splited_hands.append(self.__hand.split())
+        self.__bank -= self.__hand.bet
 
 
     def insurance(self):
-        insuranced = self.__hand.bet//2
+        insuranced = self.__main_bet//2
         if self.__bank < insuranced:
             raise ValueError("Don't have enough chips!!!")
         self.__insuranced = insuranced
+        self.__bank -= insuranced
 
     def done_with_hand(self):
         if self.__hand is None:
@@ -113,6 +117,10 @@ class Player(object):
         return self.__insuranced/self.__main_bet if self.__main_bet > 0 else 0
 
     def pay_out(self, rewards: list[float]):
+        for hand in self.__all_hands:
+            if hand.is_initial:
+                raise ValueError("Player has not finished all hands yet!")
+            self.__bank += hand.bet
         money = 0
         for reward in rewards:
             money += self.__main_bet * reward
