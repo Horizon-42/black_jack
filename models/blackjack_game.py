@@ -97,7 +97,7 @@ class BlackJackGame(object):
                 res.append(Action.Insurance)
             self.__is_intial = False
         if self.player.get_hand().is_bust() or self.player.get_hand().is_blackjack():
-            res = [Action.Stand]
+            res = []
 
         return res
 
@@ -160,10 +160,14 @@ class BlackJackGame(object):
             state = self._get_state()
             print(state)
             posible_actions = self._get_possible_actions()
+            if not posible_actions:
+                print("No possible actions, player done with this hand.")
+                self.player.done_with_hand()
+                continue
             action = get_action(posible_actions)
             self.step(action)
         #
-        print("Player done, dealer hits:")
+        print("Player done, dealer hits...")
         self.dealer.hits(self.deck)
         # calculate rewards
         self._print_final_state()

@@ -42,10 +42,10 @@ class Player(object):
         except IndexError:
             self.__hand = None
 
+    # action methods
     def stand(self):
         self.__all_hands.append(self.__hand)
         self.__move_to_nex_hand()
-        print("Is all hands done?", self.is_all_done())
 
     def hit(self, card: Card):
         self.__hand.add_card(card)
@@ -71,14 +71,14 @@ class Player(object):
         self.__insuranced = insuranced
         self.__bank -= insuranced
 
+    def done_with_hand(self):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
+        self.__all_hands.append(self.__hand)
+        self.__move_to_nex_hand()
+
     def is_all_done(self):
         return self.__all_hands and self.__hand is None
-
-    # def is_blackjack(self):
-    #     return self.__hand.is_blackjack() if self.__hand else False
-
-    # def is_bust(self):
-    #     return self.__hand.is_bust()
 
     def get_hand(self):
         if self.__hand is None:
