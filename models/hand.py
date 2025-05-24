@@ -63,6 +63,9 @@ class Hand(object):
         res += f"Points: {self.potiential_points}"
         return res
 
+    def __eq__(self, value):
+        return isinstance(value, Hand) and self.potiential_points == value.potiential_points
+
 
 class PlayerHand(Hand):
     __bet = 0

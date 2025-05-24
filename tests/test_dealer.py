@@ -36,7 +36,7 @@ class TestDealer(unittest.TestCase):
         
         # Check hidden card and face-up card
         self.assertEqual(dealer.get_hiden_card(), self.king_spades)
-        self.assertEqual(len(dealer.get_hand_length()), 1)
+        self.assertEqual(dealer.get_hand_length(), 1)
         self.assertEqual(dealer.get_face_card(), self.five_hearts)
         self.assertEqual(dealer.get_face_point(), 5)
         self.assertFalse(dealer.is_blackjack()) # Not a blackjack yet as hidden card isn't revealed
@@ -187,18 +187,26 @@ class TestDealer(unittest.TestCase):
         dealer = Dealer()
         dealer.init_hand([self.king_spades, self.queen_diamonds]) # Hidden K, Face-up Q
         mock_deck = MockDeck(cards_to_deal=[self.five_hearts])  # Deals 5
-        
-        dealer.hits(mock_deck) # K(10) + Q(10) + 5 = 25
-        self.assertTrue(dealer.is_bust())
+        dealer.hits(mock_deck)  # won't hit again as K(10) + Q(10) = 20
+        self.assertFalse(dealer.is_bust())
 
         dealer.reset()
         dealer.init_hand([self.five_hearts, self.seven_diamonds]) # Hidden 5, Face-up 7
-        dealer.hits(Deck()) # 5 + 7 = 12
+        # 5 + 7 + 9 = 21
+        dealer.hits(MockDeck(cards_to_deal=[self.nine_clubs]))
         self.assertFalse(dealer.is_bust())
+
+        dealer.reset()
+        dealer.init_hand([self.king_spades, self.two_spades])
+        # K(10) + 2(2) + 4(4) + 6(6) = 22
+        dealer.hits(
+            MockDeck(cards_to_deal=[self.four_diamonds, self.six_hearts]))
+        self.assertTrue(dealer.is_bust())  # Should be bust now
 
         # Test before init_hand is called
         dealer_uninitialized = Dealer()
-        self.assertFalse(dealer_uninitialized.is_bust()) # Should not be bust if not initialized
+        with self.assertRaises(ValueError):
+            dealer_uninitialized.is_bust()
 
     def test_is_blackjack_general(self):
         # This tests the second `is_blackjack` method in Dealer, which calls Hand's `is_blackjack`.

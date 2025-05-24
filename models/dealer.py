@@ -9,6 +9,10 @@ class Dealer(object):
 
 
     def init_hand(self, cards: list[Card]):
+        if len(cards) != 2:
+            raise ValueError("Dealer's hand must have exactly 2 cards.")
+        if not all(isinstance(card, Card) for card in cards):
+            raise ValueError("All cards must be instances of Card class.")
         self.__hand = Hand(cards)
         self.__hiden_card = self.__hand.cards.pop(0)
 
@@ -30,6 +34,9 @@ class Dealer(object):
 
 
     def reveal_hand(self):
+        if self.__hiden_card is not None:
+            self.__hand.add_card(self.__hiden_card)
+            self.__hiden_card = None
         return self.__hand.points
 
     def get_face_point(self):
@@ -44,6 +51,8 @@ class Dealer(object):
         return deepcopy(self.__hand) if self.__hand else None
 
     def is_bust(self):
+        if self.__hand is None:
+            raise ValueError("Dealer's hand is not initialized.")
         return self.__hand.is_bust()
 
     def is_blackjack(self):
