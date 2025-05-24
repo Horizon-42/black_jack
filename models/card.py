@@ -4,7 +4,7 @@ from enum import Enum
 class Suit(Enum):
     Spades = "♠"
     Hearts = "♥"
-    Diamends = "♦"
+    Diamonds = "♦"
     Clubs = "♣"
 
 class Rank(Enum):
@@ -44,7 +44,7 @@ class Card(object):
             return int(rank.value)
 
     def __str__(self):
-        return f"{self.suit.value}{self.rank.value}, count as {self.point}"
+        return f"{self.suit.value}{self.rank.value}"
 
 
 

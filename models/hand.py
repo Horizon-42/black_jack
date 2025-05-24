@@ -55,10 +55,10 @@ class Hand(object):
         return self.points > 21
 
     def __str__(self):
-        res = "With "
+        res = ""
         for card in self.cards:
             res += f"{card}, "
-        res += f"get points: {self.points}"
+        res += f"\nPoints: {self.potiential_points}"
         return res
 
 
