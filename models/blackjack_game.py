@@ -79,6 +79,14 @@ class BlackJackGame(object):
         return State(dealer_hand=self.dealer.get_hand(),
                      player_hand=self.player.get_hand())
 
+    def _print_final_state(self):
+        print("Final state:")
+        print("Dealer's hand:", self.dealer.get_hand())
+        print("Player's hands:")
+        for hand in self.player.get_all_hands():
+            print(hand)
+        print("Player's bank:", self.player.get_bank_amount())
+
     def _get_possible_actions(self):
         res = [Action.Stand, Action.Hit]
         if self.__is_intial:
@@ -155,13 +163,17 @@ class BlackJackGame(object):
         print("Player done, dealer hits:")
         self.dealer.hits(self.deck)
         # calculate rewards
+        self._print_final_state()
         print("Calculating rewards:")
         insurance_reward = self._get_insurance_reward()
         player_hands = self.player.get_all_hands()
         rewards = [self._get_hand_reward(hand) for hand in player_hands]
         if insurance_reward != 0:
             rewards.append(insurance_reward)
+        print("Rewards:", rewards)
+        print("Total reward:", sum(rewards))
         self.player.pay_out(rewards)
+        print("Player's bank:", self.player.get_bank_amount())
         self.reset()
         return state, rewards
 
