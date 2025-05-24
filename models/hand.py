@@ -36,6 +36,9 @@ class Hand(object):
                 total += card.point
             else:
                 ace_count += 1
+        ace_points = itertools.product([11, 1], repeat=ace_count)
+        potential_points = [total + sum(ace) for ace in ace_points]
+        return potential_points
 
     @property
     def points(self):
@@ -43,7 +46,7 @@ class Hand(object):
 
     @property
     def potiential_points(self):
-        pass
+        return self.__potential_evalue()
 
     def is_blackjack(self):
         return len(self.cards) == 2 and self.points == 21
