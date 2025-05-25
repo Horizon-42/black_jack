@@ -146,9 +146,7 @@ class Player(object):
     def pay_out(self, rewards: list[float]):
         if not isinstance(rewards, list) or not all(isinstance(reward, (int, float)) for reward in rewards):
             raise TypeError("Rewards must be a list of numbers!")
-        rewards_len = len(self.__all_hands) + \
-            (1 if self.__insuranced > 0 else 0)
-        if len(rewards) != rewards_len:
+        if len(rewards) != len(self.__all_hands) + 1:
             raise ValueError(
                 "Rewards list length must match the number of hands!")
         if not self.is_all_done():

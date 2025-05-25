@@ -97,6 +97,8 @@ class BlackJackGame(object):
             res.append(Action.Double)
             if self.player.has_pair():
                 res.append(Action.Split)
+        # sort actions by their value
+        res.sort(key=lambda x: x.value)
         return res
 
     def _get_insurance_reward(self) -> float:
@@ -173,11 +175,10 @@ class BlackJackGame(object):
         self.dealer.hits(self.deck)
         # calculate rewards
         self._print_final_state()
-        insurance_reward = self._get_insurance_reward()
+
         player_hands = self.player.get_all_hands()
         rewards = [self._get_hand_reward(hand) for hand in player_hands]
-        if insurance_reward != 0:
-            rewards.append(insurance_reward)
+        rewards.append(self._get_insurance_reward())
         print(f"\nPlayer's bank: {self.player.get_bank_amount()}, ", end="")
         print(f"with bet {self.player.get_all_bets()}, ", end="")
         print(f"insurance {self.player.get_insurance_amount()}")
@@ -186,19 +187,18 @@ class BlackJackGame(object):
         print(f"Gain: {self.player.pay_out(rewards)}")
         print("Player's bank:", self.player.get_bank_amount())
         print("Round ended.\n\n")
-        self.reset()
         return state, rewards
 
     def play(self):
-        while self.player.get_bank_amount() > 0:
+        while True:
             print("Starting a new round...")
             self.round()
-            if self.player.get_bank_amount() == 0:
+            if self.player.get_bank_amount() <= 0:
                 print("Player has no more chips, game over!")
                 break
+            self.reset()
         print("Game ended.")
 
-    # TODO reset
     def reset(self):
         if len(self.deck.cards) < 20:
             self.deck = Deck(6)
