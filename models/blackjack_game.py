@@ -64,6 +64,8 @@ class BlackJackGame(object):
         self.__init_hands()
         self.__can_insure: bool = True
 
+        self.state_action_history = []
+
     def __init_player(self):
         bank = cash_in_chips()
         self.player = Player(0, bank)
@@ -164,11 +166,14 @@ class BlackJackGame(object):
             print("\nCurrent state:")
             print(state)
             posible_actions = self._get_possible_actions()
+            action = None
             if not posible_actions:
                 print("No possible actions, player done with this hand.")
                 self.player.done_with_hand()
                 continue
             action = get_action(posible_actions)
+            # Record the state-action pair
+            self.state_action_history.append((state, action))
             self.step(action)
         #
         print("\nPlayer done, dealer hits...")
