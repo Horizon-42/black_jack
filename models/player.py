@@ -17,10 +17,6 @@ class Player(object):
         self.__insuranced = 0
         self.__main_bet = 0
 
-    @property
-    def id(self):
-        return self.__id
-
     def init_hand(self, cards: list[Card], bet_money: int):
         if not isinstance(cards, list) or not all(isinstance(card, Card) for card in cards):
             raise TypeError("Cards must be a list of two Card instances!")
@@ -42,12 +38,6 @@ class Player(object):
         if self.__hand is None:
             return False
         return self.__hand.has_pair()
-
-    def __move_to_nex_hand(self):
-        try:
-            self.__hand = self.__splited_hands.pop(-1)
-        except IndexError:
-            self.__hand = None
 
     # action methods
     def stand(self):
@@ -105,6 +95,12 @@ class Player(object):
             raise ValueError("Don't have enough chips!!!")
         self.__insuranced = insuranced
         self.__bank -= insuranced
+
+    def __move_to_nex_hand(self):
+        try:
+            self.__hand = self.__splited_hands.pop(-1)
+        except IndexError:
+            self.__hand = None
 
     def done_with_hand(self):
         if self.__hand is None:

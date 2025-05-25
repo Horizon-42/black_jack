@@ -37,7 +37,7 @@ class TestDealer(unittest.TestCase):
         
         # Check hidden card and face-up card
         self.assertEqual(dealer.get_hiden_card(), self.king_spades)
-        self.assertEqual(dealer.get_hand_length(), 1)
+        self.assertEqual(dealer._Dealer__get_hand_length(), 1)
         self.assertEqual(dealer.get_face_card(), self.five_hearts)
         self.assertEqual(dealer.get_face_point(), 5)
         self.assertFalse(dealer.is_blackjack()) # Not a blackjack yet as hidden card isn't revealed
@@ -60,7 +60,8 @@ class TestDealer(unittest.TestCase):
         
         dealer.hits(mock_deck)
         self.assertEqual(dealer.reveal_hand(), 17) # 10 + 7 = 17
-        self.assertEqual(dealer.get_hand_length(), 2) # No extra cards dealt
+        self.assertEqual(dealer._Dealer__get_hand_length(),
+                         2)  # No extra cards dealt
         self.assertIsNone(dealer._Dealer__hiden_card) # Hidden card revealed
 
         # Dealer has 18 - should stand
@@ -69,7 +70,7 @@ class TestDealer(unittest.TestCase):
         mock_deck = MockDeck(cards_to_deal=[self.two_spades])
         dealer.hits(mock_deck)
         self.assertEqual(dealer.reveal_hand(), 21)
-        self.assertEqual(dealer.get_hand_length(), 2)
+        self.assertEqual(dealer._Dealer__get_hand_length(), 2)
         self.assertIsNone(dealer._Dealer__hiden_card)
 
     def test_hits_stand_on_soft_17_default(self):
@@ -81,7 +82,7 @@ class TestDealer(unittest.TestCase):
         
         dealer.hits(mock_deck)
         self.assertEqual(dealer.reveal_hand(), 17)
-        self.assertEqual(dealer.get_hand_length(), 2)
+        self.assertEqual(dealer._Dealer__get_hand_length(), 2)
         self.assertIsNone(dealer._Dealer__hiden_card)
 
     def test_hits_hit_on_soft_17_when_true(self):
@@ -95,7 +96,8 @@ class TestDealer(unittest.TestCase):
         # Initial: A(11), 6 = 17 (soft)
         # Hits: A(11), 6, 2 = 19 (soft)
         self.assertEqual(dealer.reveal_hand(), 19)
-        self.assertEqual(dealer.get_hand_length(), 3) # Should have hit one more card
+        self.assertEqual(dealer._Dealer__get_hand_length(),
+                         3)  # Should have hit one more card
         self.assertIsNone(dealer._Dealer__hiden_card)
 
         # Test hitting multiple times until stand
@@ -106,7 +108,7 @@ class TestDealer(unittest.TestCase):
         # A,2 (13) -> hits 4 (17 soft) -> hits 3 (20 hard) -> stands
         dealer.hits(mock_deck, hit_soft17=True)
         self.assertEqual(dealer.reveal_hand(), 20)
-        self.assertEqual(dealer.get_hand_length(), 4) # A,2,4,3
+        self.assertEqual(dealer._Dealer__get_hand_length(), 4)  # A,2,4,3
         self.assertIsNone(dealer._Dealer__hiden_card)
 
     def test_hits_bigger17_bust_scenario(self):
@@ -119,7 +121,7 @@ class TestDealer(unittest.TestCase):
         # because K(10) + 10(10) >17, should not hit again
         self.assertEqual(dealer.reveal_hand(), 20)
         self.assertFalse(dealer.is_bust())
-        self.assertEqual(dealer.get_hand_length(), 2)
+        self.assertEqual(dealer._Dealer__get_hand_length(), 2)
         self.assertIsNone(dealer._Dealer__hiden_card)
 
     def test_hits_bust_scenario(self):
@@ -134,7 +136,7 @@ class TestDealer(unittest.TestCase):
         self.assertTrue(dealer.is_bust())
         # K(10) + 2(2) + 4(4) + 6(6) = 22
         self.assertEqual(dealer.reveal_hand(), 22)
-        self.assertEqual(dealer.get_hand_length(), 4)  # K, 2, 4, 6
+        self.assertEqual(dealer._Dealer__get_hand_length(), 4)  # K, 2, 4, 6
         # Hidden card should be revealed
         self.assertIsNone(dealer._Dealer__hiden_card)
 
@@ -168,7 +170,8 @@ class TestDealer(unittest.TestCase):
         # Calling reveal_hand again should return the same points and not add card again
         revealed_points_again = dealer.reveal_hand()
         self.assertEqual(revealed_points_again, 15)
-        self.assertEqual(dealer.get_hand_length(), 2) # Should still be 2 cards
+        self.assertEqual(dealer._Dealer__get_hand_length(),
+                         2)  # Should still be 2 cards
 
     def test_get_face_point(self):
         dealer = Dealer()
