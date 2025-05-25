@@ -5,6 +5,8 @@ from .deck import Deck
 
 class Player(object):
     def __init__(self, id: int, bank_money: int):
+        if not isinstance(bank_money, int) or bank_money <= 0:
+            raise ValueError("Bank money must be a positive integer!")
         self.__id = id
         self.__bank = bank_money
 
@@ -81,6 +83,8 @@ class Player(object):
         return self.__hand.is_initial and self.__bank >= self.__hand.bet
 
     def split(self):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
         if not self.__hand.has_pair():
             raise ValueError("Could not split!!!")
         if self.__bank < self.__hand.bet:
@@ -126,6 +130,9 @@ class Player(object):
             raise ValueError("Player is not done with all hands yet!")
         return self.__all_hands
 
+    def get_insurance(self):
+        return self.__insuranced
+
     def get_insurance_rate(self):
         return self.__insuranced/self.__main_bet if self.__main_bet > 0 else 0
 
@@ -142,7 +149,9 @@ class Player(object):
     def pay_out(self, rewards: list[float]):
         if not isinstance(rewards, list) or not all(isinstance(reward, (int, float)) for reward in rewards):
             raise TypeError("Rewards must be a list of numbers!")
-        if len(rewards) != len(self.__all_hands):
+        rewards_len = len(self.__all_hands) + \
+            (1 if self.__insuranced > 0 else 0)
+        if len(rewards) != rewards_len:
             raise ValueError(
                 "Rewards list length must match the number of hands!")
         if not self.is_all_done():
@@ -150,13 +159,16 @@ class Player(object):
         if not rewards:
             raise ValueError("Rewards list cannot be empty!")
         self.__bank += self.get_all_bets()
+        self.__bank += self.__insuranced
+
         money = 0
         for reward in rewards:
             money += self.__main_bet * reward
         self.__bank += money
+        self.__reset()
         return money
 
-    def reset(self):
+    def __reset(self):
         self.__hand = None
         self.__splited_hands = []
         self.__all_hands = []
@@ -164,4 +176,4 @@ class Player(object):
         self.__main_bet = 0
 
     def __str__(self):
-        return f"Player {self.__id}, has {self.__bank} chips lefted,\n play hand {self.__hand},\n main bet {self.get_bet()}, {self.__insuranced} insurance"
+        return f"Player {self.__id}, has {self.__bank} chips left,\n play hand {self.__hand},\n main bet: {self.get_bet()}, insurance: {self.__insuranced}"
