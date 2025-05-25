@@ -37,8 +37,8 @@ class Hand(object):
                 total += card.point
             else:
                 ace_count += 1
-        ace_points = itertools.product([11, 1], repeat=ace_count)
-        potential_points = [total + sum(ace) for ace in ace_points]
+        potential_points = [total + i +
+                            (ace_count-i)*11 for i in range(ace_count+1)]
         if potential_points[-1] > 21:
             # if all combinations are over 21, return the last one
             return potential_points[-1:]
