@@ -202,8 +202,7 @@ class BlackJackGame(object):
             self.deck = Deck(6)
         if self.player.get_bank_amount() == 0:
             self.__init_player()
-        else:
-            self.player.reset()
+
         self.dealer.reset()
         self.__init_hands()
         self.__can_insure: bool = True
