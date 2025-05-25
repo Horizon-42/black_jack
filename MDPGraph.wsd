@@ -5,17 +5,20 @@ hide empty description
 
 state "Blackjack" as S_blackjack
 state "<21" as S_normal
+state "<21, Has Pair" as S_pair
+state "<21, Dealer has Ace" as S_insurance
 state "Bust" as S_bust
 state "Win" as S_win
 state "Lose" as S_lose
 state "Push" as S_push
-state "Has Pair" as S_pair
 
 
 ' 定义动作 (可选，如果只是作为标签可以不定义为 action)
 ' action "Hit" as Action_Hit ' 如果 Action_Hit 只是一个标签，可以不定义为 action
 [*] --> S_normal
 [*] --> S_blackjack
+[*] --> S_pair
+[*] --> S_insurance
 S_normal --> S_win : Stand
 S_normal --> S_lose : Stand
 S_normal --> S_push : Stand
@@ -25,13 +28,12 @@ S_normal --> S_win : Hit
 S_normal --> S_lose : Hit
 S_normal --> S_push : Hit
 ' Pair actions
-S_normal --> S_pair
 S_pair --> S_normal : Split
+S_pair --> S_normal : No Split
 S_pair --> S_pair : Split
-S_pair --> S_win : Stand 
-S_pair --> S_push : Stand
 ' Insurance actions
-S_normal --> S_normal : Insurance if dealer has ace
+S_insurance --> S_normal : Insurance
+S_insurance --> S_normal : No Insurance
 ' Double actions
 S_normal --> S_win : Double
 S_normal --> S_lose : Double
