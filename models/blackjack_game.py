@@ -178,7 +178,9 @@ class BlackJackGame(object):
         rewards = [self._get_hand_reward(hand) for hand in player_hands]
         if insurance_reward != 0:
             rewards.append(insurance_reward)
-        print("\nPlayer's bank:", self.player.get_bank_amount())
+        print(f"\nPlayer's bank: {self.player.get_bank_amount()}, ", end="")
+        print(f"with bet {self.player.get_all_bets()}, ", end="")
+        print(f"insurance {self.player.get_insurance_amount()}")
         print("Rewards:", rewards)
         print("Total reward:", sum(rewards))
         print(f"Gain: {self.player.pay_out(rewards)}")

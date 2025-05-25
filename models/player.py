@@ -130,9 +130,6 @@ class Player(object):
             raise ValueError("Player is not done with all hands yet!")
         return self.__all_hands
 
-    def get_insurance(self):
-        return self.__insuranced
-
     def get_insurance_rate(self):
         return self.__insuranced/self.__main_bet if self.__main_bet > 0 else 0
 
