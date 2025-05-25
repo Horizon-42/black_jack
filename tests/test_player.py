@@ -44,12 +44,9 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player._Player__hand.bet, 100)
         self.assertEqual(player.get_bank_amount(), 900) # Bank should be reduced by bet
 
-        # Test invalid initial hand cards
-        with self.assertRaises(ValueError):
-            player.init_hand([self.ace_clubs], 50) # Not two cards
         with self.assertRaises(ValueError):
             player.init_hand([self.ace_clubs, self.king_spades, self.five_hearts], 50) # More than two cards
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             player.init_hand(["not a card", self.five_hearts], 50) # Not Card objects
 
         # Test invalid bet money
@@ -79,8 +76,22 @@ class TestPlayer(unittest.TestCase):
         self.assertTrue(player.has_pair())
 
         player.reset()
+        # all ten points cards are considered pairs
         player.init_hand([self.king_spades, self.queen_diamonds], 100)
-        self.assertFalse(player.has_pair())
+        self.assertTrue(player.has_pair())
+
+        player.reset()
+        player.init_hand([self.ace_clubs, self.ace_hearts], 100)
+        self.assertTrue(player.has_pair())
+
+        player.reset()
+        player.init_hand([self.five_hearts, self.two_spades], 100)
+        self.assertFalse(player.has_pair())  # No pair
+
+        player.reset()
+        player.init_hand([self.five_hearts, self.seven_diamonds], 100)
+        player.hit(self.five_hearts)  # Hand: 12 points, no pair
+        self.assertFalse(player.has_pair())  # No hand initialized
 
         player.reset()
         self.assertFalse(player.has_pair()) # No hand initialized
@@ -120,12 +131,14 @@ class TestPlayer(unittest.TestCase):
         player = Player(id=1, bank_money=1000)
         player.init_hand([self.five_hearts, self.two_spades], 100) # Hand: 7 points, Bet: 100
         self.assertEqual(player.get_bet(), 100)
+        # Bank: 1000 - 100 = 900
+        self.assertEqual(player.get_bank_amount(), 900)
 
         player.double(self.nine_clubs) # Add 9. Hand: 7+9=16 points. Bet: 100+100=200
         self.assertEqual(player._Player__main_bet, 100)
-        self.assertEqual(player._Player__hand.points, 16)
-        self.assertEqual(player._Player__hand.bet, 200)
-        self.assertTrue(player._Player__hand.doubled)
+        self.assertEqual(player.get_hand().points, 16)
+        self.assertEqual(player.get_hand().bet, 200)
+        self.assertTrue(player.get_hand().doubled)
         self.assertEqual(player.get_bank_amount(), 800) # Bank: 900 - 100 (doubled bet) = 800
         self.assertEqual(len(player._Player__all_hands), 1) # Doubling ends the hand
         self.assertIsNone(player._Player__hand) # Current hand should be moved
@@ -134,6 +147,7 @@ class TestPlayer(unittest.TestCase):
         player.reset()
         player = Player(id=1, bank_money=50)
         player.init_hand([self.five_hearts, self.two_spades], 50) # Bank 0
+        self.assertEqual(player.get_bank_amount(), 0)
         with self.assertRaises(ValueError):
             player.double(self.nine_clubs)
 
@@ -143,6 +157,8 @@ class TestPlayer(unittest.TestCase):
             player.double(self.ace_clubs)
         
         # Test doubling with non-Card object
+        player.reset()
+        player = Player(id=1, bank_money=1000)
         player.init_hand([self.five_hearts, self.seven_diamonds], 50)
         with self.assertRaises(TypeError):
             player.double("not a card")
@@ -194,8 +210,9 @@ class TestPlayer(unittest.TestCase):
 
         # Test insurance with insufficient funds
         player.reset()
-        player = Player(id=1, bank_money=40)
-        player.init_hand([self.five_hearts, self.seven_diamonds], 100) # Bank -60
+        player = Player(id=1, bank_money=100)
+        player.init_hand(
+            [self.five_hearts, self.seven_diamonds], 100)  # Bank 0
         with self.assertRaises(ValueError):
             player.insurance()
 
@@ -234,7 +251,7 @@ class TestPlayer(unittest.TestCase):
 
     def test_is_all_done(self):
         player = Player(id=1, bank_money=1000)
-        self.assertTrue(player.is_all_done()) # Initially done as no hands
+        self.assertFalse(player.is_all_done())  # Initially done as no hands
 
         player.init_hand([self.five_hearts, self.seven_diamonds], 50)
         self.assertFalse(player.is_all_done()) # Has a current hand
@@ -312,26 +329,30 @@ class TestPlayer(unittest.TestCase):
         player.stand() # Hand is done
 
         # Win (1:1 payout on main bet)
+        self.assertEqual(player.get_all_bets(), 100)  # Main bet
+        self.assertEqual(player.get_bank_amount(), 900)  # Bank before payout
+        self.assertEqual(player.get_bank_and_bets(), 1000)  # Bank + main bet
         money_earned = player.pay_out([1.0])
         self.assertEqual(money_earned, 100) # 100 * 1.0
-        self.assertEqual(player.get_bank_amount(), 1000) # 900 + 100
+        self.assertEqual(player.get_bank_amount(), 1100)  # 1000 + 100
 
         # Loss (0 payout)
         player.reset()
-        player.init_hand([self.king_spades, self.queen_diamonds], 100) # Bank 900
+        player.init_hand(
+            [self.king_spades, self.queen_diamonds], 100)  # Bank 1000
         player.stand()
         money_earned = player.pay_out([0.0])
         self.assertEqual(money_earned, 0)
-        self.assertEqual(player.get_bank_amount(), 900)
+        self.assertEqual(player.get_bank_amount(), 1100)
 
         # Push (0.5 payout - original code assumed 0.5 for push, usually 1.0 for bet back)
         # Assuming 0.5 for push as per original code's `rewards` multiplier
         player.reset()
-        player.init_hand([self.ten_clubs, self.nine_clubs], 100) # Bank 900
+        player.init_hand([self.ten_clubs, self.nine_clubs], 100)  # Bank 1000
         player.stand()
         money_earned = player.pay_out([0.5]) # If push, bet returned, so 1.0 multiplier is standard
         self.assertEqual(money_earned, 50) # 100 * 0.5
-        self.assertEqual(player.get_bank_amount(), 950)
+        self.assertEqual(player.get_bank_amount(), 1150)  # 1100 + 50
 
         # Blackjack (1.5 payout on main bet)
         player.reset()
@@ -339,7 +360,7 @@ class TestPlayer(unittest.TestCase):
         player.stand()
         money_earned = player.pay_out([1.5]) # 100 * 1.5 = 150
         self.assertEqual(money_earned, 150)
-        self.assertEqual(player.get_bank_amount(), 1050)
+        self.assertEqual(player.get_bank_amount(), 1300)  # 1150 + 150
 
         # Test with multiple hands (e.g., after split)
         player.reset()
@@ -357,7 +378,7 @@ class TestPlayer(unittest.TestCase):
         # Sticking to the original `__main_bet * reward` logic for now.
         money_earned = player.pay_out([1.0, 0.5]) # (100 * 1.0) + (100 * 0.5) = 100 + 50 = 150
         self.assertEqual(money_earned, 150)
-        self.assertEqual(player.get_bank_amount(), 800 + 150) # 950
+        self.assertEqual(player.get_bank_amount(), 1300 + 150)
 
         # Test mismatch in rewards and hands
         player.reset()

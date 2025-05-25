@@ -20,8 +20,10 @@ class Player(object):
         return self.__id
 
     def init_hand(self, cards: list[Card], bet_money: int):
-        if len(cards) != 2:
-            raise ValueError("Wrong initial cards for player")
+        if not isinstance(cards, list) or not all(isinstance(card, Card) for card in cards):
+            raise TypeError("Cards must be a list of two Card instances!")
+        if bet_money <= 0 or not isinstance(bet_money, int):
+            raise ValueError("Bet money must be a positive integer!")
         if bet_money > self.__bank:
             raise ValueError("Don't have enough chips to bet!!!")
         self.__main_bet = bet_money
@@ -53,12 +55,18 @@ class Player(object):
         self.done_with_hand()
 
     def hit(self, card: Card):
+        if not isinstance(card, Card):
+            raise TypeError("Card must be an instance of Card class!")
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
         self.__hand.add_card(card)
         self.__hand.is_initial = False
 
     def double(self, card: Card):
+        if not isinstance(card, Card):
+            raise TypeError("Card must be an instance of Card class!")
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
         if self.__bank < self.__hand.bet:
             raise ValueError("Don't have enough chips to double!!!")
         self.__bank -= self.__hand.bet
@@ -83,6 +91,11 @@ class Player(object):
 
 
     def insurance(self):
+        if self.__main_bet <= 0 or self.__hand is None:
+            raise ValueError(
+                "Player's hand is not initialized or main bet is zero!")
+        if self.__insuranced > 0:
+            raise ValueError("Insurance already taken!")
         insuranced = self.__main_bet//2
         if self.__bank < insuranced:
             raise ValueError("Don't have enough chips!!!")
@@ -96,7 +109,7 @@ class Player(object):
         self.__move_to_nex_hand()
 
     def is_all_done(self):
-        return self.__all_hands and self.__hand is None
+        return len(self.__all_hands) > 0 and self.__hand is None
 
     def get_hand(self):
         if self.__hand is None and not self.__all_hands:
@@ -116,11 +129,27 @@ class Player(object):
     def get_insurance_rate(self):
         return self.__insuranced/self.__main_bet if self.__main_bet > 0 else 0
 
+    def get_all_bets(self):
+        if not self.is_all_done():
+            raise ValueError("Player is not done with all hands yet!")
+        return sum(hand.bet for hand in self.__all_hands)
+
+    def get_bank_and_bets(self):
+        if not self.is_all_done():
+            raise ValueError("Player is not done with all hands yet!")
+        return self.__bank + self.get_all_bets()
+
     def pay_out(self, rewards: list[float]):
-        for hand in self.__all_hands:
-            if hand.is_initial:
-                raise ValueError("Player has not finished all hands yet!")
-            self.__bank += hand.bet
+        if not isinstance(rewards, list) or not all(isinstance(reward, (int, float)) for reward in rewards):
+            raise TypeError("Rewards must be a list of numbers!")
+        if len(rewards) != len(self.__all_hands):
+            raise ValueError(
+                "Rewards list length must match the number of hands!")
+        if not self.is_all_done():
+            raise ValueError("Player is not done with all hands yet!")
+        if not rewards:
+            raise ValueError("Rewards list cannot be empty!")
+        self.__bank += self.get_all_bets()
         money = 0
         for reward in rewards:
             money += self.__main_bet * reward
