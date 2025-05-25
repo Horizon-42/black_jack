@@ -13,34 +13,37 @@ class Action(Enum):
     Insurance = 4  # Insurance -> hit or stand
 
 
-def cash_in_chips() -> int:
-    # read money from terminal
-    try:
-        return int(input("How many chips do you want to cash in?\n"))
-    except ValueError:
-        return 0
-
-
-def get_init_bet(max_bet: int):
-    bet = 0
-    while bet <= 0 or bet > max_bet:
+class Interaction(object):
+    @staticmethod
+    def cash_in_chips() -> int:
+        # read money from terminal
         try:
-            bet = int(input("How many chips do you want to bet on this hand?\n"))
+            return int(input("How many chips do you want to cash in?\n"))
         except ValueError:
-            print("Please enter a valid bet amount.")
-    return bet
+            return 0
 
+    @staticmethod
+    def get_init_bet(max_bet: int):
+        bet = 0
+        while bet <= 0 or bet > max_bet:
+            try:
+                bet = int(
+                    input("How many chips do you want to bet on this hand?\n"))
+            except ValueError:
+                print("Please enter a valid bet amount.")
+        return bet
 
-def get_action(possible_actions: list[Action]) -> Action:
-    action = None
-    print("Possible actions are: ", [
-          f"{a.value}, {a.name}" for a in possible_actions])
-    while action not in possible_actions:
-        try:
-            action = Action(int(input(f"What do you want to do?\n")))
-        except ValueError:
-            pass
-    return action
+    @staticmethod
+    def get_action(possible_actions: list[Action]) -> Action:
+        action = None
+        print("Possible actions are: ", [
+            f"{a.value}, {a.name}" for a in possible_actions])
+        while action not in possible_actions:
+            try:
+                action = Action(int(input(f"What do you want to do?\n")))
+            except ValueError:
+                pass
+        return action
 
 class State(object):
     def __init__(self, dealer_hand: Hand, player_hand: PlayerHand):
@@ -55,8 +58,6 @@ class State(object):
 
 
 class BlackJackGame(object):
-    # TODO Rewards
-
     def __init__(self):
         self.deck = Deck(6)
         self.__init_player()
@@ -67,11 +68,11 @@ class BlackJackGame(object):
         self.state_action_history = []
 
     def __init_player(self):
-        bank = cash_in_chips()
+        bank = Interaction.cash_in_chips()
         self.player = Player(0, bank)
 
     def __init_hands(self):
-        bet = get_init_bet(self.player.get_bank_amount())
+        bet = Interaction.get_init_bet(self.player.get_bank_amount())
         cards = [self.deck.deal_card() for _ in range(4)]
         self.player.init_hand([cards[0], cards[2]], bet)
         self.dealer.init_hand([cards[1], cards[3]])
@@ -171,7 +172,7 @@ class BlackJackGame(object):
                 print("No possible actions, player done with this hand.")
                 self.player.done_with_hand()
                 continue
-            action = get_action(posible_actions)
+            action = Interaction.get_action(posible_actions)
             # Record the state-action pair
             self.state_action_history.append((state, action))
             self.step(action)

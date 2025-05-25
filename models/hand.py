@@ -4,12 +4,11 @@ import itertools
 
 class Hand(object):
     def __init__(self, cards:list[Card]):
-        self.cards = []
-        self.is_soft = False
+        self.is_soft: bool = False
 
         if not (1 <= len(cards) <= 2):
             raise ValueError("Wrong cards number!")
-        self.cards = cards
+        self.cards: list[Card] = cards
 
     def add_card(self, card:Card):
         self.cards.append(card)

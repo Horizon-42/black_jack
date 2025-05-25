@@ -30,12 +30,12 @@ class Card(object):
     point = None
 
     def __init__(self, suit:Suit, rank:Rank):
-        self.suit:Suit = suit
-        self.rank:Rank = rank
-        self.point= Card.get_point(rank)
+        self.suit: Suit = suit
+        self.rank: Rank = rank
+        self.point: int = Card.get_point(rank)
     
     @staticmethod
-    def get_point(rank:Rank):
+    def get_point(rank: Rank) -> int:
         if rank == Rank.ACE:
             return 11
         elif rank in [Rank.JACK, Rank.QUEEN, Rank.KING]:

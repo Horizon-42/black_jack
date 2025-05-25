@@ -1,22 +1,31 @@
 @startuml Blackjack
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam classFontName "Arial"
+skinparam classBackgroundColor #F0F0F0
+
 class Suit {
-        __init__()
+    Spades = "♠"
+    Hearts = "♥"
+    Diamonds = "♦"
+    Clubs = "♣"
+    __init__()
 }
 class Rank {
-        __init__()
+    __init__()
 }
 class Card {
     get_point()
     __eq__()
     __str__()
-        suit : Suit 
+    suit : Suit 
     rank : Rank 
-    point
+    point : int
     __init__(suit: Suit , rank: Rank )
 }
 Enum <|-- Suit
 Enum <|-- Rank
-object <|-- Card
 Card --> Suit
 Card --> Rank
 
@@ -26,9 +35,10 @@ class Deck {
     deal_card()
     __str__()
     __len__()
-        __init__()
+    __init__()
+    cards : list[Card]
 }
-object <|-- Deck
+Deck --> Card
 
 class Hand {
     add_card()
@@ -38,30 +48,27 @@ class Hand {
     potiential_points()
     is_blackjack()
     is_bust()
+    cards: list[Card]
+    is_soft: bool
     __str__()
     __eq__()
-        is_soft
-    cards
-    is_soft
     __init__()
 }
 class PlayerHand {
     bet()
     is_initial()
-    is_initial()
+    is_initial(value: bool )
     doubled()
     add_bet()
     mark_as_doubled()
     has_pair()
     split()
-        __bet
-    __doubled
-    __is_initial
-    __is_initial
-    __doubled
+    __bet: int
+    __doubled: bool
+    __is_initial: bool
     __init__()
 }
-object <|-- Hand
+' object <|-- Hand
 Hand <|-- PlayerHand
 
 class Player {
@@ -87,17 +94,17 @@ class Player {
     pay_out()
     __reset()
     __str__()
-    __id
-    __bank
-    __hand
-    __insuranced
-    __main_bet
+    __id : int
+    __bank : int
+    __hand : PlayerHand
+    __insuranced : int
+    __main_bet : int
     __init__()
 }
-object <|-- Player
+' object <|-- Player
+Player --> PlayerHand
 
 class Dealer {
-    __add_hiden_back()
     init_hand()
     hits()
     is_blackjack()
@@ -108,26 +115,33 @@ class Dealer {
     is_bust()
     reset()
     get_hiden_card()
-    __get_hand_length()
+    __add_hiden_back()
     __str__()
-        __hiden_card
-    __hand
-    __hiden_card
-    __hand
-    __hiden_card
     __init__()
+    __hiden_card:Card
+    __hand: Hand
 }
-object <|-- Dealer
+' object <|-- Dealer
+Dealer --> Hand
+Dealer --> Card
 
 class Action {
+    Stand
+    Hit
+    Split
+    Double
+    Insurance
+    __init__()
+}
+class Interaction {
     cash_in_chips()
     get_init_bet()
     get_action()
-        __init__()
+    __init__()
 }
 class State {
     __str__()
-        __dealer_hand : Hand 
+    __dealer_hand : Hand 
     __player_hand : PlayerHand 
     __init__(__dealer_hand: Hand , __player_hand: PlayerHand )
 }
@@ -143,15 +157,19 @@ class BlackJackGame {
     round()
     play()
     reset()
-    deck
-    dealer
-    player
-    __can_insure
+    deck : Deck
+    dealer : Dealer
+    player : Player
+    state_action_history : list[tuple[State, Action]]
+    __can_insure : bool
     __init__(__can_insure: bool , __can_insure: bool )
 }
 Enum <|-- Action
-object <|-- State
 State --> Hand
 State --> PlayerHand
-object <|-- BlackJackGame
+BlackJackGame --> Action
+BlackJackGame --> Deck
+BlackJackGame --> Dealer
+BlackJackGame --> Player
+BlackJackGame --> Interaction
 @enduml

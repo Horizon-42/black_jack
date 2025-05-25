@@ -1,11 +1,10 @@
 from .card import Card, Suit, Rank
 import numpy as np
 
-class Deck(object):
-    cards:list[Card]
 
+class Deck(object):
     def __init__(self, deck_num=6):
-        self.cards = [Card(suit, rank)
+        self.cards: list[Card] = [Card(suit, rank)
                       for suit in Suit for rank in Rank]*deck_num
         self.shuffle()
         self.burn_out()
