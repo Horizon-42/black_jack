@@ -32,8 +32,8 @@ class Dealer(object):
             else:
                 break
 
-    def is_black_jack(self):
-        return self.__hiden_card is None and self.__hand.is_blackjack()
+    def is_blackjack(self):
+        return self.__hiden_card is None and self.__hand and self.__hand.is_blackjack()
 
 
     def reveal_hand(self):
@@ -55,9 +55,6 @@ class Dealer(object):
         if self.__hand is None:
             raise ValueError("Dealer's hand is not initialized.")
         return self.__hand.is_bust()
-
-    def is_blackjack(self):
-        return self.__hand.is_blackjack() if self.__hand else False
 
     def reset(self):
         self.__hand = None

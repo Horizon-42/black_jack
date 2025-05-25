@@ -108,7 +108,7 @@ class BlackJackGame(object):
         insurance_reward = 0
         insurance_rate = self.player.get_insurance_rate()
         if insurance_rate > 0:
-            if self.dealer.is_black_jack():
+            if self.dealer.is_blackjack():
                 insurance_reward = insurance_rate*2
             else:
                 insurance_reward = -insurance_rate

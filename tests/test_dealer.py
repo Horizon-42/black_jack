@@ -143,18 +143,18 @@ class TestDealer(unittest.TestCase):
         dealer = Dealer()
         dealer.init_hand([self.ace_clubs, self.king_spades]) # Hidden A, Face-up K
         dealer.hits(Deck()) # Reveals hidden card, now 21
-        self.assertTrue(dealer.is_black_jack())
+        self.assertTrue(dealer.is_blackjack())
 
         # False case (not 21)
         dealer.reset()
         dealer.init_hand([self.ten_clubs, self.five_hearts]) # Hidden 10, Face-up 5
         dealer.hits(Deck())
-        self.assertFalse(dealer.is_black_jack())
+        self.assertFalse(dealer.is_blackjack())
 
         # False case (hidden card still present - before hits is called)
         dealer.reset()
         dealer.init_hand([self.ace_clubs, self.king_spades])
-        self.assertFalse(dealer.is_black_jack()) # Hidden card still exists
+        self.assertFalse(dealer.is_blackjack())  # Hidden card still exists
 
     def test_reveal_hand(self):
         dealer = Dealer()
