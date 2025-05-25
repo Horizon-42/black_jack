@@ -125,6 +125,40 @@ class TestHand(unittest.TestCase):
         self.assertEqual(hand2.points, 23)
         self.assertFalse(hand2.is_soft)  # All aces reduced, so not soft
 
+    def test_potential_points(self):
+        # Test potential points with no aces
+        hand1 = Hand([self.five_hearts, self.seven_diamonds])
+        self.assertEqual(hand1.potiential_points, [12])  # 5 + 7 = 12
+        hand1.add_card(self.ten_clubs)  # 5 + 7 + 10 = 22
+        self.assertEqual(hand1.potiential_points, [22])  # 5 + 7 + 10 = 22
+        hand1.add_card(self.two_spades)  # 5 + 7 + 10 + 2 = 24
+        self.assertEqual(hand1.potiential_points, [24])  # 5 + 7 + 10 + 2 = 24
+        hand1.add_card(self.ace_clubs)  # 5 + 7 + 10 + 2 + A(1) = 25
+        # 5 + 7 + 10 + 2 + A(1) = 25
+        self.assertEqual(hand1.potiential_points, [25])
+        hand1.add_card(self.ace_hearts)  # 5 + 7 + 10 + 2 + A(1) + A(1) = 26
+        # 5 + 7 + 10 + 2 + A(1) + A(1) = 26
+        self.assertEqual(hand1.potiential_points, [26])
+        # 5 + 7 + 10 + 2 + A(1) + A(1) + K(10) = 36
+        hand1.add_card(self.king_spades)
+        # 5 + 7 + 10 + 2 + A(1) + A(1) + K(10) = 36
+        self.assertEqual(hand1.potiential_points, [36])
+
+        hand2 = Hand([self.ace_clubs, self.five_hearts])
+        # A(11) + 5 = 16, A(1) + 5 = 6
+        self.assertEqual(hand2.potiential_points, [16, 6])
+        hand2.add_card(self.ace_clubs)
+        # A(11) + 5 + A(11) = 27, A(1) + 5 + A(1) = 7
+        self.assertEqual(hand2.potiential_points, [17, 7])
+        # A(11) + 5 + 7 = 23, A(1) + 5 + 7 = 13
+        hand2.add_card(self.seven_diamonds)
+        # A(11) + 5 + 7 = 23, A(1) + 5 + 7 = 13
+        self.assertEqual(hand2.potiential_points, [14])
+        # A(11) + 5 + 7 + A(11) = 34, A(1) + 5 + 7 + A(1) = 14
+        hand2.add_card(self.ace_hearts)
+        # A(11) + 5 + 7 + A(11) = 34, A(1) + 5 + 7 + A(1) = 14
+        self.assertEqual(hand2.potiential_points, [15])
+
     def test_is_blackjack(self):
         # True cases
         hand1 = Hand([self.ace_clubs, self.king_spades])  # A + K = 21
@@ -168,17 +202,17 @@ class TestHand(unittest.TestCase):
     def test_str(self):
         hand1 = Hand([self.ace_clubs, self.king_spades])
         self.assertEqual(
-            str(hand1), "♣A, ♠K, \nPoints: [21, 11]")
+            str(hand1), "♣A, ♠K, Points: [21, 11]")
 
         hand2 = Hand([self.five_hearts])
-        self.assertEqual(str(hand2), "♥5, \nPoints: [5]")
+        self.assertEqual(str(hand2), "♥5, Points: [5]")
 
         hand3 = Hand([self.two_spades, self.seven_diamonds])
         hand3.add_card(self.nine_clubs)
         hand3.add_card(self.seven_diamonds)
         hand3.add_card(self.nine_clubs)
         self.assertEqual(
-            str(hand3), "♠2, ♦7, ♣9, ♦7, ♣9, \nPoints: [34]")
+            str(hand3), "♠2, ♦7, ♣9, ♦7, ♣9, Points: [34]")
 
 
 if __name__ == "__main__":
