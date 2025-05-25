@@ -30,3 +30,4 @@
 |<21, insuranced|hit|lose, dlear no blackjack|-1.5
 |blackjack|stand|win|1.5
 |blackjack|stand|push|0
+
