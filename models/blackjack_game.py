@@ -3,7 +3,7 @@ from models.deck import Deck
 from models.dealer import Dealer
 from models.hand import PlayerHand, Hand
 from enum import Enum
-from models.utils import Action
+from models.utils import Action, ShowState
 
 
 
@@ -38,9 +38,6 @@ class Interaction(object):
             except ValueError:
                 pass
         return action
-
-
-
 
 
 class BlackJackGame(object):
