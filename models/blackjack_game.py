@@ -40,16 +40,7 @@ class Interaction(object):
         return action
 
 
-class ShowState(object):
-    def __init__(self, dealer_hand: Hand, player_hand: PlayerHand):
-        self.__dealer_hand: Hand = dealer_hand
-        self.__player_hand: PlayerHand = player_hand
 
-    def __str__(self):
-        res = ""
-        res += f"Dealer's hand: {self.__dealer_hand},\n"
-        res += f"Player's hand: {self.__player_hand}\n"
-        return res
 
 
 class BlackJackGame(object):
