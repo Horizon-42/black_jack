@@ -39,7 +39,8 @@ class Interaction(object):
                 pass
         return action
 
-class State(object):
+
+class ShowState(object):
     def __init__(self, dealer_hand: Hand, player_hand: PlayerHand):
         self.__dealer_hand: Hand = dealer_hand
         self.__player_hand: PlayerHand = player_hand
@@ -71,8 +72,8 @@ class BlackJackGame(object):
         self.player.init_hand([cards[0], cards[2]], bet)
         self.dealer.init_hand([cards[1], cards[3]])
 
-    def _get_state(self) -> State:
-        return State(dealer_hand=self.dealer.get_hand(),
+    def _get_state(self) -> ShowState:
+        return ShowState(dealer_hand=self.dealer.get_hand(),
                      player_hand=self.player.get_hand())
 
     def _print_final_state(self):
