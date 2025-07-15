@@ -3,14 +3,8 @@ from models.deck import Deck
 from models.dealer import Dealer
 from models.hand import PlayerHand, Hand
 from enum import Enum
+from models.utils import Action
 
-
-class Action(Enum):
-    Stand = 0  # -> done with this hand
-    Hit = 1  # -> hit or stand
-    Split = 2  # -> hit, stand or possible split again
-    Double = 3  # -> done with this hand
-    Insurance = 4  # Insurance -> hit or stand
 
 
 class Interaction(object):
