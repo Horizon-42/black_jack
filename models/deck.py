@@ -6,18 +6,18 @@ class Deck(object):
     def __init__(self, deck_num=6):
         self.cards: list[Card] = [Card(suit, rank)
                       for suit in Suit for rank in Rank]*deck_num
-        self.shuffle()
-        self.burn_out()
-
-    def shuffle(self):
-        np.random.shuffle(self.cards)
-
-    def burn_out(self):
-        # delete the top card
-        del self.cards[0]
+        self.__shuffle()
+        self.__burn_out()
 
     def deal_card(self):
         return self.cards.pop(0)
+
+    def __shuffle(self):
+        np.random.shuffle(self.cards)
+
+    def __burn_out(self):
+        # delete the top card
+        del self.cards[0]
 
     def __str__(self):
         res = ""

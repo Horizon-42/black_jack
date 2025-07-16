@@ -1,29 +1,191 @@
-from .blackjack_game import BlackJackGame
 from .agent import Agent
 from .deck import Deck
 from .hand import PlayerHand, Hand
 from .dealer import Dealer
+from .card import Card, Rank, Suit
+from .utils import BaseState
+
+from enum import Enum
+from random import choice, choices
+from itertools import product
+
+import logging
 
 
-class Dojo(BlackJackGame):
+class StartMode:
+    SHUFFLE = "SHUFFLE"
+    Exploring = "Exploring"
+
+# TODO put back, card counting
+
+
+class Dojo:
     """
-    The Dojo class is a specialized version of the BlackJackGame that allows for
-    training agents in a controlled environment.
+    The Dojo class is responsible for managing the training environment for the agent.
     """
 
     def __init__(self, agent: Agent):
-        super().__init__()
         self.agent = agent
-        self.agent.episode_state_action_history = []
-        self.agent.episode_return = 0
+        self.agent.clear_episode_history()
 
-    def reset(self):
-        """
-        Reset the game state for a new episode.
-        """
+        # deck initialization
         self.deck = Deck(6)
-        self.__init_player()
+
+        # init dealer
         self.dealer = Dealer()
-        self.__init_hands()
-        self.agent.episode_state_action_history.clear()
-        self.agent.episode_return = 0
+
+    def train_exploring_starts(self, episodes: int = -1):
+        """
+        Train the agent using exploring starts.
+        This method generates a set of starting hands and trains the agent on them.
+        """
+        starts = self.__generate_exploring_starts()
+        if episodes != -1:
+            starts = starts[:episodes]
+        logging.info(
+            f"Training with exploring starts, running total {len(starts)} episodes...")
+        for i, start_cards in enumerate(starts):
+            self.__refill_deck()
+
+            self.agent.clear_episode_history()
+            self.agent.set_bank_amount(1e10)  # reset bank amount
+
+            self.dealer.reset()
+
+            self.__init_hands(start_cards)
+
+            # run the game until the player has no hands left
+            while not self.agent.is_all_done():
+                if self.agent.get_hand().points >= 21:
+                    self.agent.done_with_hand()
+                    continue
+                self.agent.play(self.__build_current_state(), self.deck)
+
+            self.dealer.hits(self.deck)
+
+            # compute the reward
+            reward = self.__compute_reward()
+            self.agent.set_episode_return(reward)
+            logging.info(
+                f"Episode {i} finished with reward {reward}")
+            self.agent.learn_exploring_starts()
+
+    def train(self, episodes: int = 1000, start_mode: str = StartMode.Exploring):
+        """
+        Train the agent for a given number of episodes.
+        :param episodes: Number of training episodes.
+        :param deck_init_mode: Mode to initialize the deck.
+        """
+        if start_mode == StartMode.Exploring:
+            self.train_exploring_starts(episodes)
+        else:
+            pass
+
+    # ============================== Helper methods ==============================
+
+    def __generate_exploring_starts(self):
+        delear_up_cards: list[Card] = [
+            Card(choice([suit for suit in Suit]), rank) for rank in Rank]
+
+        # agent cards
+        # have useable ace
+        player_first_cards = [Card(choice([suit for suit in Suit]), Rank.ACE)]
+        # second card can be any rank, maximum sum 21, two aces count as 12
+        player_second_cards = [Card(choice([suit for suit in Suit]), rank)
+                               for rank in Rank]
+
+        start_cards = []
+        for delar_card, player_first_card, player_second_card in product(
+                delear_up_cards, player_first_cards, player_second_cards):
+            start_cards.append(
+                (player_first_card, player_second_card, delar_card))
+
+        # have pair
+        player_first_cards = [
+            Card(choice([suit for suit in Suit]), rank) for rank in Rank]
+        for player_first_card, delar_card in product(
+                player_first_cards, delear_up_cards):
+            start_cards.append(
+                (player_first_card, player_first_card, delar_card))
+
+        # have no useable ace, no pair
+        player_first_cards = [Card(choice([suit for suit in Suit]), rank)
+                              for rank in Rank if rank != Rank.ACE]
+        player_second_cards = player_first_cards.copy()
+        for player_first_card, player_second_card, delar_card in product(
+                player_first_cards, player_second_cards, delear_up_cards):
+            if player_first_card.rank != player_second_card.rank:
+                start_cards.append(
+                    (player_first_card, player_second_card, delar_card))
+
+        # expand 100 times
+        start_cards = start_cards * 2
+        return start_cards
+
+    def __init_hands(self, start_cards: tuple[Card, Card, Card]):
+        """
+        Initialize the player and dealer hands with the given start cards.
+        """
+        self.agent.init_hand(
+            [start_cards[0], start_cards[1]], 1)
+        self.dealer.init_hand(
+            [start_cards[2], Card(choice([suit for suit in Suit]), choice([rank for rank in Rank]))])
+
+    def __build_current_state(self) -> BaseState:
+        """
+        Build the base state from the current player and dealer hands.
+        """
+        return BaseState(
+            player_sum=self.agent.get_hand().points,
+            dealer_card=self.dealer.get_face_point(),
+            usible_ace=self.agent.get_hand().is_soft,
+            splitable=self.agent.has_pair()
+        )
+
+    def __refill_deck(self):
+        """
+        Refill the deck if it is empty.
+        """
+        if len(self.deck.cards) < 30:
+            self.deck = Deck(6)
+            logging.info("Deck refilled.")
+
+    def __get_hand_reward(self, player_hand: PlayerHand) -> float:
+        main_bet_reward = 0
+        # blackjack
+        if player_hand.is_blackjack():
+            if self.dealer.is_blackjack():
+                main_bet_reward = 0
+            else:
+                main_bet_reward = 1.5
+        elif self.dealer.is_blackjack():
+            main_bet_reward = -1
+        # bust
+        elif player_hand.is_bust():
+            main_bet_reward = -1
+        # win
+        elif self.dealer.is_bust():
+            main_bet_reward = 1
+        elif player_hand.points > self.dealer.reveal_hand():
+            main_bet_reward = 1
+        # lose
+        elif player_hand.points < self.dealer.reveal_hand():
+            main_bet_reward = -1
+        # push
+        elif player_hand.points == self.dealer.reveal_hand():
+            main_bet_reward = 0
+        # double
+        if player_hand.doubled:
+            main_bet_reward *= 2
+        return main_bet_reward
+
+    def __compute_reward(self):
+        """
+        Compute the reward
+        """
+        player_hands = self.agent.get_all_hands()
+        rewards = [self.__get_hand_reward(hand) for hand in player_hands]
+        # disable insurance
+        rewards.append(0)
+        self.agent.pay_out(rewards)
+        return sum(rewards)

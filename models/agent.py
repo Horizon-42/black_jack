@@ -1,19 +1,21 @@
 # Record the S, A, R sequence
 # compute the Reward using discount rate G or simple sum of all future rewards
 import numpy as np
-from player import Player
-from utils import Action, State
+from .player import Player
+from .utils import Action, BaseState
+from .deck import Deck
 
+import logging
 
 class Agent(Player):
     """
     Smart player that can learn policies
     """
 
-    def __init__(self, name: str, bank: float = 1e100):
-        super().__init__(name, bank)
+    def __init__(self, id: int, bank: float = 1e100):
+        super().__init__(id, bank)
 
-        self.policy: dict[State, Action] = {}  # state -> action mapping
+        self.policy: dict[BaseState, Action] = {}  # state -> action mapping
         self.Q: dict[tuple, float] = {}  # state-action -> value mapping
         # state-action -> count mapping, count how many times the agent has taken this action in this state
         self.state_action_count: dict[tuple, int] = {}
@@ -22,11 +24,20 @@ class Agent(Player):
         self.episode_state_action_history = []
         self.episode_return = 0  # Since we only have rewards at the end state
 
-    def play(self, state: State, possible_actions: list[Action]) -> Action:
+    def clear_episode_history(self):
+        """
+        Clear the episode history.
+        This is called at the end of each episode.
+        """
+        self.episode_state_action_history.clear()
+        self.episode_return = 0
+
+    def play(self, state: BaseState, deck: Deck) -> Action:
         """
         Play the game with the given state.
         Choose an action based on the policy or explore.
         """
+        possible_actions = self.__get_possible_actions(state)
         if state not in self.policy:
             # If we don't have a policy, choose a random action
             action = possible_actions[np.random.randint(len(possible_actions))]
@@ -35,6 +46,24 @@ class Agent(Player):
             action = self.policy[state]
 
         self.episode_state_action_history.append((state, action))
+
+        # Transition to the next state based on the action
+        if action == Action.Stand:
+            pass
+        elif action == Action.Hit:
+            self.hit(deck.deal_card())
+        elif action == Action.Double:
+            self.double(deck.deal_card())
+        elif action == Action.Split:
+            self.split()
+        elif action == Action.Insurance:
+            self.insurance()
+        else:
+            raise ValueError("Invalid action")
+
+        logging.debug(
+            f"Agent Chose action {action} in state {state}")
+
         return action
 
     def set_episode_return(self, reward: float):
@@ -68,3 +97,12 @@ class Agent(Player):
             # Update the policy
             self.policy[state] = max(self.Q.items(), key=lambda x: x[1])[
                 0] if state in self.policy else action
+
+    # ============================== Helper methods ==============================
+    def __get_possible_actions(self, state: BaseState) -> list[Action]:
+        actions = [Action.Stand, Action.Hit]
+        if state.splitable:
+            actions.append(Action.Split)
+        if self.can_double():
+            actions.append(Action.Double)
+        return actions

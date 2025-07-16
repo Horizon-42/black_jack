@@ -9,8 +9,9 @@ class Action(Enum):
     Double = 3  # -> done with this hand
     Insurance = 4  # Insurance -> hit or stand
 
-@dataclass
-class State:
+
+@dataclass(frozen=True)
+class BaseState:
     player_sum: int
     dealer_card: int
     usible_ace: bool
@@ -28,9 +29,10 @@ class ShowState(object):
         res += f"Player's hand: {self.__player_hand}\n"
         return res
 
-    def get_state(self) -> State:
+    def get_state(self) -> BaseState:
         player_sum = self.__player_hand.points
+        usable_ace = self.__player_hand.is_soft
+        splitable = self.__player_hand.has_pair()
+
         dealer_card = self.__dealer_hand.cards[0].point
-        usable_ace = self.__player_hand.has_usable_ace()
-        splitable = self.__player_hand.can_split()
-        return State(player_sum, dealer_card, usable_ace, splitable)
+        return BaseState(player_sum, dealer_card, usable_ace, splitable)

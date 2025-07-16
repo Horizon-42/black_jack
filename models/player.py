@@ -31,6 +31,9 @@ class Player(object):
     def get_bank_amount(self):
         return self.__bank
 
+    def set_bank_amount(self, amount: int):
+        self.__bank = amount
+
     def get_insurance_amount(self):
         return self.__insuranced
 
@@ -39,7 +42,7 @@ class Player(object):
             return False
         return self.__hand.has_pair()
 
-    # action methods
+    # action methods ===============================================
     def stand(self):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
