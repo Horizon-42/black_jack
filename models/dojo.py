@@ -176,14 +176,15 @@ class Dojo:
         # have no useable ace, no pair
         player_first_cards = [Card(choice([suit for suit in Suit]), rank)
                               for rank in Rank if rank != Rank.ACE]
-        player_second_cards = player_first_cards.copy()
+        player_second_cards = [Card(choice([suit for suit in Suit]), rank)
+                               for rank in Rank if rank != Rank.ACE]
         for player_first_card, player_second_card, delar_card in product(
                 player_first_cards, player_second_cards, delear_up_cards):
-            if player_first_card.rank != player_second_card.rank:
-                start_cards.append(
-                    (player_first_card, player_second_card, delar_card))
+            start_cards.append(
+                (player_first_card, player_second_card, delar_card))
 
-        return start_cards
+        # remove duplicates
+        return list(set(start_cards))
 
     def __build_current_state(self) -> BaseState:
         """
@@ -247,3 +248,4 @@ class Dojo:
         rewards.append(0)
         self.agent.pay_out(rewards)
         return sum(rewards)
+

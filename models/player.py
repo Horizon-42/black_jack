@@ -88,7 +88,7 @@ class Player(object):
             raise ValueError("Player's hand is not initialized!")
         return self.__hand.has_pair() and self.__bank >= self.__hand.bet and self.__split_num > 0
 
-    def split(self):
+    def split(self, card1: Card, card2: Card):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
         if not self.__hand.has_pair():
@@ -96,7 +96,12 @@ class Player(object):
         if self.__bank < self.__hand.bet:
             raise ValueError("Don't have enough chips!!!")
 
-        self.__splited_hands.append(self.__hand.split())
+        # Add card to 2
+        splited_hand = self.__hand.split()
+        splited_hand.add_card(card1)
+        self.__hand.add_card(card2)
+
+        self.__splited_hands.append(splited_hand)
         self.__bank -= self.__hand.bet
         self.__split_num -= 1
 

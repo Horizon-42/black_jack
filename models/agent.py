@@ -8,6 +8,7 @@ import pickle
 
 import logging
 import os
+from collections import defaultdict
 
 class Agent(Player):
     """
@@ -19,9 +20,10 @@ class Agent(Player):
         self.name = name
 
         self.policy: dict[BaseState, Action] = {}  # state -> action mapping
-        self.Q: dict[tuple, float] = {}  # state-action -> value mapping
+        self.Q: dict[tuple, float] = defaultdict(
+            float)  # state-action -> Q value mapping
         # state-action -> count mapping, count how many times the agent has taken this action in this state
-        self.state_action_count: dict[tuple, int] = {}
+        self.state_action_count: dict[tuple, int] = defaultdict(int)
 
         # record the state-action pairs for each episode
         self.episode_state_action_history = []
@@ -58,7 +60,7 @@ class Agent(Player):
         elif action == Action.Double:
             self.double(deck.deal_card())
         elif action == Action.Split:
-            self.split()
+            self.split(deck.deal_card(), deck.deal_card())
         elif action == Action.Insurance:
             self.insurance()
         else:
@@ -87,15 +89,9 @@ class Agent(Player):
         for state, action in self.episode_state_action_history[::-1]:
             if (state, action) in first_visit:
                 continue
+            first_visit.add((state, action))
             # Update the state-action count
-            if (state, action) not in self.state_action_count:
-                self.state_action_count[(state, action)] = 0
             self.state_action_count[(state, action)] += 1
-
-            # Update the Q value
-            if (state, action) not in self.Q:
-                self.Q[(state, action)] = 0.0
-
             # Update the Q value using the return
             self.Q[(state, action)] += (self.episode_return -
                                         self.Q[(state, action)]) / self.state_action_count[(state, action)]
@@ -119,6 +115,6 @@ class Agent(Player):
         save_dir = f"results/agent_{self.name}/"
         os.makedirs(save_dir, exist_ok=True)
         with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
-            pickle.dump(self.policy, f)
+            pickle.dump(dict(self.policy), f)
         with open(os.path.join(save_dir, "Q.pkl"), "wb") as f:
-            pickle.dump(self.Q, f)
+            pickle.dump(dict(self.Q), f)

@@ -49,6 +49,9 @@ class Card(object):
             return False
         return self.suit == other.suit and self.rank == other.rank
 
+    def __hash__(self):
+        return hash((self.suit, self.rank))
+
     def __str__(self):
         return f"{self.suit.value}{self.rank.value}"
 

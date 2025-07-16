@@ -4,7 +4,7 @@ from models.dealer import Dealer
 from models.hand import PlayerHand, Hand
 from enum import Enum
 from models.utils import Action, ShowState
-
+from models.card import Card, Suit, Rank
 
 
 class Interaction(object):
@@ -43,12 +43,18 @@ class Interaction(object):
 class BlackJackGame(object):
     def __init__(self):
         self.deck = Deck(6)
+        self.__add_splitable_init()
         self.__init_player()
         self.dealer = Dealer()
         self.__init_hands()
         self.__can_insure: bool = True
 
         self.state_action_history = []
+
+    def __add_splitable_init(self):
+        self.deck.cards.insert(0, Card(Suit.Clubs, Rank.TEN))
+        self.deck.cards.insert(2, Card(Suit.Clubs, Rank.TEN))
+
 
     def __init_player(self):
         bank = Interaction.cash_in_chips()
@@ -137,7 +143,7 @@ class BlackJackGame(object):
         elif action == Action.Double:
             self.player.double(self.deck.deal_card())
         elif action == Action.Split:
-            self.player.split()
+            self.player.split(self.deck.deal_card(), self.deck.deal_card())
         elif action == Action.Insurance:
             self.player.insurance()
         else:
