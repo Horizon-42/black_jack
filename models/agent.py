@@ -55,13 +55,25 @@ class Agent(Player):
         self.current_hand_history = EpisodeHistory([], 0)
         self.all_histories = []
 
-    def play(self, state: BaseState, deck: Deck) -> Action:
+    def first_play(self, state: BaseState, init_action: Action, deck: Deck) -> bool:
+        possible_actions = self.__get_possible_actions(state)
+        if state not in self.state_action_space:
+            self.state_action_space[state] = set(possible_actions)
+        if init_action not in possible_actions:
+            return False
+
+        self.__play(state, init_action, deck)
+
+        return True
+
+    def play(self, state: BaseState, deck: Deck):
         """
         Play the game with the given state.
         Choose an action based on the policy or explore.
         """
         possible_actions = self.__get_possible_actions(state)
-        self.state_action_space[state] |= set(possible_actions)
+        if state not in self.state_action_space:
+            self.state_action_space[state] = set(possible_actions)
 
         if state not in self.policy:
             # If we don't have a policy, choose a random action
@@ -70,30 +82,11 @@ class Agent(Player):
             # Otherwise, follow the policy
             action = self.policy[state]
 
-        self.current_hand_history.state_action_history.append((state, action))
+        self.__play(state, action, deck)
 
-        # Transition to the next state based on the action
-        if action == Action.Stand:
-            self.stand()
-        elif action == Action.Hit:
-            self.hit(deck.deal_card())
-        elif action == Action.Double:
-            self.double(deck.deal_card())
-        elif action == Action.Split:
-            self.split(deck.deal_card(), deck.deal_card())
-        elif action == Action.Insurance:
-            self.insurance()
-        else:
-            raise ValueError("Invalid action")
 
-        logging.debug(
-            f"Agent Chose action {action} in state {state}")
 
-        # judge if hit 21 or bust
-        if not self.is_all_done() and self.get_hand().points >= 21:
-            self.done_with_hand()
 
-        return action
 
     def set_episodes_return(self, rewards: list[float]):
         """
@@ -170,6 +163,34 @@ class Agent(Player):
         if self.can_double():
             actions.append(Action.Double)
         return actions
+
+    def __play(self, state: BaseState, action: Action, deck: Deck):
+        """
+        Add state action pair to history, then run action
+        """
+        self.current_hand_history.state_action_history.append(
+            (state, action))
+        # Transition to the next state based on the action
+        if action == Action.Stand:
+            self.stand()
+        elif action == Action.Hit:
+            self.hit(deck.deal_card())
+        elif action == Action.Double:
+            self.double(deck.deal_card())
+        elif action == Action.Split:
+            self.split(deck.deal_card(), deck.deal_card())
+        elif action == Action.Insurance:
+            self.insurance()
+        else:
+            raise ValueError("Invalid action")
+
+        logging.debug(
+            f"Agent Chose action {action} in state {state}")
+
+        # judge if hit 21 or bust
+        if not self.is_all_done() and self.get_hand().points >= 21:
+            self.done_with_hand()
+
 
     def __del__(self):
         logging.info(f"Saving agent policy and Q values to disk")

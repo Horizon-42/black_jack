@@ -3,7 +3,7 @@ from .deck import Deck
 from .hand import PlayerHand, Hand
 from .dealer import Dealer
 from .card import Card, Rank, Suit, get_random_card
-from .utils import BaseState
+from .utils import BaseState, Action
 
 from enum import Enum
 from random import choice, choices
@@ -41,9 +41,9 @@ class Dojo:
         """
         starts = self.__generate_exploring_starts()
         # TODO should make sure state action pairs all be explorated
-        if episodes > len(starts):
-            starts = starts * (episodes // len(starts)) + \
-                starts[:episodes % len(starts)]
+        # if episodes > len(starts):
+        #     starts = starts * (episodes // len(starts)) + \
+        #         starts[:episodes % len(starts)]
         logging.info(
             f"Training with exploring starts, running total {len(starts)} episodes...")
 
@@ -51,7 +51,8 @@ class Dojo:
         win_rate = 0
         sub_episode_count = 0  # related to split
 
-        for i, start_cards in enumerate(starts):
+        i = 0
+        for start_cards, start_action in starts:
             self.__refill_deck()
 
             self.agent.clear_episode_history()
@@ -60,7 +61,10 @@ class Dojo:
             self.dealer.reset()
 
             self.__init_hands(
-                [start_cards[0], get_random_card(),  start_cards[1], start_cards[2]])
+                [start_cards[0], get_random_card(), start_cards[1], start_cards[2]])
+            self.agent.first_play(
+                self.__build_current_state(), start_action, self.deck)
+            i += 1
 
             # run the game until the player has no hands left
             while not self.agent.is_all_done():
@@ -208,6 +212,8 @@ class Dojo:
 
 
     def __generate_exploring_starts(self):
+        start_state_actions: list[tuple[tuple, Action]] = []
+
         delear_up_cards: list[Card] = [
             Card(choice([suit for suit in Suit]), rank) for rank in Rank]
 
@@ -218,32 +224,43 @@ class Dojo:
         player_second_cards = [Card(choice([suit for suit in Suit]), rank)
                                for rank in Rank]
 
-        start_cards = []
-        for delar_card, player_first_card, player_second_card in product(
-                delear_up_cards, player_first_cards, player_second_cards):
-            start_cards.append(
-                (player_first_card, player_second_card, delar_card))
+        soft_start_cards = [(player_first_card, player_second_card, delar_card)
+                            for player_first_card, player_second_card, delar_card in product(
+            player_first_cards, player_second_cards, delear_up_cards)]
+        soft_actions = [Action.Stand, Action.Hit, Action.Double]
+        start_state_actions.extend(
+            [(state, action) for state, action in product(soft_start_cards, soft_actions)])
 
         # have pair
         player_first_cards = [
             Card(choice([suit for suit in Suit]), rank) for rank in Rank]
-        for player_first_card, delar_card in product(
-                player_first_cards, delear_up_cards):
-            start_cards.append(
-                (player_first_card, player_first_card, delar_card))
+        split_cards = [(player_first_card, player_first_card, delar_card)
+                       for player_first_card, delar_card in product(player_first_cards, delear_up_cards)]
+        ten_points_cards = [Card(choice([suit for suit in Suit]), rank) for rank in [
+            Rank.TEN, Rank.JACK, Rank.KING, Rank.QUEEN]]
+        split_cards.extend([(player_1st_card, player_2ed_card, dealer_card)
+                           for player_1st_card, player_2ed_card, dealer_card
+                           in product(ten_points_cards, ten_points_cards, delear_up_cards)])
+        split_actions = [Action.Split, Action.Stand, Action.Hit, Action.Double]
+
+        start_state_actions.extend(
+            [(state, action) for state, action in product(split_cards, split_actions)])
+
 
         # have no useable ace, no pair
         player_first_cards = [Card(choice([suit for suit in Suit]), rank)
                               for rank in Rank if rank != Rank.ACE]
         player_second_cards = [Card(choice([suit for suit in Suit]), rank)
                                for rank in Rank if rank != Rank.ACE]
-        for player_first_card, player_second_card, delar_card in product(
-                player_first_cards, player_second_cards, delear_up_cards):
-            start_cards.append(
-                (player_first_card, player_second_card, delar_card))
+        hard_cards = [(player_first_card, player_second_card, delar_card) for
+                      player_first_card, player_second_card, delar_card in product(
+            player_first_cards, player_second_cards, delear_up_cards)]
+        hard_actions = [Action.Stand, Action.Hit, Action.Double]
+        start_state_actions.extend(
+            [(state, action) for state, action in product(hard_cards, hard_actions)])
 
         # remove duplicates
-        return list(set(start_cards))
+        return start_state_actions
 
     def __build_current_state(self) -> BaseState:
         """
