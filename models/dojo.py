@@ -12,7 +12,7 @@ from itertools import product
 import logging
 
 
-class LearnMode:
+class LearnMode(Enum):
     MCES = "MCES"
     MCE = "MCE"  # exploring with epsilon greedy
 

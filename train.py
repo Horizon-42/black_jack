@@ -6,11 +6,13 @@ import logging
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    agent = Agent(name="MCES10", bank=10000)
+    learn_mode = LearnMode.MCES
+
+    agent = Agent(name=f"{learn_mode.name}11", bank=10000)
     dojo = Dojo(agent)
 
     # Train the agent with exploring starts
-    dojo.train(episodes=100000, start_mode=LearnMode.MCES, epsilon=0.03)
+    dojo.train(episodes=100000, start_mode=learn_mode, epsilon=0.03)
     print("Training completed.")
 
     avg_rwd, avg_win_rate = dojo.test(episodes=10000)
