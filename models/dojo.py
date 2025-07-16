@@ -12,9 +12,9 @@ from itertools import product
 import logging
 
 
-class StartMode:
-    SHUFFLE = "SHUFFLE"
-    Exploring = "Exploring"
+class LearnMode:
+    MCES = "MCES"
+    MCE = "MCE"  # exploring with epsilon greedy
 
 # TODO put back, card counting
 
@@ -40,6 +40,7 @@ class Dojo:
         This method generates a set of starting hands and trains the agent on them.
         """
         starts = self.__generate_exploring_starts()
+        # TODO should make sure state action pairs all be explorated
         if episodes > len(starts):
             starts = starts * (episodes // len(starts)) + \
                 starts[:episodes % len(starts)]
@@ -86,18 +87,68 @@ class Dojo:
             f"Training finished, total episodes:{sub_episode_count}, average reward: {avg_reward}, win rate: {win_rate}.")
         return avg_reward, win_rate
 
-    def train(self, episodes: int = 1000, start_mode: str = StartMode.Exploring):
+    def train_exploring_greedy(self, episodes: int, epsilon: float = 0.001):
+        """
+        Train the agent using exploring starts.
+        This method generates a set of starting hands and trains the agent on them.
+        """
+        logging.info(
+            f"Training MC epsilon greedy, running total {episodes} episodes...")
+
+        avg_reward = 0
+        win_rate = 0
+        sub_episode_count = 0  # related to split
+
+        for i in range(episodes):
+            self.__refill_deck()
+
+            self.agent.clear_episode_history()
+            self.agent.set_bank_amount(1e10)  # reset bank amount
+
+            self.dealer.reset()
+
+            self.__init_hands(
+                [self.deck.deal_card() for _ in range(4)])
+
+            # run the game until the player has no hands left
+            while not self.agent.is_all_done():
+                self.agent.play(self.__build_current_state(), self.deck)
+
+            self.dealer.hits(self.deck)
+
+            # compute the rewards, insurance are ignored
+            rewards = self.__compute_reward()
+            self.agent.set_episodes_return(rewards)
+
+            sub_episode_count += len(rewards)
+            avg_reward += sum(rewards)
+            win_rate += sum(1 for r in rewards if r > 0)
+
+            logging.info(
+                f"Episode {i} finished with rewards {rewards}")
+            self.agent.learn_epsilon_greedy(epsilon)
+
+        avg_reward /= sub_episode_count
+        win_rate /= sub_episode_count
+
+        logging.info(
+            f"Training finished, total episodes:{sub_episode_count}, average reward: {avg_reward}, win rate: {win_rate}.")
+        return avg_reward, win_rate
+
+    def train(self, episodes: int = 1000, start_mode: LearnMode = LearnMode.MCES, epsilon=0.001):
         """
         Train the agent for a given number of episodes.
         :param episodes: Number of training episodes.
         :param deck_init_mode: Mode to initialize the deck.
         """
-        if start_mode == StartMode.Exploring:
+        if start_mode == LearnMode.MCES:
             self.train_exploring_starts(episodes)
+        elif start_mode == LearnMode.MCE:
+            self.train_exploring_greedy(episodes, epsilon)
         else:
             pass
 
-    def test(self, episodes: int = 1000):
+    def test(self, episodes: int = 1000, verbose=False):
         """
         Test the agent for a given number of episodes.
         :param episodes: Number of testing episodes.
@@ -123,8 +174,15 @@ class Dojo:
                     continue
                 self.agent.play(self.__build_current_state(), self.deck)
             self.dealer.hits(self.deck)
+            if verbose:
+                self.__print_final_state()
+
             # compute the reward
             rewards = self.__compute_reward()
+            if verbose:
+                print(f"Gain reward:{sum(rewards)}")
+                print("=======================")
+
             sub_episode_count += len(rewards)
             avg_reward += sum(rewards)
             win_rate += sum(1 for r in rewards if r > 0)
@@ -250,3 +308,9 @@ class Dojo:
         self.agent.pay_out(rewards)
         return rewards[:-1]
 
+    def __print_final_state(self):
+        print("\nFinal state:")
+        print("Dealer's hand:", self.dealer.get_hand())
+        print("Player's hands:")
+        for hand in self.agent.get_all_hands():
+            print(hand)

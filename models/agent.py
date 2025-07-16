@@ -10,6 +10,7 @@ import logging
 import os
 from collections import defaultdict
 from dataclasses import dataclass
+from random import choice
 
 
 @dataclass
@@ -28,10 +29,13 @@ class Agent(Player):
         self.name = name
 
         self.policy: dict[BaseState, Action] = {}  # state -> action mapping
-        self.Q: dict[tuple, float] = defaultdict(
-            float)  # state-action -> Q value mapping
+        self.Q: dict[BaseState, dict[Action, float]
+                     ] = defaultdict(lambda: defaultdict(float))
         # state-action -> count mapping, count how many times the agent has taken this action in this state
-        self.state_action_count: dict[tuple, int] = defaultdict(int)
+        self.state_action_count: dict[BaseState,
+                                      dict[Action, int]] = defaultdict(lambda: defaultdict(int))
+        self.state_action_space: dict[BaseState,
+                                      list[Action]] = defaultdict(set)
 
         # record the state-action pairs for each episode
         self.current_hand_history: EpisodeHistory = EpisodeHistory([], 0)
@@ -57,9 +61,11 @@ class Agent(Player):
         Choose an action based on the policy or explore.
         """
         possible_actions = self.__get_possible_actions(state)
+        self.state_action_space[state] |= set(possible_actions)
+
         if state not in self.policy:
             # If we don't have a policy, choose a random action
-            action = possible_actions[np.random.randint(len(possible_actions))]
+            action = choice(possible_actions)
         else:
             # Otherwise, follow the policy
             action = self.policy[state]
@@ -100,29 +106,63 @@ class Agent(Player):
 
     def learn_exploring_starts(self):
         # Use first-visit Monte Carlo method to update the policy
+
+        # iterate over the state-action pairs in the episode
+        # run the iteration in reverse order to compute the return
+        for history in self.all_histories:
+            state_action_histroy = history.state_action_history
+            episode_return = history.terminal_return
+            first_vist = set()
+            for state, action in state_action_histroy:
+                if (state, action) in first_vist:
+                    continue
+                first_vist.add((state, action))
+                # Update the state-action count
+                self.state_action_count[state][action] += 1
+                # Update the Q value using the return
+                self.Q[state][action] += (episode_return -
+                                          self.Q[state][action]) / self.state_action_count[state][action]
+
+                # Update the policy, equal to argmax_a Q(s, a)
+                if state not in self.policy or self.Q[state][action] > self.Q[state][self.policy[state]]:
+                    self.policy[state] = action
+                # if state not in self.policy:
+                #     self.policy[state] = action
+                # else:
+                # self.policy[state] = self.__get_max_q_acion(state)
+
+    def learn_epsilon_greedy(self, epsilon=0.01):
+        # Use first-visit Monte Carlo method to update the policy
         # Because we have split hands, we may meet the same state-action pair multiple times in an episode
 
         # iterate over the state-action pairs in the episode
         # run the iteration in reverse order to compute the return
-        first_visit = set()  # to keep track of the first visit state-action pairs
         for history in self.all_histories:
             state_action_histroy = history.state_action_history
             episode_return = history.terminal_return
+            first_visit = set()  # to keep track of the first visit state-action pairs
             for state, action in state_action_histroy:
                 if (state, action) in first_visit:
                     continue
                 first_visit.add((state, action))
                 # Update the state-action count
-                self.state_action_count[(state, action)] += 1
+                self.state_action_count[state][action] += 1
                 # Update the Q value using the return
-                self.Q[(state, action)] += (episode_return -
-                                            self.Q[(state, action)]) / self.state_action_count[(state, action)]
+                self.Q[state][action] += (episode_return -
+                                          self.Q[state][action]) / self.state_action_count[state][action]
 
-                # Update the policy, equal to argmax_a Q(s, a)
-                if state not in self.policy or self.Q[(state, action)] > self.Q[(state, self.policy[state])]:
-                    self.policy[state] = action
+                greedy_action = self.__get_max_q_acion(state)
+
+                if np.random.rand() < (1-epsilon):
+                    self.policy[state] = greedy_action
+                else:
+                    self.policy[state] = choice(
+                        list(self.state_action_space[state]))
 
     # ============================== Helper methods ==============================
+    def __get_max_q_acion(self, state: BaseState):
+        return max(self.Q[state].items(), key=lambda item: item[1])[0]
+
     def __get_possible_actions(self, state: BaseState) -> list[Action]:
         actions = [Action.Stand, Action.Hit]
         if state.splitable:
@@ -139,4 +179,7 @@ class Agent(Player):
         with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
             pickle.dump(dict(self.policy), f)
         with open(os.path.join(save_dir, "Q.pkl"), "wb") as f:
+            self.Q = dict(self.Q)
+            for k in self.Q:
+                self.Q[k] = dict(self.Q[k])
             pickle.dump(dict(self.Q), f)
