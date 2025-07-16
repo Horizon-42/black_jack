@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     learn_mode = LearnMode.MCES
 
-    agent = Agent(name=f"{learn_mode.name}11", bank=10000)
+    agent = Agent(name=f"{learn_mode.name}12", bank=10000)
     dojo = Dojo(agent)
 
     # Train the agent with exploring starts

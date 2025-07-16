@@ -40,10 +40,6 @@ class Dojo:
         This method generates a set of starting hands and trains the agent on them.
         """
         starts = self.__generate_exploring_starts()
-        # TODO should make sure state action pairs all be explorated
-        # if episodes > len(starts):
-        #     starts = starts * (episodes // len(starts)) + \
-        #         starts[:episodes % len(starts)]
         logging.info(
             f"Training with exploring starts, running total {len(starts)} episodes...")
 

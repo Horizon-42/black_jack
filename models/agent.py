@@ -85,9 +85,6 @@ class Agent(Player):
         self.__play(state, action, deck)
 
 
-
-
-
     def set_episodes_return(self, rewards: list[float]):
         """
         Set the return for the current episode.
