@@ -9,7 +9,6 @@ class Action(Enum):
     Double = 3  # -> done with this hand
     Insurance = 4  # Insurance -> hit or stand
 
-
 @dataclass(frozen=True)
 class BaseState:
     player_sum: int
