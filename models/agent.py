@@ -9,6 +9,14 @@ import pickle
 import logging
 import os
 from collections import defaultdict
+from dataclasses import dataclass
+
+
+@dataclass
+class EpisodeHistory:
+    state_action_history: list[tuple]
+    terminal_return: float
+
 
 class Agent(Player):
     """
@@ -26,16 +34,22 @@ class Agent(Player):
         self.state_action_count: dict[tuple, int] = defaultdict(int)
 
         # record the state-action pairs for each episode
-        self.episode_state_action_history = []
-        self.episode_return = 0  # Since we only have rewards at the end state
+        self.current_hand_history: EpisodeHistory = EpisodeHistory([], 0)
+        self.all_histories: list[EpisodeHistory] = []
+
+    def done_with_hand(self):
+        super().done_with_hand()
+        # deal with episode history
+        self.all_histories.append(self.current_hand_history)
+        self.current_hand_history = EpisodeHistory([], 0)
 
     def clear_episode_history(self):
         """
         Clear the episode history.
         This is called at the end of each episode.
         """
-        self.episode_state_action_history.clear()
-        self.episode_return = 0
+        self.current_hand_history = EpisodeHistory([], 0)
+        self.all_histories = []
 
     def play(self, state: BaseState, deck: Deck) -> Action:
         """
@@ -50,7 +64,7 @@ class Agent(Player):
             # Otherwise, follow the policy
             action = self.policy[state]
 
-        self.episode_state_action_history.append((state, action))
+        self.current_hand_history.state_action_history.append((state, action))
 
         # Transition to the next state based on the action
         if action == Action.Stand:
@@ -69,15 +83,20 @@ class Agent(Player):
         logging.debug(
             f"Agent Chose action {action} in state {state}")
 
+        # judge if hit 21 or bust
+        if not self.is_all_done() and self.get_hand().points >= 21:
+            self.done_with_hand()
+
         return action
 
-    def set_episode_return(self, reward: float):
+    def set_episodes_return(self, rewards: list[float]):
         """
         Set the return for the current episode.
         This is called at the end of the episode.
         Win 1, lose -1, draw 0.
         """
-        self.episode_return = reward
+        for i, reward in enumerate(rewards):
+            self.all_histories[i].terminal_return = reward
 
     def learn_exploring_starts(self):
         # Use first-visit Monte Carlo method to update the policy
@@ -86,19 +105,22 @@ class Agent(Player):
         # iterate over the state-action pairs in the episode
         # run the iteration in reverse order to compute the return
         first_visit = set()  # to keep track of the first visit state-action pairs
-        for state, action in self.episode_state_action_history[::-1]:
-            if (state, action) in first_visit:
-                continue
-            first_visit.add((state, action))
-            # Update the state-action count
-            self.state_action_count[(state, action)] += 1
-            # Update the Q value using the return
-            self.Q[(state, action)] += (self.episode_return -
-                                        self.Q[(state, action)]) / self.state_action_count[(state, action)]
+        for history in self.all_histories:
+            state_action_histroy = history.state_action_history
+            episode_return = history.terminal_return
+            for state, action in state_action_histroy:
+                if (state, action) in first_visit:
+                    continue
+                first_visit.add((state, action))
+                # Update the state-action count
+                self.state_action_count[(state, action)] += 1
+                # Update the Q value using the return
+                self.Q[(state, action)] += (episode_return -
+                                            self.Q[(state, action)]) / self.state_action_count[(state, action)]
 
-            # Update the policy, equal to argmax_a Q(s, a)
-            if state not in self.policy or self.Q[(state, action)] > self.Q[(state, self.policy[state])]:
-                self.policy[state] = action
+                # Update the policy, equal to argmax_a Q(s, a)
+                if state not in self.policy or self.Q[(state, action)] > self.Q[(state, self.policy[state])]:
+                    self.policy[state] = action
 
     # ============================== Helper methods ==============================
     def __get_possible_actions(self, state: BaseState) -> list[Action]:

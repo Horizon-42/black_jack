@@ -13,4 +13,4 @@ if __name__ == "__main__":
     dojo.train(episodes=100000, start_mode=StartMode.Exploring)
     print("Training completed.")
 
-    avg_rwd, avg_win_rate, avg_lose_rate = dojo.test(episodes=1000)
+    avg_rwd, avg_win_rate = dojo.test(episodes=1000)

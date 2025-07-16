@@ -45,9 +45,11 @@ class Dojo:
                 starts[:episodes % len(starts)]
         logging.info(
             f"Training with exploring starts, running total {len(starts)} episodes...")
+
         avg_reward = 0
         win_rate = 0
-        lose_rate = 0
+        sub_episode_count = 0  # related to split
+
         for i, start_cards in enumerate(starts):
             self.__refill_deck()
 
@@ -61,31 +63,28 @@ class Dojo:
 
             # run the game until the player has no hands left
             while not self.agent.is_all_done():
-                if self.agent.get_hand().points >= 21:
-                    self.agent.done_with_hand()
-                    continue
                 self.agent.play(self.__build_current_state(), self.deck)
 
             self.dealer.hits(self.deck)
 
-            # compute the reward
-            reward = self.__compute_reward()
-            avg_reward += reward
-            win_rate += 1 if reward > 0 else 0
-            lose_rate += 1 if reward < 0 else 0
+            # compute the rewards, insurance are ignored
+            rewards = self.__compute_reward()
+            self.agent.set_episodes_return(rewards)
 
-            self.agent.set_episode_return(reward)
+            sub_episode_count += len(rewards)
+            avg_reward += sum(rewards)
+            win_rate += sum(1 for r in rewards if r > 0)
+
             logging.info(
-                f"Episode {i} finished with reward {reward}")
+                f"Episode {i} finished with rewards {rewards}")
             self.agent.learn_exploring_starts()
 
-        avg_reward /= len(starts)
-        win_rate /= len(starts)
-        lose_rate /= len(starts)
+        avg_reward /= sub_episode_count
+        win_rate /= sub_episode_count
 
         logging.info(
-            f"Training finished, average reward: {avg_reward}, win rate: {win_rate}, lose rate: {lose_rate}")
-        return avg_reward, win_rate, lose_rate
+            f"Training finished, total episodes:{sub_episode_count}, average reward: {avg_reward}, win rate: {win_rate}.")
+        return avg_reward, win_rate
 
     def train(self, episodes: int = 1000, start_mode: str = StartMode.Exploring):
         """
@@ -106,7 +105,7 @@ class Dojo:
         logging.info(f"Testing agent for {episodes} episodes...")
         avg_reward = 0
         win_rate = 0
-        lose_rate = 0
+        sub_episode_count = 0
 
         for _ in range(episodes):
             self.__refill_deck()
@@ -125,15 +124,17 @@ class Dojo:
                 self.agent.play(self.__build_current_state(), self.deck)
             self.dealer.hits(self.deck)
             # compute the reward
-            reward = self.__compute_reward()
-            avg_reward += reward
-            win_rate += 1 if reward > 0 else 0
-            lose_rate += 1 if reward < 0 else 0
+            rewards = self.__compute_reward()
+            sub_episode_count += len(rewards)
+            avg_reward += sum(rewards)
+            win_rate += sum(1 for r in rewards if r > 0)
+
+        avg_reward /= sub_episode_count
+        win_rate /= sub_episode_count
 
         logging.info(
-            f"Testing finished, average reward: {avg_reward / episodes}, win rate: {win_rate / episodes}, lose rate: {lose_rate / episodes}")
-        return avg_reward / episodes, win_rate / episodes, lose_rate / episodes
-
+            f"Testing finished, total episodes:{sub_episode_count}, average reward: {avg_reward}, win rate: {win_rate}.")
+        return avg_reward, win_rate
 
 
     # ============================== Helper methods ==============================
@@ -247,5 +248,5 @@ class Dojo:
         # disable insurance
         rewards.append(0)
         self.agent.pay_out(rewards)
-        return sum(rewards)
+        return rewards[:-1]
 
