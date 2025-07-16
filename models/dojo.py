@@ -2,7 +2,7 @@ from .agent import Agent
 from .deck import Deck
 from .hand import PlayerHand, Hand
 from .dealer import Dealer
-from .card import Card, Rank, Suit
+from .card import Card, Rank, Suit, get_random_card
 from .utils import BaseState
 
 from enum import Enum
@@ -29,7 +29,7 @@ class Dojo:
         self.agent.clear_episode_history()
 
         # deck initialization
-        self.deck = Deck(6)
+        self.deck = Deck(8)
 
         # init dealer
         self.dealer = Dealer()
@@ -40,10 +40,14 @@ class Dojo:
         This method generates a set of starting hands and trains the agent on them.
         """
         starts = self.__generate_exploring_starts()
-        if episodes != -1:
-            starts = starts[:episodes]
+        if episodes > len(starts):
+            starts = starts * (episodes // len(starts)) + \
+                starts[:episodes % len(starts)]
         logging.info(
             f"Training with exploring starts, running total {len(starts)} episodes...")
+        avg_reward = 0
+        win_rate = 0
+        lose_rate = 0
         for i, start_cards in enumerate(starts):
             self.__refill_deck()
 
@@ -52,7 +56,8 @@ class Dojo:
 
             self.dealer.reset()
 
-            self.__init_hands(start_cards)
+            self.__init_hands(
+                [start_cards[0], get_random_card(),  start_cards[1], start_cards[2]])
 
             # run the game until the player has no hands left
             while not self.agent.is_all_done():
@@ -65,10 +70,22 @@ class Dojo:
 
             # compute the reward
             reward = self.__compute_reward()
+            avg_reward += reward
+            win_rate += 1 if reward > 0 else 0
+            lose_rate += 1 if reward < 0 else 0
+
             self.agent.set_episode_return(reward)
             logging.info(
                 f"Episode {i} finished with reward {reward}")
             self.agent.learn_exploring_starts()
+
+        avg_reward /= len(starts)
+        win_rate /= len(starts)
+        lose_rate /= len(starts)
+
+        logging.info(
+            f"Training finished, average reward: {avg_reward}, win rate: {win_rate}, lose rate: {lose_rate}")
+        return avg_reward, win_rate, lose_rate
 
     def train(self, episodes: int = 1000, start_mode: str = StartMode.Exploring):
         """
@@ -81,7 +98,55 @@ class Dojo:
         else:
             pass
 
+    def test(self, episodes: int = 1000):
+        """
+        Test the agent for a given number of episodes.
+        :param episodes: Number of testing episodes.
+        """
+        logging.info(f"Testing agent for {episodes} episodes...")
+        avg_reward = 0
+        win_rate = 0
+        lose_rate = 0
+
+        for _ in range(episodes):
+            self.__refill_deck()
+
+            self.agent.clear_episode_history()
+            self.agent.set_bank_amount(1e10)
+            self.dealer.reset()
+
+            # deal initial cards
+            self.__init_hands([self.deck.deal_card() for _ in range(4)])
+            # run the game until the player has no hands left
+            while not self.agent.is_all_done():
+                if self.agent.get_hand().points >= 21:
+                    self.agent.done_with_hand()
+                    continue
+                self.agent.play(self.__build_current_state(), self.deck)
+            self.dealer.hits(self.deck)
+            # compute the reward
+            reward = self.__compute_reward()
+            avg_reward += reward
+            win_rate += 1 if reward > 0 else 0
+            lose_rate += 1 if reward < 0 else 0
+
+        logging.info(
+            f"Testing finished, average reward: {avg_reward / episodes}, win rate: {win_rate / episodes}, lose rate: {lose_rate / episodes}")
+        return avg_reward / episodes, win_rate / episodes, lose_rate / episodes
+
+
+
     # ============================== Helper methods ==============================
+
+    def __init_hands(self, cards: list[Card]):
+        """
+        Initialize the player and dealer hands with the given start cards.
+        """
+        self.agent.init_hand(
+            [cards[0], cards[2]], 1)
+        self.dealer.init_hand(
+            [cards[1], cards[3]])
+
 
     def __generate_exploring_starts(self):
         delear_up_cards: list[Card] = [
@@ -118,18 +183,7 @@ class Dojo:
                 start_cards.append(
                     (player_first_card, player_second_card, delar_card))
 
-        # expand 100 times
-        start_cards = start_cards * 2
         return start_cards
-
-    def __init_hands(self, start_cards: tuple[Card, Card, Card]):
-        """
-        Initialize the player and dealer hands with the given start cards.
-        """
-        self.agent.init_hand(
-            [start_cards[0], start_cards[1]], 1)
-        self.dealer.init_hand(
-            [start_cards[2], Card(choice([suit for suit in Suit]), choice([rank for rank in Rank]))])
 
     def __build_current_state(self) -> BaseState:
         """
@@ -140,7 +194,7 @@ class Dojo:
                 player_sum=self.agent.get_hand().points,
                 dealer_card=self.dealer.get_face_point(),
                 usible_ace=self.agent.get_hand().is_soft,
-                splitable=self.agent.has_pair()
+                splitable=self.agent.can_split()
             )
         except ValueError as e:
             logging.error(f"Error building state: {e}")
@@ -151,7 +205,7 @@ class Dojo:
         Refill the deck if it is empty.
         """
         if len(self.deck.cards) < 30:
-            self.deck = Deck(6)
+            self.deck = Deck(8)
             logging.info("Deck refilled.")
 
     def __get_hand_reward(self, player_hand: PlayerHand) -> float:

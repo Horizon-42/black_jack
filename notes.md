@@ -5,3 +5,8 @@ Need Distribution of next events.
 ## Monte Carlo with Exploring States
 
 ## Monte Carlo On Policy
+
+
+# Enviroment
+## Split
+Max split num 4

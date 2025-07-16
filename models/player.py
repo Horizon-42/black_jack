@@ -11,8 +11,12 @@ class Player(object):
         self.__bank = bank_money
 
         self.__hand = None
-        self.__splited_hands = []
         self.__all_hands = []
+
+        # split related
+        self.__split_num = 4  # max split hands
+        self.__splited_hands = []
+
 
         self.__insuranced = 0
         self.__main_bet = 0
@@ -79,6 +83,11 @@ class Player(object):
             raise ValueError("Player's hand is not initialized!")
         return self.__hand.is_initial and self.__bank >= self.__hand.bet
 
+    def can_split(self):
+        if self.__hand is None:
+            raise ValueError("Player's hand is not initialized!")
+        return self.__hand.has_pair() and self.__bank >= self.__hand.bet and self.__split_num > 0
+
     def split(self):
         if self.__hand is None:
             raise ValueError("Player's hand is not initialized!")
@@ -89,6 +98,7 @@ class Player(object):
 
         self.__splited_hands.append(self.__hand.split())
         self.__bank -= self.__hand.bet
+        self.__split_num -= 1
 
 
     def insurance(self):
@@ -172,6 +182,7 @@ class Player(object):
         self.__all_hands = []
         self.__insuranced = 0
         self.__main_bet = 0
+        self.__split_num = 4
 
     def __str__(self):
         return f"Player {self.__id}, has {self.__bank} chips left,\n play hand {self.__hand},\n main bet: {self.get_bet()}, insurance: {self.__insuranced}"

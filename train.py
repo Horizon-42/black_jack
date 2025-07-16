@@ -4,11 +4,13 @@ from models.utils import Action, BaseState
 import logging
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
-    agent = Agent(name="MCES", bank=10000)
+    agent = Agent(name="MCES3", bank=10000)
     dojo = Dojo(agent)
 
     # Train the agent with exploring starts
-    dojo.train(episodes=-1, start_mode=StartMode.Exploring)
+    dojo.train(episodes=1000000, start_mode=StartMode.Exploring)
     print("Training completed.")
+
+    avg_rwd, avg_win_rate, avg_lose_rate = dojo.test(episodes=1000)

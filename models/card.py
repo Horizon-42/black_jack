@@ -1,4 +1,5 @@
 from enum import Enum
+from random import choice
 
 
 class Suit(Enum):
@@ -52,7 +53,8 @@ class Card(object):
         return f"{self.suit.value}{self.rank.value}"
 
 
-
+def get_random_card():
+    return Card(choice([suit for suit in Suit]), choice([rank for rank in Rank]))
 
 
 

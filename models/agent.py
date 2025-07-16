@@ -7,6 +7,7 @@ from .deck import Deck
 import pickle
 
 import logging
+import os
 
 class Agent(Player):
     """
@@ -77,12 +78,15 @@ class Agent(Player):
         self.episode_return = reward
 
     def learn_exploring_starts(self):
-        # Because we won't have same state-action pairs in the episode,
-        # the first visit and the every visit will be the same.
+        # Use first-visit Monte Carlo method to update the policy
+        # Because we have split hands, we may meet the same state-action pair multiple times in an episode
 
         # iterate over the state-action pairs in the episode
         # run the iteration in reverse order to compute the return
+        first_visit = set()  # to keep track of the first visit state-action pairs
         for state, action in self.episode_state_action_history[::-1]:
+            if (state, action) in first_visit:
+                continue
             # Update the state-action count
             if (state, action) not in self.state_action_count:
                 self.state_action_count[(state, action)] = 0
@@ -112,7 +116,9 @@ class Agent(Player):
     def __del__(self):
         logging.info(f"Saving agent policy and Q values to disk")
         # Save the policy and Q values to disk using pickle
-        with open(f"agent_{self.name}_policy.pkl", "wb") as f:
+        save_dir = f"results/agent_{self.name}/"
+        os.makedirs(save_dir, exist_ok=True)
+        with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
             pickle.dump(self.policy, f)
-        with open(f"agent_{self.name}_Q.pkl", "wb") as f:
+        with open(os.path.join(save_dir, "Q.pkl"), "wb") as f:
             pickle.dump(self.Q, f)
