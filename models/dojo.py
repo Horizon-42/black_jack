@@ -208,7 +208,7 @@ class Dojo:
         """
         if len(self.deck.cards) < 30:
             self.deck = Deck(8)
-            logging.info("Deck refilled.")
+            logging.debug("Deck refilled.")
 
     def __get_hand_reward(self, player_hand: PlayerHand) -> float:
         main_bet_reward = 0
@@ -243,8 +243,8 @@ class Dojo:
         """
         Compute the reward
         """
-        player_hands = self.agent.get_all_hands()
-        rewards = [self.__get_hand_reward(hand) for hand in player_hands]
+        rewards = [self.__get_hand_reward(hand)
+                   for hand in self.agent.get_all_hands()]
         # disable insurance
         rewards.append(0)
         self.agent.pay_out(rewards)

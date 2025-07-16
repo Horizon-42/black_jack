@@ -2,6 +2,7 @@ from .card import Card, Suit, Rank
 from .hand import PlayerHand
 from .deck import Deck
 
+MAX_SPLIT_NUM = 3
 
 class Player(object):
     def __init__(self, id: int, bank_money: int):
@@ -14,7 +15,7 @@ class Player(object):
         self.__all_hands = []
 
         # split related
-        self.__split_num = 4  # max split hands
+        self.__split_num = MAX_SPLIT_NUM  # max split hands
         self.__splited_hands = []
 
 
@@ -187,7 +188,7 @@ class Player(object):
         self.__all_hands = []
         self.__insuranced = 0
         self.__main_bet = 0
-        self.__split_num = 4
+        self.__split_num = 3
 
     def __str__(self):
         return f"Player {self.__id}, has {self.__bank} chips left,\n play hand {self.__hand},\n main bet: {self.get_bet()}, insurance: {self.__insuranced}"
