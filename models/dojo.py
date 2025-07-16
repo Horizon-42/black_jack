@@ -135,12 +135,16 @@ class Dojo:
         """
         Build the base state from the current player and dealer hands.
         """
-        return BaseState(
-            player_sum=self.agent.get_hand().points,
-            dealer_card=self.dealer.get_face_point(),
-            usible_ace=self.agent.get_hand().is_soft,
-            splitable=self.agent.has_pair()
-        )
+        try:
+            return BaseState(
+                player_sum=self.agent.get_hand().points,
+                dealer_card=self.dealer.get_face_point(),
+                usible_ace=self.agent.get_hand().is_soft,
+                splitable=self.agent.has_pair()
+            )
+        except ValueError as e:
+            logging.error(f"Error building state: {e}")
+            raise ValueError("Cannot build state from current hands.")
 
     def __refill_deck(self):
         """

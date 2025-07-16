@@ -4,6 +4,7 @@ import numpy as np
 from .player import Player
 from .utils import Action, BaseState
 from .deck import Deck
+import pickle
 
 import logging
 
@@ -12,8 +13,9 @@ class Agent(Player):
     Smart player that can learn policies
     """
 
-    def __init__(self, id: int, bank: float = 1e100):
-        super().__init__(id, bank)
+    def __init__(self, name: str, bank: float = 1e100):
+        super().__init__(42, bank)
+        self.name = name
 
         self.policy: dict[BaseState, Action] = {}  # state -> action mapping
         self.Q: dict[tuple, float] = {}  # state-action -> value mapping
@@ -80,7 +82,7 @@ class Agent(Player):
 
         # iterate over the state-action pairs in the episode
         # run the iteration in reverse order to compute the return
-        for action, state in self.episode_state_action_history[::-1]:
+        for state, action in self.episode_state_action_history[::-1]:
             # Update the state-action count
             if (state, action) not in self.state_action_count:
                 self.state_action_count[(state, action)] = 0
@@ -94,9 +96,9 @@ class Agent(Player):
             self.Q[(state, action)] += (self.episode_return -
                                         self.Q[(state, action)]) / self.state_action_count[(state, action)]
 
-            # Update the policy
-            self.policy[state] = max(self.Q.items(), key=lambda x: x[1])[
-                0] if state in self.policy else action
+            # Update the policy, equal to argmax_a Q(s, a)
+            if state not in self.policy or self.Q[(state, action)] > self.Q[(state, self.policy[state])]:
+                self.policy[state] = action
 
     # ============================== Helper methods ==============================
     def __get_possible_actions(self, state: BaseState) -> list[Action]:
@@ -106,3 +108,11 @@ class Agent(Player):
         if self.can_double():
             actions.append(Action.Double)
         return actions
+
+    def __del__(self):
+        logging.info(f"Saving agent policy and Q values to disk")
+        # Save the policy and Q values to disk using pickle
+        with open(f"agent_{self.name}_policy.pkl", "wb") as f:
+            pickle.dump(self.policy, f)
+        with open(f"agent_{self.name}_Q.pkl", "wb") as f:
+            pickle.dump(self.Q, f)

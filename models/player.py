@@ -17,6 +17,10 @@ class Player(object):
         self.__insuranced = 0
         self.__main_bet = 0
 
+    @property
+    def id(self):
+        return self.__id
+
     def init_hand(self, cards: list[Card], bet_money: int):
         if not isinstance(cards, list) or not all(isinstance(card, Card) for card in cards):
             raise TypeError("Cards must be a list of two Card instances!")
