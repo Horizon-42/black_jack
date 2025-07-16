@@ -52,7 +52,7 @@ class Agent(Player):
 
         # Transition to the next state based on the action
         if action == Action.Stand:
-            pass
+            self.stand()
         elif action == Action.Hit:
             self.hit(deck.deal_card())
         elif action == Action.Double:
