@@ -6,9 +6,9 @@ import logging
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    learn_mode = LearnMode.MCES
+    learn_mode = LearnMode.MCE
 
-    agent = Agent(name=f"{learn_mode.name}12", bank=10000)
+    agent = Agent(name=f"{learn_mode.name}0", bank=10000)
     dojo = Dojo(agent)
 
     # Train the agent with exploring starts
