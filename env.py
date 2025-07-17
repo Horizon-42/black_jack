@@ -82,8 +82,10 @@ def is_blackjack(hand, hand_idx: int):
 
 class BlackjackEnv:
 
-    def __init__(self, given_draw_card=None):
+    def __init__(self, given_draw_card=None, enable_split: bool = False):
         self.draw_card = given_draw_card if given_draw_card else draw_card
+
+        self.__enable_split: bool = enable_split
 
     def reset(self):
         cards = [self.draw_card() for _ in range(4)]
@@ -93,16 +95,16 @@ class BlackjackEnv:
         self.finished = [False]
         self.doubled = [False]
         self.current = 0
-        return self._get_obs()
+        return self.get_state()
 
-    def _get_obs(self):
+    def get_state(self):
         hand = self.hands[self.current]
-        return (
+        return BaseState(
             sum_hand(hand),
-            self.dealer[0],
+            sum_hand([self.dealer[1]]),
             usable_ace(hand),
-            is_pair(hand) and len(self.hands) < 4,
-            len(hand) == 2
+            self.can_split(),
+            can_double(hand)
         )
 
     def step(self, action):
@@ -149,7 +151,7 @@ class BlackjackEnv:
                 self.finished.insert(self.current + 1, False)
                 self.doubled.insert(self.current + 1, False)
                 # 拆牌后不推进 current，仍然继续操作新生成的第一手
-                return self._get_obs(), 0.0, False, {}
+                return self.get_state(), 0.0, False, {}
 
         # -----------------------------
         # 切换到下一手未完成的牌
@@ -171,7 +173,7 @@ class BlackjackEnv:
         # 返回当前状态（或 dealer 阶段后最后一个手牌状态）
         # -----------------------------
 
-        return self._get_obs(), reward, done, {}
+        return self.get_state(), reward, done, {}
 
     def finish(self):
         """
@@ -211,7 +213,7 @@ class BlackjackEnv:
 
     # ====================== Utilty Functions =====================================
     def can_split(self):
-        return is_pair(self.hands[self.current]) and len(self.hands) < 4
+        return self.__enable_split and is_pair(self.hands[self.current]) and len(self.hands) < 4
 
     def get_possible_actions(self):
         res = [Action.Stand, Action.Hit]
