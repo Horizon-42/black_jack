@@ -14,6 +14,55 @@ from random import choice
 # -----------------------------
 
 
+def generate_sub_episodes_with_sp(env: BlackjackEnv, policy: dict, epsilon: float):
+    env.reset()
+    sub_episodes = []
+    state_action_space: dict[BaseState, list[Action]] = {}
+
+    for i in range(len(env.hands)):
+        env.current = i
+        hand = env.hands[i]
+        finished = env.finished[i]
+        episode = []
+
+        if is_blackjack(hand, i):
+            sub_episodes.append([])
+            continue
+
+        while not finished:
+            state = env.get_state()
+
+            possible_actions = env.get_possible_actions()
+
+            if state not in policy or np.random.rand() < epsilon:
+                action = choice(possible_actions)
+            else:
+                action = policy[state]
+
+            if state not in state_action_space:
+                state_action_space[state] = possible_actions
+
+            logging.debug(f"running...{state}, {action}")
+            episode.append((state, action))
+            next_state, _, done, _ = env.step(action)
+
+            finished = env.finished[i]
+            hand = env.hands[i]
+
+        sub_episodes.append(episode)
+
+    # 所有手牌打完后，dealer处理，返回每手 reward
+    rewards = env.finish()
+    # 对split的return进行特殊处理，每个split动作的收益是其之后所有手收益之和
+    if (len(rewards) > 1):
+        for i in range(len(rewards)-2, -1, -1):
+            rewards[i] += rewards[i+1]
+
+    logging.debug(sub_episodes)
+    logging.debug(rewards)
+    return sub_episodes, rewards, state_action_space
+
+
 def generate_sub_episodes(env: BlackjackEnv, policy: dict, epsilon: float):
     env.reset()
     sub_episodes = []
@@ -61,7 +110,7 @@ def generate_sub_episodes(env: BlackjackEnv, policy: dict, epsilon: float):
 
     logging.debug(sub_episodes)
     logging.debug(rewards)
-    return sub_episodes, rewards, state_action_space
+    return sub_episodes, rewards
 
 
 def mc_control(num_episodes=200000, epsilon=0.01):
@@ -77,7 +126,7 @@ def mc_control(num_episodes=200000, epsilon=0.01):
     win_rate = 0
     sub_episodes_count = 0
     for i in tqdm(range(num_episodes)):
-        sub_episodes, rewards, _ = generate_sub_episodes(env, policy, epsilon)
+        sub_episodes, rewards = generate_sub_episodes(env, policy, epsilon)
 
         avg_rewards += rewards[0]
         win_rate += rewards[0] > 0
@@ -110,7 +159,7 @@ def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
     sub_episodes_count = 0
 
     for i in range(num_episodes):
-        _, rewards, _ = generate_sub_episodes(
+        _, rewards = generate_sub_episodes(
             env, policy, 0)  # use optimal policy
 
         avg_rewards += rewards[0]
@@ -129,7 +178,7 @@ if __name__ == "__main__":
     import pickle
 
     env: BlackjackEnv = BlackjackEnv()
-    policy, Q = mc_control(num_episodes=300000, epsilon=0.5)
+    policy, Q = mc_control(num_episodes=300000, epsilon=0.8)
     print("Finish training.")
 
     test(env, policy, 100000)
