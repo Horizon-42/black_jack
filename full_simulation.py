@@ -1,9 +1,32 @@
 import random
 from collections import defaultdict
 from utils import plot_policy_sns
+from tqdm import tqdm
+from enum import Enum
+
+from dataclasses import dataclass
 # -----------------------------
 # Blackjack 环境（支持 Split + Double）
 # -----------------------------
+
+
+@dataclass(frozen=True)
+class BaseState:
+    player_sum: int
+    dealer_card: int
+    usible_ace: bool
+    splitable: bool
+    can_double: bool
+
+
+class Action(Enum):
+    Stand = 0  # -> done with this hand
+    Hit = 1  # -> hit or stand
+    Double = 2  # -> done with this hand
+    Split = 3  # -> hit, stand or possible split agai
+    Insurance = 4  # Insurance -> hit or stand
+
+
 
 def draw_card():
     card = random.randint(1, 13)
@@ -29,6 +52,36 @@ def score(hand):
 
 def is_pair(hand):
     return len(hand) == 2 and hand[0] == hand[1]
+
+
+def can_double(hand):
+    """
+    判断手牌是否可以 Double（加倍）。
+
+    规则常见约定：
+    - 初始两张牌才能 Double
+    - 有些赌场允许任意两张牌加倍，有些仅限特定点数范围（如 9, 10, 11）
+
+    参数:
+        hand: list[int]，玩家当前的手牌点数，如 [8, 3] 表示初始牌
+
+    返回:
+        bool: 是否可以加倍
+    """
+    if len(hand) != 2:
+        return False
+
+    total = sum(hand)
+    # 如果有A算作11再判断
+    if 1 in hand and total + 10 <= 21:
+        total += 10
+
+    # 允许加倍的总点数范围，可以根据规则定制
+    return total in range(2, 21)
+
+
+def is_blackjack(hand, hand_idx: int):
+    return hand_idx == 0 and 1 in hand and 10 in hand
 
 class BlackjackEnv:
     def reset(self):
@@ -70,21 +123,21 @@ class BlackjackEnv:
         # 动作执行
         # -----------------------------
 
-        if action == 0:  # Stand（停牌）
+        if action == Action.Stand:  # Stand（停牌）
             self.finished[self.current] = True
 
-        elif action == 1:  # Hit（要牌）
+        elif action == Action.Hit:  # Hit（要牌）
             hand.append(draw_card())
             if is_bust(hand):
                 self.finished[self.current] = True  # 若爆牌，结束当前手
 
-        elif action == 2:  # Double（双倍下注后只摸一张牌）
+        elif action == Action.Double:  # Double（双倍下注后只摸一张牌）
             if len(hand) == 2:
                 hand.append(draw_card())
                 self.finished[self.current] = True  # 不论爆不爆牌都结束
                 self.doubled[self.current] = True
 
-        elif action == 3:  # Split（拆牌）
+        elif action == Action.Split:  # Split（拆牌）
             if is_pair(hand) and len(self.hands) < 4:
                 new_hand1 = [hand[0], draw_card()]
                 new_hand2 = [hand[1], draw_card()]
@@ -140,18 +193,25 @@ class BlackjackEnv:
             self.hand_results.append(final_reward)
 
         return self.hand_results
+
+    # ====================== Utilty Functions =====================================
+    def can_split(self):
+        return is_pair(self.hands[self.current]) and len(self.hands) < 4
+
+    def get_possible_actions(self):
+        res = [Action.Stand, Action.Hit]
+        player_hand = self.hands[self.current]
+        if can_double(player_hand):
+            res.append(Action.Double)
+        if self.can_split():
+            res.append(Action.Split)
+        return res
 # -----------------------------
 # Monte Carlo with Split + Double
 # -----------------------------
 
-ACTIONS = {
-    0: "Stand",
-    1: "Hit",
-    2: "Double",
-    3: "Split"
-}
 
-def generate_sub_episodes(env:BlackjackEnv, policy, epsilon=0.1):
+def generate_sub_episodes(env: BlackjackEnv, policy, epsilon=0.01, learning=True):
     env.reset()
     sub_episodes = []
 
@@ -161,19 +221,28 @@ def generate_sub_episodes(env:BlackjackEnv, policy, epsilon=0.1):
         finished = env.finished[i]
         episode = []
 
-        while not finished:
-            state = (
-                sum_hand(hand),
-                env.dealer[0],
-                usable_ace(hand),
-                is_pair(hand) and len(env.hands) < 4,
-                len(hand) == 2
-            )
+        if is_blackjack(hand, i):
+            continue
 
-            if random.random() < epsilon or state not in policy:
-                action = random.choice([0, 1, 2, 3])
+        while not finished:
+            state = BaseState(
+                sum_hand(hand),
+                env.dealer[1],  # deal 第二张牌是明牌
+                usable_ace(hand),
+                env.can_split(),
+                can_double(hand)
+            )
+            # print(f"Current hand idx:{env.current}")
+            # print(state)
+
+            if (learning and random.random() < epsilon) or (state not in policy):
+                action = random.choice(env.get_possible_actions())
+                # print(ACTIONS[action], "chosed randomly")
             else:
                 action = policy[state]
+                # print(ACTIONS[action], "chosed by policy")
+
+            # print(ACTIONS[action])
 
             episode.append((state, action))
             next_state, _, done, _ = env.step(action)
@@ -187,19 +256,22 @@ def generate_sub_episodes(env:BlackjackEnv, policy, epsilon=0.1):
     rewards = env.finish()
     return sub_episodes, rewards
 
-def mc_control(num_episodes=200000):
-    Q = defaultdict(lambda: [0.0] * 4)
-    returns_sum = defaultdict(lambda: [0.0] * 4)
-    returns_count = defaultdict(lambda: [0] * 4)
-    policy = {}
+
+def mc_control(num_episodes=200000, epsilon=0.01):
+    Q: dict[BaseState, dict[Action, float]] = defaultdict(
+        lambda: defaultdict(float))
+    returns_sum: dict[BaseState, dict[Action, float]] = defaultdict(
+        lambda: defaultdict(float))
+    returns_count: dict[BaseState, dict[Action, int]
+                        ] = defaultdict(lambda: defaultdict(float))
+    policy: dict[BaseState, Action] = {}
 
     avg_rewards = 0
     win_rate = 0
     sub_episodes_count = 0
-    for i in range(num_episodes):
-        sub_episodes, rewards = generate_sub_episodes(env, policy)
+    for i in tqdm(range(num_episodes)):
+        sub_episodes, rewards = generate_sub_episodes(env, policy, epsilon)
 
-        print(rewards)
         avg_rewards += sum(rewards)
         win_rate +=sum(1 for r in rewards if r >0)
         sub_episodes_count+=len(rewards)
@@ -212,7 +284,8 @@ def mc_control(num_episodes=200000):
                     returns_sum[state][action] += reward
                     returns_count[state][action] += 1
                     Q[state][action] = returns_sum[state][action] / returns_count[state][action]
-                    best_action = max(range(4), key=lambda a: Q[state][a])
+                    best_action = max(
+                        Q[state], key=lambda a: Q[state][a])
                     policy[state] = best_action
 
     avg_rewards /= sub_episodes_count
@@ -220,28 +293,30 @@ def mc_control(num_episodes=200000):
     print(f"Finish {sub_episodes_count} sub episodes, avg rwd:{avg_rewards}, win_rate:{win_rate}")
     return policy, Q
 
-# -----------------------------
-# 策略可视化（仅打印部分）
-# -----------------------------
 
-def print_policy(policy):
-    print(f"{'P_sum':>6} {'D_card':>7} {'UsAce':>6} {'Split':>6} {'Double':>7} {'Action':>10}")
-    for state in sorted(policy.keys())[:50]:  # 只显示前 50 条
-        psum, dcard, usace, split, doub = state
-        action = ACTIONS[policy[state]]
-        print(f"{psum:>6} {dcard:>7} {str(usace):>6} {str(split):>6} {str(doub):>7} {action:>10}")
+def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
+    avg_rewards = 0
+    win_rate = 0
+    sub_episodes_count = 0
 
-# -----------------------------
-# Run
-# -----------------------------
+    for i in range(num_episodes):
+        _, rewards = generate_sub_episodes(
+            env, policy, learning=False)  # use optimal policy
+
+        avg_rewards += sum(rewards)
+        win_rate += sum(1 for r in rewards if r > 0)
+        sub_episodes_count += len(rewards)
+
+    avg_rewards /= sub_episodes_count
+    win_rate /= sub_episodes_count
+    print(
+        f"Finish {sub_episodes_count} sub episodes, avg rwd:{avg_rewards}, win_rate:{win_rate}")
+
 
 if __name__ == "__main__":
     env:BlackjackEnv = BlackjackEnv()
-    policy, Q = mc_control()
-    print("训练完成。示例策略如下：\n")
-    print_policy(policy)
+    policy, Q = mc_control(epsilon=0.1)
+    print("Finish training.")
 
-    # print(policy)
-
-    # plot_policy_sns(policy)
+    test(env=BlackjackEnv(), policy=policy)
 
