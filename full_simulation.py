@@ -315,7 +315,7 @@ def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
 
 if __name__ == "__main__":
     env:BlackjackEnv = BlackjackEnv()
-    policy, Q = mc_control(epsilon=0.1)
+    policy, Q = mc_control(num_episodes=300000, epsilon=0.5)
     print("Finish training.")
 
     test(env=BlackjackEnv(), policy=policy)
