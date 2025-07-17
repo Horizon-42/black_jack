@@ -102,14 +102,12 @@ def generate_exploring_starts():
     start_state_actions.extend(
         [(state, action) for state, action in product(hard_cards, hard_actions)])
 
-    # remove duplicates
     return start_state_actions
 
 def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
     
     # gernerating starts
     all_starts = generate_exploring_starts()
-    all_starts = all_starts*(num_episodes//len(all_starts)) + all_starts[:num_episodes%len(all_starts)]
 
     logging.info(f"Traing mc_exploring_starts with {len(all_starts)} starts...")
 
@@ -126,8 +124,8 @@ def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
     avg_rewards = 0
     win_rate = 0
     sub_episodes_count = 0
-    for i, start in tqdm(enumerate(all_starts)):
-
+    for _ in tqdm(range(num_episodes)):
+        start = choice(all_starts)
         sub_episodes, rewards = episodes_generator.generate_episodes_with_start(env, policy, start)
 
         avg_rewards += rewards[0]
@@ -183,13 +181,13 @@ if __name__ == "__main__":
 
     env: BlackjackEnv = BlackjackEnv()
     # policy, Q = mc_control(env, num_episodes=300000, epsilon=0.8)
-    policy, Q = mc_exploring_starts(env)
+    policy, Q = mc_exploring_starts(env, num_episodes=500000)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
-    name = "MCE5"
+    name = "MCES0"
     save_dir = f"results/agent_{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
