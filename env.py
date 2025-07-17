@@ -83,13 +83,14 @@ def is_blackjack(hand, hand_idx: int):
 
 class BlackjackEnv:
 
-    def __init__(self, given_draw_card=NormalDeck().deal_card, enable_split: bool = False):
+    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
-        self.__enable_split: bool = enable_split
+        self.__max_split_num: int = max_split_num
 
-    def reset(self):
-        cards = [self.draw_card() for _ in range(4)]
+    def reset(self, cards: list[int] = None):
+        if not cards:
+            cards = [self.draw_card() for _ in range(4)]
         self.hands = [[cards[0], cards[2]]]
         self.dealer = [cards[1], cards[3]]
 
@@ -114,16 +115,8 @@ class BlackjackEnv:
 
         参数：
             action (int): 玩家动作，0=Stand, 1=Hit, 2=Double, 3=Split
-
-        返回：
-            next_state (tuple): 当前活跃手牌的状态（或下一手牌）
-            reward (float): 当前动作产生的即时奖励（大多数情况下为 0）
-            done (bool): 整个游戏是否结束
-            info (dict): 额外信息（此处未使用，返回空字典）
         """
         hand = self.hands[self.current]
-        done = False
-        reward = 0.0
 
         # -----------------------------
         # 动作执行
@@ -152,29 +145,10 @@ class BlackjackEnv:
                 self.finished.insert(self.current + 1, False)
                 self.doubled.insert(self.current + 1, False)
                 # 拆牌后不推进 current，仍然继续操作新生成的第一手
-                return self.get_state(), 0.0, False, {}
+                return
 
-        # -----------------------------
-        # 切换到下一手未完成的牌
-        # -----------------------------
-
-        while self.current < len(self.hands) and self.finished[self.current]:
+        if self.finished[self.current]:
             self.current += 1
-
-        # -----------------------------
-        # 如果所有手牌已完成，进行庄家流程并计算最终奖励
-        # -----------------------------
-
-        if self.current >= len(self.hands):
-            done = True  # 整个 episode 完成
-            # 游戏结束，返回 None 或最后一个状态（这里选择 None）
-            return None, 0.0, True, {}
-
-        # -----------------------------
-        # 返回当前状态（或 dealer 阶段后最后一个手牌状态）
-        # -----------------------------
-
-        return self.get_state(), reward, done, {}
 
     def finish(self):
         """
@@ -214,7 +188,7 @@ class BlackjackEnv:
 
     # ====================== Utilty Functions =====================================
     def can_split(self):
-        return self.__enable_split and is_pair(self.hands[self.current]) and len(self.hands) < 4
+        return is_pair(self.hands[self.current]) and len(self.hands) < self.__max_split_num
 
     def get_possible_actions(self):
         res = [Action.Stand, Action.Hit]
