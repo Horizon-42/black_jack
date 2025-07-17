@@ -4,6 +4,8 @@ from utils import plot_policy_sns
 from tqdm import tqdm
 from enum import Enum
 
+from deck import NormalDeck
+
 from env import *
 import numpy as np
 from random import choice

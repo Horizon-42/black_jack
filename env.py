@@ -2,6 +2,7 @@ import logging
 from dataclasses import dataclass
 import logging
 
+from deck import NormalDeck
 from enum import Enum
 import random
 
@@ -82,7 +83,7 @@ def is_blackjack(hand, hand_idx: int):
 
 class BlackjackEnv:
 
-    def __init__(self, given_draw_card=None, enable_split: bool = False):
+    def __init__(self, given_draw_card=NormalDeck().deal_card, enable_split: bool = False):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
         self.__enable_split: bool = enable_split
