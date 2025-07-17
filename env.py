@@ -137,15 +137,14 @@ class BlackjackEnv:
                 self.doubled[self.current] = True
 
         elif action == Action.Split:  # Split（拆牌）
-            if is_pair(hand) and len(self.hands) < 4:
-                new_hand1 = [hand[0], draw_card()]
-                new_hand2 = [hand[1], draw_card()]
-                self.hands[self.current] = new_hand1
-                self.hands.insert(self.current + 1, new_hand2)
-                self.finished.insert(self.current + 1, False)
-                self.doubled.insert(self.current + 1, False)
-                # 拆牌后不推进 current，仍然继续操作新生成的第一手
-                return
+            new_hand1 = [hand[0], draw_card()]
+            new_hand2 = [hand[1], draw_card()]
+            self.hands[self.current] = new_hand1
+            self.hands.insert(self.current + 1, new_hand2)
+            self.finished.insert(self.current + 1, False)
+            self.doubled.insert(self.current + 1, False)
+            # 拆牌后不推进 current，仍然继续操作新生成的第一手
+            return
 
         if self.finished[self.current]:
             self.current += 1
