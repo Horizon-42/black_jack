@@ -35,8 +35,8 @@ def mc_control(env:BlackjackEnv, num_episodes=200000, epsilon=0.01):
     for i in tqdm(range(num_episodes)):
         sub_episodes, rewards = episodes_generator.generate_episodes(env, policy)
 
-        avg_rewards += rewards[0]
-        win_rate += rewards[0] > 0
+        avg_rewards += sum(rewards)
+        win_rate += sum(1 for r in rewards if r > 0)
         sub_episodes_count += len(rewards)
 
         for episode, reward in zip(sub_episodes, rewards):
@@ -86,7 +86,8 @@ def generate_exploring_starts():
     split_cards = [(player_pair_card, player_pair_card, delar_card)
                     for player_pair_card, delar_card in product(player_pair_cards, delear_up_cards)]
     
-    split_actions = [Action.Stand, Action.Hit, Action.Double]#, Action.Split] disable split temproraly
+    split_actions = [Action.Stand, Action.Hit, Action.Double,
+                     Action.Split]  # disable split temproraly
 
     start_state_actions.extend(
         [(state, action) for state, action in product(split_cards, split_actions)])
@@ -128,8 +129,8 @@ def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
         start = choice(all_starts)
         sub_episodes, rewards = episodes_generator.generate_episodes_with_start(env, policy, start)
 
-        avg_rewards += rewards[0]
-        win_rate += rewards[0] > 0
+        avg_rewards += sum(rewards)
+        win_rate += sum(1 for r in rewards if r > 0)
         sub_episodes_count += len(rewards)
 
         for episode, reward in zip(sub_episodes, rewards):
@@ -164,8 +165,8 @@ def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
         _, rewards = episodes_generator.generate_episodes(
             env, policy)  # use optimal policy
 
-        avg_rewards += rewards[0]
-        win_rate += rewards[0] > 0
+        avg_rewards += sum(rewards)
+        win_rate += sum(1 for r in rewards if r > 0)
         sub_episodes_count += len(rewards)
 
     avg_rewards /= sub_episodes_count
@@ -181,7 +182,7 @@ if __name__ == "__main__":
 
     env: BlackjackEnv = BlackjackEnv()
     # policy, Q = mc_control(env, num_episodes=300000, epsilon=0.8)
-    policy, Q = mc_exploring_starts(env, num_episodes=500000)
+    policy, Q = mc_exploring_starts(env, num_episodes=600000)
 
     print("Finish training.")
 

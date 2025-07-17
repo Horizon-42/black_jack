@@ -1,0 +1,1319 @@
+DEBUG:root:running...BaseState(player_sum=8, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [3, 5, 3, 3, 2]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=8, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=2, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [6, 2, 4, 6]
+DEBUG:root:Player's hand 0, [1, 7, 2]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=2, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 1, 1, 8, 10]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=9, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 9]
+DEBUG:root:Player's hand 0, [1, 8]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=9, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:Dealer's hand: [4, 10, 4]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [4, 10, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 10, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 4, 10, 4]
+DEBUG:root:Player's hand 0, [3, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=7, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 6, 10]
+DEBUG:root:Player's hand 0, [4, 3, 1]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=7, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [4, 10, 10]
+DEBUG:root:Player's hand 0, [8, 6, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=4, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [1, 4, 7, 7]
+DEBUG:root:Player's hand 0, [1, 4, 10]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=4, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 8]
+DEBUG:root:Player's hand 0, [4, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 2, 6, 9]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 10, 4]
+DEBUG:root:Player's hand 0, [8, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [5, 4, 4, 6]
+DEBUG:root:Player's hand 0, [10, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [3, 10, 1, 7]
+DEBUG:root:Player's hand 0, [5, 8, 4]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 5, 10, 3]
+DEBUG:root:Player's hand 0, [10, 2]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [4, 10, 6]
+DEBUG:root:Player's hand 0, [10, 3, 2, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=10, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [2, 5, 3, 7]
+DEBUG:root:Player's hand 0, [4, 6, 1]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=10, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 5, 4]
+DEBUG:root:Player's hand 0, [10, 9]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 2, 2, 4, 10]
+DEBUG:root:Player's hand 0, [3, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 10, 4]
+DEBUG:root:Player's hand 0, [7, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [3, 6, 6, 1]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [9, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=8, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 8]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=8, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=True, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [6, 10, 1]
+DEBUG:root:Player's hand 0, [5, 4, 1, 10, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=20, dealer_card=10, usible_ace=True, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=6, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=8, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=21, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [2, 4, 2, 7, 5, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=6, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=8, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=21, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [5, 10, 3]
+DEBUG:root:Player's hand 0, [10, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [5, 7, 10]
+DEBUG:root:Player's hand 0, [3, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [8, 6, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 3, 1, 4, 10]
+DEBUG:root:Player's hand 0, [2, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [5, 9, 1, 3]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 4, 9]
+DEBUG:root:Player's hand 0, [9, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=9, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 9]
+DEBUG:root:Player's hand 0, [7, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=9, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 10, 10]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 6, 9]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 3, 10]
+DEBUG:root:Player's hand 0, [7, 5]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 6, 1]
+DEBUG:root:Player's hand 0, [2, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:Dealer's hand: [1, 8]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 8, 10]
+DEBUG:root:Player's hand 0, [9, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [1, 10]
+DEBUG:root:Player's hand 0, [5, 6, 3]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=9, usible_ace=True, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=9, usible_ace=True, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [6, 9, 10]
+DEBUG:root:Player's hand 0, [1, 3, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=9, usible_ace=True, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=9, usible_ace=True, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 5, 10]
+DEBUG:root:Player's hand 0, [9, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:Dealer's hand: [2, 1, 1, 3]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [6, 3, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=10, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [7, 2, 7, 7]
+DEBUG:root:Player's hand 0, [7, 3, 6]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=10, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=9, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [2, 9, 4, 4]
+DEBUG:root:Player's hand 0, [2, 9, 5]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=9, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [5, 9, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:Dealer's hand: [7, 3, 5, 4]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=11, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 1]
+DEBUG:root:Player's hand 0, [1, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=11, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 2, 4, 4]
+DEBUG:root:Player's hand 0, [7, 4, 4]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 7, 8]
+DEBUG:root:Player's hand 0, [5, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=8, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 8, 5]
+DEBUG:root:Player's hand 0, [1, 6]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=8, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [8, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [9, 5, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=4, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 4, 10]
+DEBUG:root:Player's hand 0, [8, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=4, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [9, 3, 9]
+DEBUG:root:Player's hand 0, [10, 1]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=8, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 8]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=8, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [8, 10]
+DEBUG:root:Player's hand 0, [4, 10, 1, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 10]
+DEBUG:root:Player's hand 0, [10, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=2, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 2, 10, 4]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=2, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 5, 10]
+DEBUG:root:Player's hand 0, [10, 2]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [7, 1]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=10, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=6, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 6, 10]
+DEBUG:root:Player's hand 0, [7, 1, 6]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=6, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=4, dealer_card=6, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 6, 4, 9]
+DEBUG:root:Player's hand 0, [2, 2]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=4, dealer_card=6, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 3, 8, 10]
+DEBUG:root:Player's hand 0, [10, 6]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 10]
+DEBUG:root:Player's hand 0, [8, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=10, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [7, 10]
+DEBUG:root:Player's hand 0, [6, 4, 3]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=10, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [5, 4, 1]
+DEBUG:root:Player's hand 0, [8, 3, 8]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=6, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [8, 10]
+DEBUG:root:Player's hand 0, [4, 2, 5, 3, 5]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=6, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 6, 7, 8]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 2, 6]
+DEBUG:root:Player's hand 0, [8, 10]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 4, 10]
+DEBUG:root:Player's hand 0, [8, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=8, dealer_card=7, usible_ace=False, splitable=True, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [6, 7, 10]
+DEBUG:root:Player's hand 0, [4, 4, 4]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=8, dealer_card=7, usible_ace=False, splitable=True, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=5, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 3, 1]
+DEBUG:root:Player's hand 0, [3, 2]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=5, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=9, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 9, 10]
+DEBUG:root:Player's hand 0, [6, 7]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=9, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [5, 10, 2]
+DEBUG:root:Player's hand 0, [6, 3, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 3, 10, 2, 10]
+DEBUG:root:Player's hand 0, [7, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [7, 7, 10]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [7, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:Deck is empty, refill cards
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 4, 10]
+DEBUG:root:Player's hand 0, [5, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [5, 4, 2, 8]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [4, 10, 10]
+DEBUG:root:Player's hand 0, [3, 10, 1, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 7, 6]
+DEBUG:root:Player's hand 0, [10, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 1, 10, 4, 6]
+DEBUG:root:Player's hand 0, [10, 6]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=21, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [4, 10, 10]
+DEBUG:root:Player's hand 0, [4, 8, 1, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=21, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 6, 10]
+DEBUG:root:Player's hand 0, [10, 4]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 4, 8]
+DEBUG:root:Player's hand 0, [10, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=2, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [6, 2, 10]
+DEBUG:root:Player's hand 0, [3, 1, 10]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=2, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 3, 4, 7]
+DEBUG:root:Player's hand 0, [7, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=8, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=True, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [4, 10, 4]
+DEBUG:root:Player's hand 0, [3, 5, 1, 9]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=8, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=10, usible_ace=True, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [7, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=6, dealer_card=3, usible_ace=False, splitable=True, can_double=True), Action.Split
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 3, 8]
+DEBUG:root:Player's hand 0, [3, 10]
+DEBUG:root:Player's hand 1, [3, 8, 5]
+DEBUG:root:Final rewards:[-1.0, -2.0]
+DEBUG:root:[[(BaseState(player_sum=6, dealer_card=3, usible_ace=False, splitable=True, can_double=True), <Action.Split: 3>), (BaseState(player_sum=13, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)], [(BaseState(player_sum=11, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-3.0, -2.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=7, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [2, 7, 5, 7]
+DEBUG:root:Player's hand 0, [1, 2, 3]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=7, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=5, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 5, 3]
+DEBUG:root:Player's hand 0, [1, 2, 10]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=5, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 10, 10]
+DEBUG:root:Player's hand 0, [7, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 3, 10, 2]
+DEBUG:root:Player's hand 0, [6, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=6, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [6, 6, 9]
+DEBUG:root:Player's hand 0, [4, 1, 9]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=6, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 5, 9]
+DEBUG:root:Player's hand 0, [5, 4, 4]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 4, 3]
+DEBUG:root:Player's hand 0, [10, 4]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 4, 9]
+DEBUG:root:Player's hand 0, [8, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 6, 3]
+DEBUG:root:Player's hand 0, [7, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 6, 10]
+DEBUG:root:Player's hand 0, [7, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=7, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 2, 4, 4]
+DEBUG:root:Player's hand 0, [5, 2, 1]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=7, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [7, 1]
+DEBUG:root:Player's hand 0, [3, 10, 6, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 8]
+DEBUG:root:Player's hand 0, [10, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 6, 3, 4]
+DEBUG:root:Player's hand 0, [7, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [10, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 8, 9]
+DEBUG:root:Player's hand 0, [9, 3]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 10]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=10, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 7]
+DEBUG:root:Player's hand 0, [2, 8, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=10, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [3, 10, 3, 9]
+DEBUG:root:Player's hand 0, [6, 5, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=21, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [8, 1]
+DEBUG:root:Player's hand 0, [7, 2, 10, 2]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=21, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [10, 7]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 10, 2]
+DEBUG:root:Player's hand 0, [6, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 8, 5]
+DEBUG:root:Player's hand 0, [9, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 2, 4, 9]
+DEBUG:root:Player's hand 0, [8, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 7]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 3, 4, 5, 5]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=3, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [7, 3, 3, 10]
+DEBUG:root:Player's hand 0, [4, 1, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=3, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 7, 10]
+DEBUG:root:Player's hand 0, [6, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=7, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 7, 9]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=7, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 7, 10]
+DEBUG:root:Player's hand 0, [6, 5, 1]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=8, dealer_card=3, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 3, 1, 2]
+DEBUG:root:Player's hand 0, [4, 4]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=8, dealer_card=3, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [2, 3, 4, 10]
+DEBUG:root:Player's hand 0, [3, 6, 9]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 4, 6, 4, 1]
+DEBUG:root:Player's hand 0, [10, 4]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [8, 4, 6]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=11, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 1]
+DEBUG:root:Player's hand 0, [1, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=11, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 7, 8]
+DEBUG:root:Player's hand 0, [9, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [5, 6, 8]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=True, can_double=True), Action.Split
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 2, 10, 3, 8]
+DEBUG:root:Player's hand 0, [7, 4, 10]
+DEBUG:root:Player's hand 1, [7, 10]
+DEBUG:root:Final rewards:[2.0, 1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=True, can_double=True), <Action.Split: 3>), (BaseState(player_sum=11, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)], [(BaseState(player_sum=17, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[3.0, 1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=2, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 2, 2, 1, 5]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=2, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 6, 10]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [8, 3, 6]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 6, 10]
+DEBUG:root:Player's hand 0, [10, 4]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [4, 5, 1]
+DEBUG:root:Player's hand 0, [10, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 10, 4, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [4, 10, 10]
+DEBUG:root:Player's hand 0, [10, 4, 5]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [4, 10, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [5, 3, 8, 10]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 5, 8, 10]
+DEBUG:root:Player's hand 0, [3, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=10, usible_ace=True, splitable=True, can_double=True), Action.Split
+DEBUG:root:running...BaseState(player_sum=21, dealer_card=10, usible_ace=True, splitable=False, can_double=False), Action.Stand
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=True, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Player's hand 1, [1, 5, 10]
+DEBUG:root:Final rewards:[1.0, -1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=10, usible_ace=True, splitable=True, can_double=True), <Action.Split: 3>), (BaseState(player_sum=21, dealer_card=10, usible_ace=True, splitable=False, can_double=False), <Action.Stand: 0>)], [(BaseState(player_sum=16, dealer_card=10, usible_ace=True, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[0.0, -1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:Dealer's hand: [5, 10, 9]
+DEBUG:root:Player's hand 0, [2, 10, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 2, 6, 3]
+DEBUG:root:Player's hand 0, [10, 4]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [7, 4, 2, 1, 9]
+DEBUG:root:Player's hand 0, [6, 5, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=9, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [7, 9, 3]
+DEBUG:root:Player's hand 0, [5, 1, 10]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=9, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 8, 5, 10]
+DEBUG:root:Player's hand 0, [7, 6]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [8, 1]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=2, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 2, 8, 1, 2]
+DEBUG:root:Player's hand 0, [1, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=2, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 2, 2, 3, 10]
+DEBUG:root:Player's hand 0, [6, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [7, 10]
+DEBUG:root:Player's hand 0, [6, 5, 4]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=8, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [6, 8, 10]
+DEBUG:root:Player's hand 0, [1, 4, 6]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=8, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Split
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [7, 10]
+DEBUG:root:Player's hand 0, [9, 10]
+DEBUG:root:Player's hand 1, [9, 10]
+DEBUG:root:Final rewards:[1.0, 1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Split: 3>), (BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)], [(BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[2.0, 1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=True, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=True, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=21, dealer_card=10, usible_ace=True, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [5, 10, 10]
+DEBUG:root:Player's hand 0, [2, 1, 7, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=10, usible_ace=True, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=20, dealer_card=10, usible_ace=True, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=21, dealer_card=10, usible_ace=True, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=True, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [5, 10, 7]
+DEBUG:root:Player's hand 0, [1, 3, 9, 4]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=True, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=17, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [1, 1, 10, 7]
+DEBUG:root:Player's hand 0, [2, 10, 3, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=5, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [3, 10, 4]
+DEBUG:root:Player's hand 0, [2, 3, 10, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=5, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=9, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 9]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=9, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [6, 3, 5, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=21, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [5, 10, 7]
+DEBUG:root:Player's hand 0, [10, 2, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=21, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [8, 10]
+DEBUG:root:Player's hand 0, [1, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=4, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [2, 2, 9, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=4, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [5, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:Dealer's hand: [9, 1]
+DEBUG:root:Player's hand 0, [10, 3, 4, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=17, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 7, 6, 1, 1]
+DEBUG:root:Player's hand 0, [5, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=4, usible_ace=True, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 4, 5]
+DEBUG:root:Player's hand 0, [1, 8]
+DEBUG:root:Final rewards:[0.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=4, usible_ace=True, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[0.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [6, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [7, 10]
+DEBUG:root:Player's hand 0, [5, 4, 3, 2, 4]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=12, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [3, 10, 1, 2, 8]
+DEBUG:root:Player's hand 0, [8, 3, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 2, 2, 8, 2]
+DEBUG:root:Player's hand 0, [4, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=4, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [1, 4, 1, 4]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=4, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [4, 10, 9]
+DEBUG:root:Player's hand 0, [6, 8, 4]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=4, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 4, 8]
+DEBUG:root:Player's hand 0, [1, 5, 1]
+DEBUG:root:Final rewards:[-2.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=4, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[-2.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [9, 3, 3, 10]
+DEBUG:root:Player's hand 0, [4, 5, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [5, 6, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=2, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 2, 7]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=2, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Split
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [8, 5, 10]
+DEBUG:root:Player's hand 1, [8, 10]
+DEBUG:root:Final rewards:[-1.0, -1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Split: 3>), (BaseState(player_sum=13, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>)], [(BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-2.0, -1.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=9, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 9, 2, 6]
+DEBUG:root:Player's hand 0, [3, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=9, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:Deck is empty, refill cards
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 7, 9]
+DEBUG:root:Player's hand 0, [6, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:Dealer's hand: [2, 7, 2, 3, 5]
+DEBUG:root:Player's hand 0, [10, 1]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=7, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 7]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=7, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 8, 10]
+DEBUG:root:Player's hand 0, [9, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [6, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=16, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 10]
+DEBUG:root:Player's hand 0, [7, 2, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=10, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Hit
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [4, 1, 4]
+DEBUG:root:Player's hand 0, [3, 10, 2, 1]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=15, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Hit: 1>), (BaseState(player_sum=16, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=10, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 3, 2, 1, 4]
+DEBUG:root:Player's hand 0, [2, 8, 1]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=10, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=12, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 2, 4, 10]
+DEBUG:root:Player's hand 0, [2, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=12, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 3, 7, 2, 9]
+DEBUG:root:Player's hand 0, [10, 3]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=9, dealer_card=9, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=9, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [8, 9]
+DEBUG:root:Player's hand 0, [7, 2, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=9, dealer_card=9, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=19, dealer_card=9, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [5, 8, 10]
+DEBUG:root:Player's hand 0, [9, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=11, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 6, 2]
+DEBUG:root:Player's hand 0, [2, 9, 9]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=11, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=2, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 2, 2, 10]
+DEBUG:root:Player's hand 0, [6, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=2, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=15, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [2, 3, 7, 5]
+DEBUG:root:Player's hand 0, [10, 5]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=15, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=3, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 3, 10]
+DEBUG:root:Player's hand 0, [10, 7]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=3, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=5, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [10, 5, 1, 10]
+DEBUG:root:Player's hand 0, [3, 1, 3]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=5, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=6, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Hit
+DEBUG:root:running...BaseState(player_sum=16, dealer_card=11, usible_ace=False, splitable=False, can_double=False), Action.Stand
+DEBUG:root:Dealer's hand: [10, 1]
+DEBUG:root:Player's hand 0, [2, 4, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=6, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Hit: 1>), (BaseState(player_sum=16, dealer_card=11, usible_ace=False, splitable=False, can_double=False), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=14, dealer_card=8, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 8]
+DEBUG:root:Player's hand 0, [5, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=14, dealer_card=8, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=11, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [8, 1]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=11, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=19, dealer_card=5, usible_ace=True, splitable=False, can_double=True), Action.Double
+DEBUG:root:Dealer's hand: [1, 5, 2]
+DEBUG:root:Player's hand 0, [8, 1, 10]
+DEBUG:root:Final rewards:[2.0]
+DEBUG:root:[[(BaseState(player_sum=19, dealer_card=5, usible_ace=True, splitable=False, can_double=True), <Action.Double: 2>)]]
+DEBUG:root:[2.0]
+DEBUG:root:running...BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [3, 10, 10]
+DEBUG:root:Player's hand 0, [10, 10]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=20, dealer_card=10, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=13, dealer_card=6, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [4, 6, 5, 8]
+DEBUG:root:Player's hand 0, [10, 3]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=13, dealer_card=6, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [9, 10]
+DEBUG:root:Player's hand 0, [8, 10]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=10, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=17, dealer_card=5, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 5, 10]
+DEBUG:root:Player's hand 0, [8, 9]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=17, dealer_card=5, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=9, usible_ace=False, splitable=True, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [10, 9]
+DEBUG:root:Player's hand 0, [9, 9]
+DEBUG:root:Final rewards:[-1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=9, usible_ace=False, splitable=True, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[-1.0]
+DEBUG:root:running...BaseState(player_sum=18, dealer_card=11, usible_ace=False, splitable=False, can_double=True), Action.Stand
+DEBUG:root:Dealer's hand: [6, 1]
+DEBUG:root:Player's hand 0, [10, 8]
+DEBUG:root:Final rewards:[1.0]
+DEBUG:root:[[(BaseState(player_sum=18, dealer_card=11, usible_ace=False, splitable=False, can_double=True), <Action.Stand: 0>)]]
+DEBUG:root:[1.0]

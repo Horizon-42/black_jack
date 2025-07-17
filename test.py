@@ -7,12 +7,11 @@ from deck import BlackJackDeck
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG, filename="test.log")
 
-    deck = BlackJackDeck()
     env: BlackjackEnv = BlackjackEnv()
 
-    name = "MCE3"
+    name = "MCES0"
     save_dir = f"results/agent_{name}/"
 
     with open(f"{save_dir}/policy.pkl", "rb") as f:
@@ -20,4 +19,4 @@ if __name__ == "__main__":
     with open(f"{save_dir}/Q.pkl", "rb") as f:
         Q = pickle.load(f)
 
-    test(env=env, policy=policy, num_episodes=10000)
+    test(env=env, policy=policy, num_episodes=100)

@@ -86,7 +86,7 @@ class BlackjackEnv:
     def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
-        self.__max_split_num: int = max_split_num
+        self.__max_hands_num: int = max_split_num + 1
 
     def reset(self, cards: list[int] = None):
         if not cards:
@@ -187,8 +187,11 @@ class BlackjackEnv:
         return hand_results
 
     # ====================== Utilty Functions =====================================
+    def is_split_enable(self):
+        return self.__max_hands_num > 1
+
     def can_split(self):
-        return is_pair(self.hands[self.current]) and len(self.hands) < self.__max_split_num
+        return is_pair(self.hands[self.current]) and len(self.hands) < self.__max_hands_num
 
     def get_possible_actions(self):
         res = [Action.Stand, Action.Hit]

@@ -23,7 +23,8 @@ class EpisodesGenerator:
         Normal Generate, include greedy and e-greedy
         """
         env.reset()
-        return self.__generate_episodes(env, policy)
+        episodes, rewards = self.__generate_episodes(env, policy)
+        return self.__deal_with_split(env, episodes, rewards)
 
     def generate_episodes_with_start(self,  env: BlackjackEnv, policy: dict[BaseState, Action], state_action_start:tuple):
         start_cards, action = state_action_start
@@ -40,7 +41,7 @@ class EpisodesGenerator:
             post_episodes.append([(start_state, action)])
         else:
             post_episodes[0].insert(0, (start_state, action))
-        return post_episodes, rewards
+        return self.__deal_with_split(env, post_episodes, rewards)
 
 
     # ======================= Utility ==============================
@@ -67,7 +68,6 @@ class EpisodesGenerator:
                 # won't explore in greedy mode
                 action = self.__action_selector(state, policy, possible_actions, self.__epsilon)
 
-                logging.debug(f"running...{state}, {action}")
                 episode.append((state, action))
                 env.step(action)
 
@@ -77,14 +77,6 @@ class EpisodesGenerator:
 
         # 所有手牌打完后，dealer处理，返回每手 reward
         rewards = env.finish()
-        # 对split的return进行特殊处理，每个split动作的收益是其之后所有手收益之和
-        if (len(rewards) > 1):
-            for i in range(len(rewards)-2, -1, -1):
-                rewards[i] += rewards[i+1]
-
-
-        logging.debug(sub_episodes)
-        logging.debug(rewards)
         return sub_episodes, rewards
 
     def __random_action_select(self, state:BaseState, policy:dict[BaseState, Action], possible_actions:list[Action], ep:float):
@@ -96,3 +88,15 @@ class EpisodesGenerator:
         else:
             action = policy[state]
         return action
+
+    def __deal_with_split(self, env: BlackjackEnv, episodes: list, rewards: list[float]):
+        if not env.is_split_enable():
+            return episodes, rewards
+
+        # assume only one split allowed
+        if len(episodes) == 2:
+            episodes[1].insert(0, episodes[0][0])
+
+        logging.debug(episodes)
+        logging.debug(rewards)
+        return episodes, rewards
