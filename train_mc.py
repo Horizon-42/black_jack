@@ -36,7 +36,7 @@ def mc_control(env:BlackjackEnv, num_episodes=200000, epsilon=0.01):
         sub_episodes, rewards = episodes_generator.generate_episodes(env, policy)
 
         avg_rewards += sum(rewards)
-        win_rate += sum(1 for r in rewards if r > 0)
+        win_rate += sum(1 for r in rewards if r > 0 and r != 1.5)
         sub_episodes_count += len(rewards)
 
         for episode, reward in zip(sub_episodes, rewards):
@@ -72,11 +72,14 @@ def generate_exploring_starts():
     # have useable ace
     player_useble_ace = 1
     # second card can be any rank, maximum sum 21, two aces count as 12
-    player_second_cards = range(1, 10) # didn't count 10 in because directly lead to blackjack
+    # didn't count 10 in because directly lead to blackjack
+    player_second_cards = range(2, 10)
 
     soft_start_cards = [(player_useble_ace, player_second_card, delar_card)
                         for player_second_card, delar_card in product(player_second_cards, delear_up_cards)]
     
+    logging.debug(f"Soft start cards:{soft_start_cards}")
+
     soft_actions = [Action.Stand, Action.Hit, Action.Double]
     start_state_actions.extend(
         [(state, action) for state, action in product(soft_start_cards, soft_actions)])
@@ -85,6 +88,7 @@ def generate_exploring_starts():
     player_pair_cards = range(1, 11) # 10 all seen as one card
     split_cards = [(player_pair_card, player_pair_card, delar_card)
                     for player_pair_card, delar_card in product(player_pair_cards, delear_up_cards)]
+    logging.debug(f"Split start cards:{split_cards}")
     
     split_actions = [Action.Stand, Action.Hit, Action.Double,
                      Action.Split]  # disable split temproraly
@@ -102,6 +106,8 @@ def generate_exploring_starts():
     hard_actions = [Action.Stand, Action.Hit, Action.Double]
     start_state_actions.extend(
         [(state, action) for state, action in product(hard_cards, hard_actions)])
+
+    logging.debug(f"Hard start cards:{hard_cards}")
 
     return start_state_actions
 
@@ -130,7 +136,7 @@ def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
         sub_episodes, rewards = episodes_generator.generate_episodes_with_start(env, policy, start)
 
         avg_rewards += sum(rewards)
-        win_rate += sum(1 for r in rewards if r > 0)
+        win_rate += sum(1 for r in rewards if r > 0 and r != 1.5)
         sub_episodes_count += len(rewards)
 
         for episode, reward in zip(sub_episodes, rewards):
@@ -156,23 +162,42 @@ def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
 
 def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
     avg_rewards = 0
+
     win_rate = 0
+    black_jack_rate = 0
+    draw_rate = 0
+    loss_rate = 0
+
     sub_episodes_count = 0
 
     episodes_generator = EpisodesGenerator(0)
 
-    for i in range(num_episodes):
-        _, rewards = episodes_generator.generate_episodes(
+    for i in tqdm(range(num_episodes)):
+        episodes, rewards = episodes_generator.generate_episodes(
             env, policy)  # use optimal policy
 
         avg_rewards += sum(rewards)
-        win_rate += sum(1 for r in rewards if r > 0)
         sub_episodes_count += len(rewards)
+
+        if not episodes[0] and rewards[0] == 1.5:
+            black_jack_rate += 1
+            continue
+        win_rate += sum(1 for r in rewards if r > 0)
+        draw_rate += sum(1 for r in rewards if r == 0)
+        loss_rate += sum(1 for r in rewards if r < 0)
+
 
     avg_rewards /= sub_episodes_count
     win_rate /= sub_episodes_count
+    draw_rate /= sub_episodes_count
+    loss_rate /= sub_episodes_count
+    black_jack_rate /= sub_episodes_count
     print(
         f"Finish {sub_episodes_count} sub episodes, avg rwd:{avg_rewards}, win_rate:{win_rate}")
+
+    logging.info(f"Test finish with avg_rewards: {avg_rewards}, win_rate: {win_rate}, \
+                 black_jack_rate:{black_jack_rate}, draw_rate:{draw_rate}, loss_rate:{loss_rate}")
+    return avg_rewards, win_rate, black_jack_rate, draw_rate, loss_rate
 
 
 if __name__ == "__main__":
@@ -181,7 +206,7 @@ if __name__ == "__main__":
     import pickle
 
     env: BlackjackEnv = BlackjackEnv()
-    # policy, Q = mc_control(env, num_episodes=300000, epsilon=0.8)
+    # policy, Q = mc_control(env, num_episodes=6000000, epsilon=0.001)
     policy, Q = mc_exploring_starts(env, num_episodes=600000)
 
     print("Finish training.")

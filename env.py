@@ -78,7 +78,7 @@ def can_double(hand):
 
 
 def is_blackjack(hand, hand_idx: int):
-    return hand_idx == 0 and 1 in hand and 10 in hand
+    return hand_idx == 0 and len(hand) == 2 and 1 in hand and 10 in hand
 
 
 class BlackjackEnv:
@@ -126,19 +126,19 @@ class BlackjackEnv:
             self.finished[self.current] = True
 
         elif action == Action.Hit:  # Hit（要牌）
-            hand.append(draw_card())
+            hand.append(self.draw_card())
             if is_bust(hand):
                 self.finished[self.current] = True  # 若爆牌，结束当前手
 
         elif action == Action.Double:  # Double（双倍下注后只摸一张牌）
             if len(hand) == 2:
-                hand.append(draw_card())
+                hand.append(self.draw_card())
                 self.finished[self.current] = True  # 不论爆不爆牌都结束
                 self.doubled[self.current] = True
 
         elif action == Action.Split:  # Split（拆牌）
-            new_hand1 = [hand[0], draw_card()]
-            new_hand2 = [hand[1], draw_card()]
+            new_hand1 = [hand[0], self.draw_card()]
+            new_hand2 = [hand[1], self.draw_card()]
             self.hands[self.current] = new_hand1
             self.hands.insert(self.current + 1, new_hand2)
             self.finished.insert(self.current + 1, False)
@@ -156,7 +156,7 @@ class BlackjackEnv:
         """
 
         while sum_hand(self.dealer) < 17:
-            self.dealer.append(draw_card())
+            self.dealer.append(self.draw_card())
         dealer_score = score(self.dealer)
 
         hand_results = []
@@ -169,7 +169,7 @@ class BlackjackEnv:
                 else:
                     result = 0
 
-            if is_bust(hand):
+            elif is_bust(hand):
                 result = -1.0
             else:
                 result = float(player_score > dealer_score) - \

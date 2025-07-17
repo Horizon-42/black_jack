@@ -24,7 +24,7 @@ class NormalDeck:
         """
         从牌组顶部发一张牌。
         """
-        if len(self.deck) < 20:
+        if len(self.deck) == 0:
             logging.debug("Deck is empty, refill cards")
             self._initialize_deck()  # 如果牌发完，重新初始化牌组
 

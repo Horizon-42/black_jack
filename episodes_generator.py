@@ -28,7 +28,8 @@ class EpisodesGenerator:
 
     def generate_episodes_with_start(self,  env: BlackjackEnv, policy: dict[BaseState, Action], state_action_start:tuple):
         start_cards, action = state_action_start
-        cards = [start_cards[0], draw_card(), start_cards[1], start_cards[2]]
+        cards = [start_cards[0], env.draw_card(), start_cards[1],
+                 start_cards[2]]
         
         env.reset(cards)
         start_state = env.get_state()
