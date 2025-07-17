@@ -91,7 +91,7 @@ class BlackjackEnv:
     def reset(self):
         cards = [self.draw_card() for _ in range(4)]
         self.hands = [[cards[0], cards[2]]]
-        self.dealer = [cards[1], cards[2]]
+        self.dealer = [cards[1], cards[3]]
 
         self.finished = [False]
         self.doubled = [False]
@@ -251,17 +251,11 @@ def generate_sub_episodes(env: BlackjackEnv, policy, epsilon=0.01, learning=True
                 env.can_split(),
                 can_double(hand)
             )
-            # print(f"Current hand idx:{env.current}")
-            # print(state)
 
             if (learning and random.random() < epsilon) or (state not in policy):
                 action = random.choice(env.get_possible_actions())
-                # print(ACTIONS[action], "chosed randomly")
             else:
                 action = policy[state]
-                # print(ACTIONS[action], "chosed by policy")
-
-            # print(ACTIONS[action])
 
             episode.append((state, action))
             next_state, _, done, _ = env.step(action)
@@ -273,6 +267,8 @@ def generate_sub_episodes(env: BlackjackEnv, policy, epsilon=0.01, learning=True
 
     # 所有手牌打完后，dealer处理，返回每手 reward
     rewards = env.finish()
+    logging.debug(sub_episodes)
+    logging.debug(rewards)
     return sub_episodes, rewards
 
 
