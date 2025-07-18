@@ -540,3 +540,36 @@ INFO:root:Test finish with avg_rewards: -0.05784598708208317, double_win_rate:0.
 INFO:root:Test finish with avg_rewards: -0.023155602274131267, double_win_rate:0.023960157596747654, double_loss_rate:0.016422538139158165, win_rate: 0.3593631412663828, black_jack_rate:0.04559735168432014, draw_rate:0.08619577218680195, loss_rate:0.46747262746882284
 INFO:root:Test finish with avg_rewards: -0.05940618670056284, double_win_rate:0.022963744226896374, double_loss_rate:0.015645135191514, win_rate: 0.3441179165553799, black_jack_rate:0.04412415511396092, draw_rate:0.08681539130383925, loss_rate:0.4855392161641053
 INFO:root:Test finish with avg_rewards: -0.02298458480123745, double_win_rate:0.023995208604123658, double_loss_rate:0.016146455170845415, win_rate: 0.35977717264512893, black_jack_rate:0.04536632417204326, draw_rate:0.0855766045000696, loss_rate:0.4680864411730686
+INFO:root:Test 1000000 episodes,
+ --- Game Metrics ---
+Episodes Played: 1026194
+Blackjack Rate: 4.50%
+Win Rate: 34.51%
+Draw Rate: 8.75%
+Loss Rate: 48.39%
+Double Down Win Rate: 2.28%
+Double Down Loss Rate: 1.58%
+Average Gain per Episode: -0.06
+--------------------
+INFO:root:Test 1000000 episodes,
+ --- Game Metrics ---
+Episodes Played: 1019987
+Blackjack Rate: 4.61%
+Win Rate: 36.00%
+Draw Rate: 8.63%
+Loss Rate: 46.75%
+Double Down Win Rate: 2.40%
+Double Down Loss Rate: 1.61%
+Average Gain per Episode: -0.02
+--------------------
+INFO:root:Test 1000000 episodes,
+ --- Game Metrics ---
+Episodes Played: 1026050
+Blackjack Rate: 4.52%
+Win Rate: 34.46%
+Draw Rate: 8.70%
+Loss Rate: 48.47%
+Double Down Win Rate: 2.26%
+Double Down Loss Rate: 1.59%
+Average Gain per Episode: -0.06
+--------------------

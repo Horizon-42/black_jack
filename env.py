@@ -109,6 +109,8 @@ class BlackjackEnv:
     def reset(self, cards: list[int] = None):
         if not cards:
             cards = [self.draw_card() for _ in range(4)]
+
+        self.hand_bets = [self.get_bet_unit()]
         self.hands = [[cards[0], cards[2]]]
         self.dealer = [cards[1], cards[3]]
 
@@ -161,6 +163,7 @@ class BlackjackEnv:
             self.hands.insert(self.current + 1, new_hand2)
             self.finished.insert(self.current + 1, False)
             self.doubled.insert(self.current + 1, False)
+            self.hand_bets.insert(self.current+1, self.hand_bets[0])
             # 拆牌后不推进 current，仍然继续操作新生成的第一手
             return
 
@@ -210,3 +213,6 @@ class BlackjackEnv:
     def can_split(self):
         return is_pair(self.hands[self.current]) and len(self.hands) < self.__max_hands_num
 
+    def get_bet_unit(self):
+        # TODO compute bet unit base on total points and unseen cards
+        return 1

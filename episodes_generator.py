@@ -23,8 +23,10 @@ class EpisodesGenerator:
         Normal Generate, include greedy and e-greedy
         """
         env.reset()
-        episodes, rewards = self.__generate_episodes(env, policy)
-        return self.__deal_with_split(env, episodes, rewards)
+        episodes, rewards, bet_units = self.__generate_episodes(env, policy)
+
+        episodes, rewards = self.__deal_with_split(env, episodes, rewards)
+        return episodes, rewards, bet_units
 
     def generate_episodes_with_start(self,  env: BlackjackEnv, policy: dict[BaseState, Action], state_action_start:tuple):
         start_cards, action = state_action_start
@@ -36,13 +38,15 @@ class EpisodesGenerator:
         # process action
         env.step(action)
 
-        post_episodes, rewards = self.__generate_episodes(env, policy)
-        if not post_episodes:
+        episodes, rewards, bet_units = self.__generate_episodes(
+            env, policy)
+        if not episodes:
             # only one action episode
-            post_episodes.append([(start_state, action)])
+            episodes.append([(start_state, action)])
         else:
-            post_episodes[0].insert(0, (start_state, action))
-        return self.__deal_with_split(env, post_episodes, rewards)
+            episodes[0].insert(0, (start_state, action))
+        episodes, rewards = self.__deal_with_split(env, episodes, rewards)
+        return episodes, rewards, bet_units
 
 
     # ======================= Utility ==============================
@@ -78,7 +82,8 @@ class EpisodesGenerator:
 
         # 所有手牌打完后，dealer处理，返回每手 reward
         rewards = env.finish()
-        return sub_episodes, rewards
+        bet_units = env.hand_bets
+        return sub_episodes, rewards, bet_units
 
     def __random_action_select(self, state:BaseState, policy:dict[BaseState, Action], possible_actions:list[Action], ep:float):
         return policy.get(state, choice(possible_actions))

@@ -34,7 +34,8 @@ def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy
     win_rate = 0
     sub_episodes_count = 0
     for i in tqdm(range(num_episodes)):
-        sub_episodes, rewards = episodes_generator.generate_episodes(env, policy)
+        sub_episodes, rewards, _ = episodes_generator.generate_episodes(
+            env, policy)
 
         avg_rewards += sum(rewards)
         win_rate += sum(1 for r in rewards if r > 0 and r != 1.5)
@@ -149,7 +150,8 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
     sub_episodes_count = 0
     for _ in tqdm(range(num_episodes)):
         start = choice(all_starts)
-        sub_episodes, rewards = episodes_generator.generate_episodes_with_start(env, policy, start)
+        sub_episodes, rewards, _ = episodes_generator.generate_episodes_with_start(
+            env, policy, start)
 
         avg_rewards += sum(rewards)
         win_rate += sum(1 for r in rewards if r > 0 and r != 1.5)
