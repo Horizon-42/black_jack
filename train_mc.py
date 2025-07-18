@@ -186,18 +186,18 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    name = "MCES_WITH_BASIC"
+    name = "MCE_basic_double_all"
 
     env: BlackjackEnv = BlackjackEnv()
 
 
     basic_policy = generate_basic_strategy()
 
-    # policy, Q = mc_control(env, num_episodes=1000000,
-    #                        epsilon=0.001, init_policy=basic_policy)
+    policy, Q = mc_control(env, num_episodes=1000000,
+                           epsilon=0.001, init_policy=basic_policy)
 
-    policy, Q = mc_exploring_starts(
-        env, num_episodes=1000000, init_policy=basic_policy)
+    # policy, Q = mc_exploring_starts(
+    #     env, num_episodes=1000000, init_policy=basic_policy)
 
     print("Finish training.")
 

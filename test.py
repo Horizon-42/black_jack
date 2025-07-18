@@ -35,13 +35,13 @@ class Metric:
     def __str__(self):
         return (f"--- Game Metrics ---\n"
                 f"Episodes Played: {self.EpisodesCount}\n"
-                f"Blackjack Rate: {self.BlackjackRate:.2%}\n"
-                f"Win Rate: {self.WinRate:.2%}\n"
-                f"Draw Rate: {self.DrawRate:.2%}\n"
+                f"Blackjack Rate: {self.BlackjackRate:.4%}\n"
+                f"Win Rate: {self.WinRate:.4%}\n"
+                f"Draw Rate: {self.DrawRate:.4%}\n"
                 f"Loss Rate: {self.LossRate:.2%}\n"
-                f"Double Down Win Rate: {self.DoubleWinRate:.2%}\n"
-                f"Double Down Loss Rate: {self.DoubleLossRate:.2%}\n"
-                f"Average Gain per Episode: {self.AvgGain:.2f}\n"
+                f"Double Down Win Rate: {self.DoubleWinRate:.4%}\n"
+                f"Double Down Loss Rate: {self.DoubleLossRate:.4%}\n"
+                f"Average Gain per Episode: {self.AvgGain:.4f}\n"
                 f"--------------------")
 
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     env: BlackjackEnv = BlackjackEnv(
         given_draw_card=NormalDeck(deck_num).deal_card)
 
-    name = "MCE_WITH_BASIC"
+    name = "MCE_basic_double_all"
     save_dir = f"results/agent_{name}/"
 
     with open(f"{save_dir}/policy.pkl", "rb") as f:
