@@ -6,6 +6,7 @@ from deck import BlackJackDeck, NormalDeck
 from init_strategy import generate_basic_strategy
 from episodes_generator import EpisodesGenerator
 from tqdm import tqdm
+from matplotlib import pyplot as plt
 
 from dataclasses import dataclass
 
@@ -95,6 +96,22 @@ def test_basic_strategy(deck_num: int = 6):
     print(f"Expetation of basic strategy is {metirc.AvgGain}")
 
 
+def draw_metrics(metrics: list[Metric]):
+    # 取出平均收益
+    avg_gains = [m.AvgGain for m in metrics]
+    win_rates = [m.WinRate for m in metrics]
+    plt.figure(figsize=(10, 6))
+    # plt.plot(range(len(metrics)), avg_gains,  marker='o', linestyle='-',
+    #          color='blue', label='AvgGain per segment')
+    plt.plot(range(len(metrics)), win_rates,  marker='o', linestyle='-',
+             color='blue', label='Winrate per segment')
+    plt.title('Average Winrate over Training Segments')
+    plt.xlabel('Episodes Count')
+    plt.ylabel('Average Winrate')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -107,8 +124,8 @@ if __name__ == "__main__":
 
     env: BlackjackEnv = BlackjackEnv(
         given_draw_card=NormalDeck(deck_num).deal_card)
-
-    name = "MCE_basic_double_all"
+    name = "DoubleQLearningWithBasic"
+    # name = "MCE_basic_double_all"
     save_dir = f"results/agent_{name}/"
 
     with open(f"{save_dir}/policy.pkl", "rb") as f:

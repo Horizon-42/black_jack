@@ -5,7 +5,6 @@ import seaborn as sns
 from env import BaseState, Action
 from enum import Enum
 
-
 class ChartName(Enum):
     HardTotals = "Hard Totals"
     SoftTotals = "Soft Totals"
