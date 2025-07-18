@@ -1,6 +1,5 @@
 import random
 from collections import defaultdict
-from utils import plot_policy_sns
 from tqdm import tqdm
 from enum import Enum
 
@@ -12,20 +11,21 @@ from random import choice
 from itertools import product
 
 from episodes_generator import EpisodesGenerator
+from init_strategy import generate_basic_strategy
 
 
 # -----------------------------
 # Monte Carlo, e-greedy, with Double
 # -----------------------------
 
-def mc_control(env:BlackjackEnv, num_episodes=200000, epsilon=0.01):
+def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy: dict = {}):
     Q: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(float))
     returns_sum: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(float))
     returns_count: dict[BaseState, dict[Action, int]
                         ] = defaultdict(lambda: defaultdict(float))
-    policy: dict[BaseState, Action] = {}
+    policy: dict[BaseState, Action] = init_policy
 
     episodes_generator = EpisodesGenerator(epsilon)
 
@@ -125,7 +125,8 @@ def generate_exploring_starts():
 
     return start_state_actions
 
-def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
+
+def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_policy: dict = {}):
     
     # gernerating starts
     all_starts = generate_exploring_starts()
@@ -138,7 +139,7 @@ def mc_exploring_starts(env:BlackjackEnv, num_episodes:int = 200000):
         lambda: defaultdict(float))
     returns_count: dict[BaseState, dict[Action, int]
                         ] = defaultdict(lambda: defaultdict(float))
-    policy: dict[BaseState, Action] = {}
+    policy: dict[BaseState, Action] = init_policy
 
     episodes_generator = EpisodesGenerator(0)
 
@@ -227,13 +228,16 @@ if __name__ == "__main__":
 
     env: BlackjackEnv = BlackjackEnv()
     # policy, Q = mc_control(env, num_episodes=1000000, epsilon=0.001)
-    policy, Q = mc_exploring_starts(env, num_episodes=100000)
+
+    basic_policy = generate_basic_strategy()
+    policy, Q = mc_exploring_starts(
+        env, num_episodes=100000, init_policy=basic_policy)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
-    name = "MCES0"
+    name = "MCES_WITH_BASIC"
     save_dir = f"results/agent_{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
