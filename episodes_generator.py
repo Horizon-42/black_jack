@@ -28,6 +28,45 @@ class EpisodesGenerator:
         episodes, rewards = self.__deal_with_split(env, episodes, rewards)
         return episodes, rewards, bet_units
 
+    def generate_episodes_with_func(self, env: BlackjackEnv, policy_func):
+        env.reset()
+
+        sub_episodes = []
+
+        # hands will expand during the split
+        while env.current < len(env.hands):
+            current_id = env.current  # record current id cause it will update in step
+            hand = env.hands[current_id]
+            finished = env.finished[current_id]
+            episode = []
+
+            if is_blackjack(hand, current_id):
+                sub_episodes.append([])
+                env.current += 1  # move to next hand
+                continue
+
+            while not finished:
+                state = env.get_state()
+
+                possible_actions = get_possible_actions(state)
+
+                # won't explore in greedy mode
+                action = policy_func(state, possible_actions)
+
+                episode.append((state, action))
+                env.step(action)
+
+                finished = env.finished[current_id]
+
+            sub_episodes.append(episode)
+
+        # 所有手牌打完后，dealer处理，返回每手 reward
+        rewards = env.finish()
+        bet_units = env.hand_bets
+
+        episodes, rewards = self.__deal_with_split(env, sub_episodes, rewards)
+        return episodes, rewards, bet_units
+
     def generate_episodes_with_start(self,  env: BlackjackEnv, policy: dict[BaseState, Action], state_action_start:tuple):
         start_cards, action = state_action_start
         cards = [start_cards[0], env.draw_card(), start_cards[1],

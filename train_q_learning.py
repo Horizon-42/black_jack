@@ -29,18 +29,20 @@ def q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5, epsil
         lambda: defaultdict(lambda: 0.0))
     policy: dict[BaseState, Action] = init_policy
 
-    measure_segment = 100
-    # divide episodes to measure_segment length unit, to estimate training performance
-    evaluation_times = num_episodes//measure_segment
-    metrics:list[Metric] = [None]*evaluation_times
-    for i in tqdm(range(evaluation_times)):
+    episodes_generator = EpisodesGenerator(epsilon)
+
+    def policy_func(state: BaseState, possible_actions: list[Action]):
+        if np.random.rand() < epsilon:
+            return random.choice(possible_actions)
+        else:
+            return max(get_possible_actions(state),
+                       key=lambda a: Q[state][a])
+
+    for i in tqdm(range(num_episodes)):
         # could learn online, but use episodes generator, to deal with split more easy
         # generating use epsilon greedy
-        episodes, rewards, bet_units = generate_episodes(env, policy, epsilon, measure_segment)
-        # print(episodes)
-        # print(rewards)
-        metrics[i] = compute_episodes_metrics(episodes,rewards,bet_units)
-        metrics[i].compute_average()
+        episodes, rewards, bet_units = episodes_generator.generate_episodes_with_func(
+            env, policy_func)
 
         for episode, ep_return in zip(episodes, rewards):
             if not episode:
@@ -49,7 +51,7 @@ def q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5, epsil
                 continue 
             for t in range(len(episode)-1):
                 St, At = episode[t]
-                # Rt = ep_return # use episode return as R
+                # Rt for middle state is 0
                 Rt = 0
                 S_next, _ = episode[t+1]
                 best_next_action = max(
@@ -57,19 +59,17 @@ def q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5, epsil
                 # gamma is 1, no discount
                 Q[St][At] += alpha*(Rt + Q[S_next][best_next_action] - Q[St][At])
                 # update policy
-                policy[St] = max(Q[St], key=lambda a: Q[St][a])
             # update the last non-terminal state
             S_last, A_last = episode[-1]
             R_last = ep_return
             # q vaule of terminal is 0
-            Q[S_last][A_last] += alpha*(R_last -Q[S_last][A_last])
-            policy[S_last] =  max(Q[S_last], key=lambda a: Q[S_last][a])
+            Q[S_last][A_last] += alpha*(R_last - Q[S_last][A_last])
     
     # compute policy from Q
-    # for S in Q:
-    #     policy[S] = max(Q[S], key=lambda a: Q[S][a])
+    for S in Q:
+        policy[S] = max(Q[S], key=lambda a: Q[S][a])
 
-    return policy, Q, metrics
+    return policy, Q, None
 
 def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5, epsilon:float=0.01,init_policy: dict = {}):
     # random init
@@ -82,10 +82,18 @@ def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5
 
     episodes_generator = EpisodesGenerator(epsilon)
 
-    for i in tqdm(range(num_episodes)):
+    def policy_func(state: BaseState, possible_actions: list[Action]):
+        if np.random.rand() < epsilon:
+            return random.choice(possible_actions)
+        else:
+            return max(get_possible_actions(state),
+                       key=lambda a: Q1[state][a]+Q2[state][a])
+
+    for _ in tqdm(range(num_episodes)):
         # could learn online, but use episodes generator, to deal with split more easy
         # generating use epsilon greedy
-        episodes, rewards, _ = episodes_generator.generate_episodes(env, policy)
+        episodes, rewards, _ = episodes_generator.generate_episodes_with_func(
+            env, policy_func)
 
         for episode, ep_return in zip(episodes, rewards):
             if not episode:
@@ -107,7 +115,6 @@ def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5
                             get_possible_actions(S_next), key=lambda a: Q2[S_next][a])
                     Q2[St][At] += alpha*(Rt + Q1[S_next][best_next_action] - Q2[St][At])
                 # update policy
-                policy[St] = max(get_possible_actions(St), key=lambda a: Q1[St][a]+Q2[St][a])
             # update the last non-terminal state
             S_last, A_last = episode[-1]
             R_last = ep_return
@@ -117,7 +124,11 @@ def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5
             else:
                 Q2[S_last][A_last] += alpha*(R_last + 0 - Q2[S_last][A_last])
             # update policy
-            policy[S_last] = max(get_possible_actions(S_last), key=lambda a: Q1[S_last][a]+Q2[S_last][a])
+    states = set(Q1.keys())
+    states.update(set(Q2.keys()))
+    for S in states:
+        policy[S] = max(get_possible_actions(
+            S), key=lambda a: Q1[S][a]+Q2[S][a])
     return policy, Q1, None
 
 if __name__ == "__main__":
@@ -125,14 +136,18 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    name = "DoubleQLearningWithBasic"
+    name = "QLearningWithBasic"
 
     env: BlackjackEnv = BlackjackEnv()
 
 
     basic_policy = generate_basic_strategy()
 
-    policy, Q, _ = double_q_learning(env, num_episodes=1000000, alpha=0.1, epsilon=0.001, init_policy=basic_policy)
+    policy, Q, _ = q_learning(
+        env, num_episodes=1000000, alpha=0.1, epsilon=0.001, init_policy=basic_policy)
+
+    # policy, Q, _ = double_q_learning(
+    #     env, num_episodes=1000000, alpha=0.1, epsilon=0.001)
 
     logging.info(f"Finsh {name} traing.")
 
