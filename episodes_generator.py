@@ -1,4 +1,4 @@
-from env import BlackjackEnv, Action, BaseState, is_blackjack, draw_card
+from env import BlackjackEnv, Action, BaseState, is_blackjack, draw_card, get_possible_actions
 from enum import Enum
 from random import choice
 import numpy as np
@@ -64,7 +64,7 @@ class EpisodesGenerator:
             while not finished:
                 state = env.get_state()
 
-                possible_actions = env.get_possible_actions()
+                possible_actions = get_possible_actions(state)
 
                 # won't explore in greedy mode
                 action = self.__action_selector(state, policy, possible_actions, self.__epsilon)

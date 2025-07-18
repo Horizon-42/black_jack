@@ -79,6 +79,14 @@ def is_blackjack(hand, hand_idx: int):
     return hand_idx == 0 and len(hand) == 2 and 1 in hand and 10 in hand
 
 
+def get_possible_actions(state: BaseState):
+    res = [Action.Stand, Action.Hit]
+    if state.can_double:
+        res.append(Action.Double)
+    if state.splitable:
+        res.append(Action.Split)
+    return res
+
 class BlackjackEnv:
 
     def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
@@ -190,11 +198,3 @@ class BlackjackEnv:
     def can_split(self):
         return is_pair(self.hands[self.current]) and len(self.hands) < self.__max_hands_num
 
-    def get_possible_actions(self):
-        res = [Action.Stand, Action.Hit]
-        player_hand = self.hands[self.current]
-        if can_double(player_hand):
-            res.append(Action.Double)
-        if self.can_split():
-            res.append(Action.Split)
-        return res

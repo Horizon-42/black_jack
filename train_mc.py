@@ -226,18 +226,24 @@ if __name__ == "__main__":
     import os
     import pickle
 
+    name = "MCES_WITH_BASIC"
+
     env: BlackjackEnv = BlackjackEnv()
-    # policy, Q = mc_control(env, num_episodes=1000000, epsilon=0.001)
+
 
     basic_policy = generate_basic_strategy()
+
+    # policy, Q = mc_control(env, num_episodes=1000000,
+    #                        epsilon=0.001, init_policy=basic_policy)
+
     policy, Q = mc_exploring_starts(
-        env, num_episodes=100000, init_policy=basic_policy)
+        env, num_episodes=1000000, init_policy=basic_policy)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
-    name = "MCES_WITH_BASIC"
+
     save_dir = f"results/agent_{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:

@@ -38,7 +38,7 @@ if __name__ == "__main__":
     env: BlackjackEnv = BlackjackEnv(
         given_draw_card=NormalDeck(deck_num).deal_card)
 
-    name = "MCES_WITH_BASIC"
+    name = "MCE_WITH_BASIC"
     save_dir = f"results/agent_{name}/"
 
     with open(f"{save_dir}/policy.pkl", "rb") as f:
