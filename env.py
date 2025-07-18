@@ -87,12 +87,24 @@ def get_possible_actions(state: BaseState):
         res.append(Action.Split)
     return res
 
+
+def compute_episodes_bet_unit(episodes: list[tuple[BaseState, Action]]) -> list[float]:
+    if isinstance(episodes[0][0], BaseState):
+        return [1]*len(episodes)
+    else:
+        # TODO compute bet unit in compelte countting env
+        pass
+
 class BlackjackEnv:
 
     def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
         self.__max_hands_num: int = max_split_num + 1
+
+        # prepare for compelete counting system
+        self.total_points: int = 0
+        self.unseen_cards: int = 0
 
     def reset(self, cards: list[int] = None):
         if not cards:
