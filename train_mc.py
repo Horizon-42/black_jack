@@ -52,7 +52,7 @@ def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy
                         returns_count[state][action]
 
                     best_action = max(
-                        Q[state], key=lambda a: Q[state][a])
+                        get_possible_actions(state), key=lambda a: Q[state][a])
                     policy[state] = best_action
 
     avg_rewards /= sub_episodes_count
@@ -98,8 +98,8 @@ def generate_exploring_starts():
                     for player_pair_card, delar_card in product(player_pair_cards, delear_up_cards)]
     logging.debug(f"Split start cards:{split_cards}")
     
-    split_actions = [Action.Stand, Action.Hit,
-                     Action.Split]  # disable split temproraly
+    split_actions = [Action.Stand, Action.Hit]
+    # split_actions.append(Action.Split)
 
     start_state_actions.extend(
         [(state, action) for state, action in product(split_cards, split_actions)])
@@ -141,7 +141,8 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
         lambda: defaultdict(float))
     returns_count: dict[BaseState, dict[Action, int]
                         ] = defaultdict(lambda: defaultdict(float))
-    policy: dict[BaseState, Action] = init_policy
+    policy: dict[BaseState, Action] = defaultdict(
+        lambda s: choice(get_possible_actions(s)))
 
     episodes_generator = EpisodesGenerator(0)
 
@@ -159,6 +160,7 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
 
         for episode, reward in zip(sub_episodes, rewards):
             visited = set()
+            episode.reverse()
             for state, action in episode:
                 if (state, action) not in visited:
                     visited.add((state, action))
@@ -168,7 +170,7 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
                         returns_count[state][action]
 
                     best_action = max(
-                        Q[state], key=lambda a: Q[state][a])
+                        get_possible_actions(state), key=lambda a: Q[state][a])
                     policy[state] = best_action
 
     avg_rewards /= sub_episodes_count
@@ -186,25 +188,30 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    name = "MCE_basic_double_all"
+    name = "MCES2_double_all"
 
     env: BlackjackEnv = BlackjackEnv()
 
+    save_dir = f"results/agent_{name}/"
 
-    basic_policy = generate_basic_strategy()
+    # with open(f"{save_dir}/policy.pkl", "rb") as f:
+    #     policy = pickle.load(f)
+    # with open(f"{save_dir}/Q.pkl", "rb") as f:
+    #     Q = pickle.load(f)
 
-    policy, Q = mc_control(env, num_episodes=1000000,
-                           epsilon=0.001, init_policy=basic_policy)
+    # basic_policy = generate_basic_strategy()
 
-    # policy, Q = mc_exploring_starts(
-    #     env, num_episodes=1000000, init_policy=basic_policy)
+    # policy, Q = mc_control(env, num_episodes=10000000,
+    #                        epsilon=0.05, init_policy=policy)
+
+    policy, Q = mc_exploring_starts(
+        env, num_episodes=10000000)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
 
-    save_dir = f"results/agent_{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
         pickle.dump(dict(policy), f)

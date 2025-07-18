@@ -144,7 +144,7 @@ if __name__ == "__main__":
     basic_policy = generate_basic_strategy()
 
     policy, Q, _ = q_learning(
-        env, num_episodes=100000000, alpha=0.1, epsilon=0.001, init_policy=basic_policy)
+        env, num_episodes=100000, alpha=0.1, epsilon=0.001, init_policy=basic_policy)
 
     # policy, Q, _ = double_q_learning(
     #     env, num_episodes=1000000, alpha=0.1, epsilon=0.001)

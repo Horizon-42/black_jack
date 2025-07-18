@@ -145,7 +145,8 @@ def get_soft_total_matrices(Q: dict, policy: dict, can_double: bool = True):
                 continue
             soft_policy[i, j] = action.value
             # use first letter of action name
-            soft_policy_labels[i, j] = action.name[0]
+            soft_policy_labels[i,
+                               j] = action.name[0] if action != Action.Split else "P"
             if state in Q and action in Q[state]:
                 soft_policy_values[i, j] = Q[state][action]
 

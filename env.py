@@ -97,7 +97,7 @@ def compute_episodes_bet_unit(episodes: list[tuple[BaseState, Action]]) -> list[
 
 class BlackjackEnv:
 
-    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
+    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 0):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
         self.__max_hands_num: int = max_split_num + 1
