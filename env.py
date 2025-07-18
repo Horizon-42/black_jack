@@ -68,13 +68,11 @@ def can_double(hand):
     if len(hand) != 2:
         return False
 
-    total = sum(hand)
-    # 如果有A算作11再判断
-    if 1 in hand and total + 10 <= 21:
-        total += 10
+    total = sum_hand(hand)
 
     # 允许加倍的总点数范围，可以根据规则定制
-    return total in range(2, 21)
+    return total in range(9, 11)
+    # return total in range(2, 21)
 
 
 def is_blackjack(hand, hand_idx: int):

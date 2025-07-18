@@ -80,9 +80,15 @@ def generate_exploring_starts():
     
     logging.debug(f"Soft start cards:{soft_start_cards}")
 
-    soft_actions = [Action.Stand, Action.Hit, Action.Double]
+    soft_actions = [Action.Stand, Action.Hit]
     start_state_actions.extend(
         [(state, action) for state, action in product(soft_start_cards, soft_actions)])
+    # add double if allowed
+    start_state_actions.extend(
+        [(cards, Action.Double)
+         for cards in soft_start_cards if can_double(cards[:-1])]
+    )
+
 
     # have pair
     player_pair_cards = range(1, 11) # 10 all seen as one card
@@ -90,11 +96,15 @@ def generate_exploring_starts():
                     for player_pair_card, delar_card in product(player_pair_cards, delear_up_cards)]
     logging.debug(f"Split start cards:{split_cards}")
     
-    split_actions = [Action.Stand, Action.Hit, Action.Double,
+    split_actions = [Action.Stand, Action.Hit,
                      Action.Split]  # disable split temproraly
 
     start_state_actions.extend(
         [(state, action) for state, action in product(split_cards, split_actions)])
+    start_state_actions.extend(
+        [(cards, Action.Double)
+         for cards in split_cards if can_double(cards[:-1])]
+    )
 
 
     # hard totals
@@ -103,9 +113,13 @@ def generate_exploring_starts():
     hard_cards = [(player_first_card, player_second_card, delar_card) for
                     player_first_card, player_second_card, delar_card in product(
         player_first_cards, player_second_cards, delear_up_cards) if player_first_card !=player_second_card]
-    hard_actions = [Action.Stand, Action.Hit, Action.Double]
+    hard_actions = [Action.Stand, Action.Hit]
     start_state_actions.extend(
         [(state, action) for state, action in product(hard_cards, hard_actions)])
+    start_state_actions.extend(
+        [(cards, Action.Double)
+         for cards in hard_cards if can_double(cards[:-1])]
+    )
 
     logging.debug(f"Hard start cards:{hard_cards}")
 
@@ -167,6 +181,8 @@ def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
     black_jack_rate = 0
     draw_rate = 0
     loss_rate = 0
+    double_win_rate = 0
+    double_loss_rate = 0
 
     sub_episodes_count = 0
 
@@ -182,22 +198,26 @@ def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
         if not episodes[0] and rewards[0] == 1.5:
             black_jack_rate += 1
             continue
-        win_rate += sum(1 for r in rewards if r > 0)
+        win_rate += sum(1 for r in rewards if r == 1)
         draw_rate += sum(1 for r in rewards if r == 0)
-        loss_rate += sum(1 for r in rewards if r < 0)
+        loss_rate += sum(1 for r in rewards if r == -1)
+        double_win_rate += sum(1 for r in rewards if r == 2)
+        double_loss_rate += sum(1 for r in rewards if r == -2)
 
 
     avg_rewards /= sub_episodes_count
     win_rate /= sub_episodes_count
     draw_rate /= sub_episodes_count
     loss_rate /= sub_episodes_count
+    double_win_rate /= sub_episodes_count
+    double_loss_rate /= sub_episodes_count
     black_jack_rate /= sub_episodes_count
     print(
         f"Finish {sub_episodes_count} sub episodes, avg rwd:{avg_rewards}, win_rate:{win_rate}")
 
-    logging.info(f"Test finish with avg_rewards: {avg_rewards}, win_rate: {win_rate}, \
-                 black_jack_rate:{black_jack_rate}, draw_rate:{draw_rate}, loss_rate:{loss_rate}")
-    return avg_rewards, win_rate, black_jack_rate, draw_rate, loss_rate
+    logging.info(
+        f"Test finish with avg_rewards: {avg_rewards}, double_win_rate:{double_win_rate}, double_loss_rate:{double_loss_rate}, win_rate: {win_rate}, black_jack_rate:{black_jack_rate}, draw_rate:{draw_rate}, loss_rate:{loss_rate}")
+    return avg_rewards, double_win_rate, double_loss_rate, win_rate, black_jack_rate, draw_rate, loss_rate
 
 
 if __name__ == "__main__":
@@ -206,8 +226,8 @@ if __name__ == "__main__":
     import pickle
 
     env: BlackjackEnv = BlackjackEnv()
-    # policy, Q = mc_control(env, num_episodes=6000000, epsilon=0.001)
-    policy, Q = mc_exploring_starts(env, num_episodes=600000)
+    # policy, Q = mc_control(env, num_episodes=1000000, epsilon=0.001)
+    policy, Q = mc_exploring_starts(env, num_episodes=100000)
 
     print("Finish training.")
 

@@ -45,10 +45,11 @@ class Dojo:
 
         avg_reward = 0
         win_rate = 0
+        black_jack_rate = 0
         sub_episode_count = 0  # related to split
 
-        i = 0
-        for start_cards, start_action in starts:
+        for i in range(episodes):
+            start_cards, start_action = choice(starts)
             self.__refill_deck()
 
             self.agent.clear_episode_history()
@@ -74,7 +75,8 @@ class Dojo:
 
             sub_episode_count += len(rewards)
             avg_reward += sum(rewards)
-            win_rate += sum(1 for r in rewards if r > 0)
+            win_rate += sum(1 for r in rewards if r > 0 and r != 1.5)
+            black_jack_rate += rewards[0] == 1.5
 
             logging.info(
                 f"Episode {i} finished with rewards {rewards}")
@@ -82,9 +84,10 @@ class Dojo:
 
         avg_reward /= sub_episode_count
         win_rate /= sub_episode_count
+        black_jack_rate /= sub_episode_count
 
         logging.info(
-            f"Training finished, total episodes:{sub_episode_count}, average reward: {avg_reward}, win rate: {win_rate}.")
+            f"Training finished, total episodes:{sub_episode_count}, average reward: {avg_reward}, win rate: {win_rate}, black_jack_rate:{black_jack_rate}.")
         return avg_reward, win_rate
 
     def train_exploring_greedy(self, episodes: int, epsilon: float = 0.001):
