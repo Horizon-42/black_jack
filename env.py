@@ -72,7 +72,7 @@ def can_double(hand):
 
     # 允许加倍的总点数范围，可以根据规则定制
     # return total in range(9, 11)
-    # return total in range(2, 21)
+    return total in range(2, 21)
     return False
 
 
@@ -99,7 +99,7 @@ def compute_episodes_bet_unit(episodes: list[tuple[BaseState, Action]]) -> list[
 
 class BlackjackEnv:
 
-    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 0):
+    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
         self.__max_hands_num: int = max_split_num + 1

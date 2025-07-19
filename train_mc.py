@@ -19,6 +19,7 @@ from learning_utils import add_double_in
 # Monte Carlo, e-greedy, with Double
 # -----------------------------
 
+
 def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy: dict = {}):
     Q: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(float))
@@ -30,12 +31,25 @@ def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy
 
     episodes_generator = EpisodesGenerator(epsilon)
 
+    epslon_decayed = 1
+    decay_scale = 0.9999
+
+    def gpi_func(state: BaseState, possible_actions: list[Action]):
+        if epslon_decayed > epsilon:
+            print(f"Epsilon decayed:{epslon_decayed}")
+        if state not in policy or np.random.rand() < epslon_decayed:
+            return choice(possible_actions)
+        else:
+            return policy[state]
+        # equal to the formula given by the book
+
     avg_rewards = 0
     win_rate = 0
     sub_episodes_count = 0
     for i in tqdm(range(num_episodes)):
-        sub_episodes, rewards, _ = episodes_generator.generate_episodes(
-            env, policy)
+        epslon_decayed = max(epsilon, epslon_decayed*decay_scale**i)
+        sub_episodes, rewards, _ = episodes_generator.generate_episodes_with_func(
+            env, gpi_func)
 
         avg_rewards += sum(rewards)
         win_rate += sum(1 for r in rewards if r > 0 and r != 1.5)
@@ -51,9 +65,8 @@ def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy
                     Q[state][action] = returns_sum[state][action] / \
                         returns_count[state][action]
 
-                    best_action = max(
+                    policy[state] = max(
                         get_possible_actions(state), key=lambda a: Q[state][a])
-                    policy[state] = best_action
 
     avg_rewards /= sub_episodes_count
     win_rate /= sub_episodes_count
@@ -190,7 +203,7 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    pretrained_agent_name = "MCES_StandHit"
+    pretrained_agent_name = "MCEpsilon_StandHitStand"
 
     env: BlackjackEnv = BlackjackEnv()
 
@@ -201,17 +214,20 @@ if __name__ == "__main__":
 
     # basic_policy = generate_basic_strategy()
 
-    # policy, Q = mc_control(env, num_episodes=40000000,
-    #                        epsilon=0.001, init_policy=pre_policy)
-    pre_policy = add_double_in(pre_policy)
-    policy, Q = mc_exploring_starts(
-        env, num_episodes=1000000)
+    policy, Q = mc_control(env, num_episodes=40000000,
+                           epsilon=0.05, init_policy=pre_policy)
+    # pre_policy = add_double_in(pre_policy)
+    # policy, Q = mc_exploring_starts(
+    #     env, num_episodes=1000000)
+
+    # policy, Q = mc_epsilon_soft(env, num_episodes=10000000,
+    #                             epsilon=0.005, init_policy=pre_policy)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
-    name = "MCES_StandHitStand"
+    name = "MCEpsilon_StandHitDoubleSplit"
     save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
