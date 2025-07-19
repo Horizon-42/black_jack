@@ -136,18 +136,18 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    name = "QLearningWithBasicLongRun"
+    name = "DoubleQLearningWithBasicLongRun"
 
     env: BlackjackEnv = BlackjackEnv()
 
 
     basic_policy = generate_basic_strategy()
 
-    policy, Q, _ = q_learning(
-        env, num_episodes=100000, alpha=0.1, epsilon=0.001, init_policy=basic_policy)
+    # policy, Q, _ = q_learning(
+    #     env, num_episodes=1000000, alpha=0.01, epsilon=0.001)
 
-    # policy, Q, _ = double_q_learning(
-    #     env, num_episodes=1000000, alpha=0.1, epsilon=0.001)
+    policy, Q, _ = double_q_learning(
+        env, num_episodes=100000000, alpha=0.01, epsilon=0.001)
 
     logging.info(f"Finsh {name} traing.")
 
@@ -155,8 +155,7 @@ if __name__ == "__main__":
 
     test(env, policy, 100000)
 
-
-    save_dir = f"results/agent_{name}/"
+    save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
         pickle.dump(dict(policy), f)
