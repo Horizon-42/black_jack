@@ -128,7 +128,7 @@ def generate_exploring_starts():
     return start_state_actions
 
 
-def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_policy: dict = {}):
+def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_policy: dict = {}, init_Q: dict = {}):
     
     # gernerating starts
     all_starts = generate_exploring_starts()
@@ -137,12 +137,15 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
 
     Q: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(float))
+    for s in init_Q:
+        for a in init_Q[s]:
+            Q[s][a] = init_Q[s][a]
+
     returns_sum: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(float))
     returns_count: dict[BaseState, dict[Action, int]
                         ] = defaultdict(lambda: defaultdict(float))
-    policy: dict[BaseState, Action] = defaultdict(
-        lambda s: choice(get_possible_actions(s)))
+    policy: dict[BaseState, Action] = init_policy
 
     episodes_generator = EpisodesGenerator(0)
 
@@ -160,7 +163,6 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
 
         for episode, reward in zip(sub_episodes, rewards):
             visited = set()
-            episode.reverse()
             for state, action in episode:
                 if (state, action) not in visited:
                     visited.add((state, action))
@@ -188,30 +190,29 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    name = "MCES2_double_all"
+    pretrained_agent_name = "agent_MCES3_without_double"
 
     env: BlackjackEnv = BlackjackEnv()
 
-    save_dir = f"results/agent_{name}/"
-
-    # with open(f"{save_dir}/policy.pkl", "rb") as f:
-    #     policy = pickle.load(f)
-    # with open(f"{save_dir}/Q.pkl", "rb") as f:
-    #     Q = pickle.load(f)
+    with open(f"results/{pretrained_agent_name}/policy.pkl", "rb") as f:
+        pre_policy = pickle.load(f)
+    with open(f"results/{pretrained_agent_name}/Q.pkl", "rb") as f:
+        pre_Q = pickle.load(f)
 
     # basic_policy = generate_basic_strategy()
 
-    # policy, Q = mc_control(env, num_episodes=10000000,
-    #                        epsilon=0.05, init_policy=policy)
+    policy, Q = mc_control(env, num_episodes=40000000,
+                           epsilon=0.001, init_policy=pre_policy)
 
-    policy, Q = mc_exploring_starts(
-        env, num_episodes=10000000)
+    # policy, Q = mc_exploring_starts(
+    #     env, num_episodes=10000000)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
-
+    name = "agent_MCE3_double_all"
+    save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
         pickle.dump(dict(policy), f)

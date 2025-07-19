@@ -73,6 +73,7 @@ def can_double(hand):
     # 允许加倍的总点数范围，可以根据规则定制
     # return total in range(9, 11)
     return total in range(2, 21)
+    # return False
 
 
 def is_blackjack(hand, hand_idx: int):
@@ -82,6 +83,7 @@ def is_blackjack(hand, hand_idx: int):
 def get_possible_actions(state: BaseState):
     res = [Action.Stand, Action.Hit]
     if state.can_double:
+        # print("Can double!!!!")
         res.append(Action.Double)
     if state.splitable:
         res.append(Action.Split)
