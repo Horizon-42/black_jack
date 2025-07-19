@@ -13,7 +13,7 @@ from itertools import product
 from episodes_generator import EpisodesGenerator
 from init_strategy import generate_basic_strategy
 from test import test
-
+from learning_utils import add_double_in
 
 # -----------------------------
 # Monte Carlo, e-greedy, with Double
@@ -152,8 +152,8 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
     avg_rewards = 0
     win_rate = 0
     sub_episodes_count = 0
-    for _ in tqdm(range(num_episodes)):
-        start = choice(all_starts)
+    for i in tqdm(range(num_episodes)):
+        start = all_starts[i % (len(all_starts)-1)]
         sub_episodes, rewards, _ = episodes_generator.generate_episodes_with_start(
             env, policy, start)
 
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    pretrained_agent_name = "agent_MCES3_without_double"
+    pretrained_agent_name = "MCES_StandHit"
 
     env: BlackjackEnv = BlackjackEnv()
 
@@ -201,17 +201,17 @@ if __name__ == "__main__":
 
     # basic_policy = generate_basic_strategy()
 
-    policy, Q = mc_control(env, num_episodes=40000000,
-                           epsilon=0.001, init_policy=pre_policy)
-
-    # policy, Q = mc_exploring_starts(
-    #     env, num_episodes=10000000)
+    # policy, Q = mc_control(env, num_episodes=40000000,
+    #                        epsilon=0.001, init_policy=pre_policy)
+    pre_policy = add_double_in(pre_policy)
+    policy, Q = mc_exploring_starts(
+        env, num_episodes=1000000)
 
     print("Finish training.")
 
     test(env, policy, 100000)
 
-    name = "agent_MCE3_double_all"
+    name = "MCES_StandHitStand"
     save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:

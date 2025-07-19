@@ -71,27 +71,33 @@ def q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5, epsil
 
     return policy, Q, None
 
-def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5, epsilon:float=0.01,init_policy: dict = {}):
+
+def double_q_learning(env: BlackjackEnv, num_episodes: int = 200000, alpha: float = 0.5, epsilon_min: float = 0.01, init_policy: dict = {}):
     # random init
     Q1: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(lambda: 0.0))
     Q2: dict[BaseState, dict[Action, float]] = defaultdict(
         lambda: defaultdict(lambda: 0.0))
     
+    visit_count: dict[BaseState, dict[Action, int]] = defaultdict(
+        lambda: defaultdict(int))
+
     policy: dict[BaseState, Action] = init_policy
 
-    episodes_generator = EpisodesGenerator(epsilon)
+    episodes_generator = EpisodesGenerator(epsilon_min)
 
+    epsilon = 1
     def policy_func(state: BaseState, possible_actions: list[Action]):
         if np.random.rand() < epsilon:
             return random.choice(possible_actions)
         else:
             return max(get_possible_actions(state),
                        key=lambda a: Q1[state][a]+Q2[state][a])
-
-    for _ in tqdm(range(num_episodes)):
+    epsilon_decay = 0.9999
+    for i in tqdm(range(num_episodes)):
         # could learn online, but use episodes generator, to deal with split more easy
         # generating use epsilon greedy
+        epsilon = max(epsilon_min, epsilon_decay**i)
         episodes, rewards, _ = episodes_generator.generate_episodes_with_func(
             env, policy_func)
 
@@ -102,6 +108,8 @@ def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5
                 continue 
             for t in range(len(episode)-1):
                 St, At = episode[t]
+                visit_count[St][At] += 1
+                alpha = 1/visit_count[St][At]
                 # Rt = ep_return # use episode return as R
                 Rt = 0
                 S_next, _ = episode[t+1]
@@ -117,6 +125,8 @@ def double_q_learning(env:BlackjackEnv, num_episodes:int=200000, alpha:float=0.5
                 # update policy
             # update the last non-terminal state
             S_last, A_last = episode[-1]
+            visit_count[S_last][A_last] += 1
+            alpha = 1/visit_count[S_last][A_last]
             R_last = ep_return
             # q vaule of terminal is 0
             if np.random.rand()<0.5:
@@ -136,7 +146,7 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    name = "DoubleQLearningWithBasicLongRun"
+    name = "DoubleQLearningWithBasicLongRun1"
 
     env: BlackjackEnv = BlackjackEnv()
 
@@ -147,7 +157,7 @@ if __name__ == "__main__":
     #     env, num_episodes=1000000, alpha=0.01, epsilon=0.001)
 
     policy, Q, _ = double_q_learning(
-        env, num_episodes=100000000, alpha=0.01, epsilon=0.001)
+        env, num_episodes=20000000, alpha=0.01, epsilon_min=0.001)
 
     logging.info(f"Finsh {name} traing.")
 

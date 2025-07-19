@@ -72,8 +72,8 @@ def can_double(hand):
 
     # 允许加倍的总点数范围，可以根据规则定制
     # return total in range(9, 11)
-    return total in range(2, 21)
-    # return False
+    # return total in range(2, 21)
+    return False
 
 
 def is_blackjack(hand, hand_idx: int):
