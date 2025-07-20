@@ -226,7 +226,7 @@ if __name__ == "__main__":
 
     pre_policy, pre_Q = load_agent("MCES_StandHit1")
 
-    policy, Q = mc_control(env, num_episodes=20000000,
+    policy, Q = mc_control(env, num_episodes=1000000,
                            epsilon=0.05, init_policy=pre_policy)
 
     # policy, Q = mc_exploring_starts(

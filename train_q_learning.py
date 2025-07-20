@@ -145,25 +145,26 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     import os
     import pickle
+    from deck import NormalDeck
 
-    name = "DoubleQLearningWithBasicLongRun1"
+    name = "QLearningStandHitDoubleSplit1"
 
-    env: BlackjackEnv = BlackjackEnv()
+    env: BlackjackEnv = BlackjackEnv(given_draw_card=NormalDeck(1).deal_card)
 
 
     basic_policy = generate_basic_strategy()
 
-    # policy, Q, _ = q_learning(
-    #     env, num_episodes=1000000, alpha=0.01, epsilon=0.001)
+    policy, Q, _ = q_learning(
+        env, num_episodes=10_000_000, alpha=0.01, epsilon=0.001)
 
-    policy, Q, _ = double_q_learning(
-        env, num_episodes=20000000, alpha=0.01, epsilon_min=0.001)
+    # policy, Q, _ = double_q_learning(
+    #     env, num_episodes=1_000_000, alpha=0.01, epsilon_min=0.001)
 
     logging.info(f"Finsh {name} traing.")
 
     # draw_metrics(metrics)
 
-    test(env, policy, 100000)
+    test(env, policy, 1_000_000)
 
     save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
