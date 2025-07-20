@@ -12,8 +12,9 @@ from itertools import product
 
 from episodes_generator import EpisodesGenerator
 from init_strategy import generate_basic_strategy
-from test import test
+from metrics import test
 from learning_utils import add_double_in
+import pickle
 
 # -----------------------------
 # Monte Carlo, e-greedy, with Double
@@ -34,14 +35,17 @@ def mc_control(env: BlackjackEnv, num_episodes=200000, epsilon=0.01, init_policy
     epslon_decayed = 1
     decay_scale = 0.9999
 
-    def gpi_func(state: BaseState, possible_actions: list[Action]):
-        if epslon_decayed > epsilon:
-            print(f"Epsilon decayed:{epslon_decayed}")
+    def gpi_func_ep_decay(state: BaseState, possible_actions: list[Action]):
         if state not in policy or np.random.rand() < epslon_decayed:
             return choice(possible_actions)
         else:
             return policy[state]
-        # equal to the formula given by the book
+
+    def gpi_func(state: BaseState, possible_actions: list[Action]):
+        if state not in policy or np.random.rand() < epsilon:
+            return choice(possible_actions)
+        else:
+            return policy[state]
 
     avg_rewards = 0
     win_rate = 0
@@ -101,7 +105,7 @@ def generate_exploring_starts():
     # add double if allowed
     start_state_actions.extend(
         [(cards, Action.Double)
-         for cards in soft_start_cards if can_double(cards[:-1])]
+         for cards in soft_start_cards if env.can_double(cards[:-1])]
     )
 
 
@@ -112,13 +116,13 @@ def generate_exploring_starts():
     logging.debug(f"Split start cards:{split_cards}")
     
     split_actions = [Action.Stand, Action.Hit]
-    # split_actions.append(Action.Split)
+    split_actions.append(Action.Split)
 
     start_state_actions.extend(
         [(state, action) for state, action in product(split_cards, split_actions)])
     start_state_actions.extend(
         [(cards, Action.Double)
-         for cards in split_cards if can_double(cards[:-1])]
+         for cards in split_cards if env.can_double(cards[:-1])]
     )
 
 
@@ -133,7 +137,7 @@ def generate_exploring_starts():
         [(state, action) for state, action in product(hard_cards, hard_actions)])
     start_state_actions.extend(
         [(cards, Action.Double)
-         for cards in hard_cards if can_double(cards[:-1])]
+         for cards in hard_cards if env.can_double(cards[:-1])]
     )
 
     logging.debug(f"Hard start cards:{hard_cards}")
@@ -195,6 +199,12 @@ def mc_exploring_starts(env: BlackjackEnv, num_episodes: int = 200000, init_poli
     return policy, Q
 
 
+def load_agent(agent_name: str):
+    with open(f"results/{agent_name}/policy.pkl", "rb") as f:
+        pre_policy = pickle.load(f)
+    with open(f"results/{agent_name}/Q.pkl", "rb") as f:
+        pre_Q = pickle.load(f)
+    return pre_policy, pre_Q
 
 
 
@@ -203,31 +213,30 @@ if __name__ == "__main__":
     import os
     import pickle
 
-    pretrained_agent_name = "MCEpsilon_StandHitStand"
+    # pretrained_agent_name = "MCES_StandHit"
 
-    env: BlackjackEnv = BlackjackEnv()
+    deck = NormalDeck(1)
+    # disable split and double
+    env: BlackjackEnv = BlackjackEnv(
+        given_draw_card=deck.deal_card, max_split_num=1)
 
-    with open(f"results/{pretrained_agent_name}/policy.pkl", "rb") as f:
-        pre_policy = pickle.load(f)
-    with open(f"results/{pretrained_agent_name}/Q.pkl", "rb") as f:
-        pre_Q = pickle.load(f)
+
 
     # basic_policy = generate_basic_strategy()
 
-    policy, Q = mc_control(env, num_episodes=40000000,
-                           epsilon=0.05, init_policy=pre_policy)
-    # pre_policy = add_double_in(pre_policy)
-    # policy, Q = mc_exploring_starts(
-    #     env, num_episodes=1000000)
+    pre_policy, pre_Q = load_agent("MCES_StandHit1")
 
-    # policy, Q = mc_epsilon_soft(env, num_episodes=10000000,
-    #                             epsilon=0.005, init_policy=pre_policy)
+    policy, Q = mc_control(env, num_episodes=20000000,
+                           epsilon=0.05, init_policy=pre_policy)
+
+    # policy, Q = mc_exploring_starts(
+    #     env, num_episodes=10000000)
 
     print("Finish training.")
 
-    test(env, policy, 100000)
+    test(env, policy, 1000000)
 
-    name = "MCEpsilon_StandHitDoubleSplit"
+    name = "MCEp_StandHitDoubleSplit_Pretrained2"
     save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:

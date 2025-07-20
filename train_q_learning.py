@@ -2,7 +2,7 @@ from env import BlackjackEnv, BaseState, Action, get_possible_actions
 from collections import defaultdict
 import random
 import numpy as np
-from test import Metric, compute_episodes_metrics, test, draw_metrics
+from metrics import Metric, compute_episodes_metrics, test, draw_metrics
 import logging
 from init_strategy import generate_basic_strategy
 from tqdm import tqdm

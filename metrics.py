@@ -39,11 +39,11 @@ class Metric:
                 f"Blackjack Rate: {self.BlackjackRate:.4%}\n"
                 f"Win Rate: {self.WinRate:.4%}\n"
                 f"Draw Rate: {self.DrawRate:.4%}\n"
-                f"Loss Rate: {self.LossRate:.2%}\n"
+                f"Loss Rate: {self.LossRate:.4%}\n"
                 f"Double Down Win Rate: {self.DoubleWinRate:.4%}\n"
                 f"Double Down Loss Rate: {self.DoubleLossRate:.4%}\n"
-                f"Average Gain per Episode: {self.AvgGain:.4f}\n"
-                f"--------------------")
+                f"Average Gain per Episode: {self.AvgGain:.4%}\n"
+                )
 
 
 def compute_episodes_metrics(episodes: list, rewards: list[float], bet_units: list[float]):
@@ -51,10 +51,10 @@ def compute_episodes_metrics(episodes: list, rewards: list[float], bet_units: li
 
     for _, reward, beit_unit in zip(episodes, rewards, bet_units):
         metric.EpisodesCount += 1
-        metric.WinRate += reward == 1
+        metric.WinRate += reward > 0
         metric.BlackjackRate += reward == 1.5
         metric.DrawRate += reward == 0
-        metric.LossRate += reward == -1
+        metric.LossRate += reward < 0
         metric.DoubleWinRate += reward == 2
         metric.DoubleLossRate += reward == -2
         metric.AvgGain += reward*beit_unit
@@ -84,9 +84,9 @@ def test(env: BlackjackEnv, policy: dict, num_episodes=10000):
     return metric
 
 
-def test_basic_strategy(deck_num: int = 6):
+def test_basic_strategy(deck_num: int = 6, max_split_num=1):
     env: BlackjackEnv = BlackjackEnv(
-        given_draw_card=NormalDeck(deck_num).deal_card)
+        given_draw_card=NormalDeck(deck_num).deal_card, max_split_num=1)
 
     policy = generate_basic_strategy()
 
@@ -94,6 +94,7 @@ def test_basic_strategy(deck_num: int = 6):
 
     logging.info(f"Test Basic Strategy,\n {metirc}")
     print(f"Expetation of basic strategy is {metirc.AvgGain}")
+    return metirc
 
 
 def draw_metrics(metrics: list[Metric]):
@@ -118,21 +119,21 @@ if __name__ == "__main__":
     # logging.basicConfig(level=logging.INFO, filename="test.log")
     logging.basicConfig(level=logging.INFO)
 
-    deck_num = 1
+    test_basic_strategy(deck_num=1, max_split_num=1)
 
-    test_basic_strategy()
+    # exit()
 
-    env: BlackjackEnv = BlackjackEnv(
-        given_draw_card=NormalDeck(deck_num).deal_card)
-    name = "DoubleQLearningWithBasic"
-    # name = "MCE_basic_double_all"
-    save_dir = f"results/agent_{name}/"
+    # env: BlackjackEnv = BlackjackEnv(
+    #     given_draw_card=NormalDeck(deck_num).deal_card)
+    # name = "MCES_StandHit"
+    # # name = "MCE_basic_double_all"
+    # save_dir = f"results/{name}/"
 
-    with open(f"{save_dir}/policy.pkl", "rb") as f:
-        policy = pickle.load(f)
-    with open(f"{save_dir}/Q.pkl", "rb") as f:
-        Q = pickle.load(f)
+    # with open(f"{save_dir}/policy.pkl", "rb") as f:
+    #     policy = pickle.load(f)
+    # with open(f"{save_dir}/Q.pkl", "rb") as f:
+    #     Q = pickle.load(f)
 
-    metric = test(env=env, policy=policy, num_episodes=1000000)
+    # metric = test(env=env, policy=policy, num_episodes=1000000)
 
-    print(f"Expetation of this agent {name} is {metric.AvgGain}")
+    # print(f"Expetation of this agent {name} is {metric.AvgGain}")

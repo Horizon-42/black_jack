@@ -51,31 +51,6 @@ def is_pair(hand):
     return len(hand) == 2 and hand[0] == hand[1]
 
 
-def can_double(hand):
-    """
-    判断手牌是否可以 Double（加倍）。
-
-    规则常见约定：
-    - 初始两张牌才能 Double
-    - 有些赌场允许任意两张牌加倍，有些仅限特定点数范围（如 9, 10, 11）
-
-    参数:
-        hand: list[int]，玩家当前的手牌点数，如 [8, 3] 表示初始牌
-
-    返回:
-        bool: 是否可以加倍
-    """
-    if len(hand) != 2:
-        return False
-
-    total = sum_hand(hand)
-
-    # 允许加倍的总点数范围，可以根据规则定制
-    # return total in range(9, 11)
-    return total in range(2, 21)
-    return False
-
-
 def is_blackjack(hand, hand_idx: int):
     return hand_idx == 0 and len(hand) == 2 and 1 in hand and 10 in hand
 
@@ -99,10 +74,11 @@ def compute_episodes_bet_unit(episodes: list[tuple[BaseState, Action]]) -> list[
 
 class BlackjackEnv:
 
-    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1):
+    def __init__(self, given_draw_card=NormalDeck().deal_card, max_split_num: int = 1, double_range: range = range(2, 21)):
         self.draw_card = given_draw_card if given_draw_card else draw_card
 
         self.__max_hands_num: int = max_split_num + 1
+        self.__double_range: range = double_range
 
         # prepare for compelete counting system
         self.total_points: int = 0
@@ -128,7 +104,7 @@ class BlackjackEnv:
             sum_hand([self.dealer[1]]),
             usable_ace(hand),
             self.can_split(),
-            can_double(hand)
+            self.can_double(hand)
         )
 
     def step(self, action):
@@ -214,6 +190,15 @@ class BlackjackEnv:
 
     def can_split(self):
         return is_pair(self.hands[self.current]) and len(self.hands) < self.__max_hands_num
+
+    def can_double(self, hand: list[int]):
+        if len(hand) != 2:
+            return False
+
+        total = sum_hand(hand)
+        return total in self.__double_range
+
+
 
     def get_bet_unit(self):
         # TODO compute bet unit base on total points and unseen cards
