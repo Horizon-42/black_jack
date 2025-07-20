@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
     # pretrained_agent_name = "MCES_StandHit"
 
-    deck = NormalDeck(1)
+    deck = NormalDeck(6)
     # disable split and double
     env: BlackjackEnv = BlackjackEnv(
         given_draw_card=deck.deal_card, max_split_num=1)
@@ -226,7 +226,7 @@ if __name__ == "__main__":
 
     pre_policy, pre_Q = load_agent("MCES_StandHit1")
 
-    policy, Q = mc_control(env, num_episodes=1000000,
+    policy, Q = mc_control(env, num_episodes=1_000_000,
                            epsilon=0.05, init_policy=pre_policy)
 
     # policy, Q = mc_exploring_starts(
@@ -234,9 +234,9 @@ if __name__ == "__main__":
 
     print("Finish training.")
 
-    test(env, policy, 1000000)
+    test(env, policy, 1_000_000)
 
-    name = "MCEp_StandHitDoubleSplit_Pretrained2"
+    name = "MCEp_StandHitDoubleSplit_Pretrained_Deck6"
     save_dir = f"results/{name}/"
     os.makedirs(save_dir, exist_ok=True)
     with open(os.path.join(save_dir, "policy.pkl"), "wb") as f:
